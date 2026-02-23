@@ -1,0 +1,147 @@
+:root {
+    --dialogBtnHeigt: 35px;
+    --dialogBtnRadius: 6px;
+    --btnCancelColor: #D4DADD29;
+    --labelInputColor: #333333;
+    --inputBackgroundColor: #ABB0B314;
+    --borderInputColor: #ABB0B3;
+    --textBtnCancelColor: #000;
+    --alert-color: #aa0808;
+}
+
+/* Dialog general - Modal */
+.customDialog .sapMDialogContent,
+.sapMDialog {
+    width: 25%;
+    min-width: 35rem !important;
+}
+
+/* VBox dentro del dialog */
+.customVBoxPrint {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, auto);
+    gap: 10px;
+    width: calc(100% - 20px) !important;
+    margin: 10px !important;
+}
+
+.customVBoxReader {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: calc(100% - 20px) !important;
+    margin: 10px !important;
+}
+
+/* Etiquetas */
+.customLabel {
+    font-weight: 600;
+    color: var(--labelInputColor);
+}
+
+/* Inputs */
+.customInput {
+    width: 100%;
+    height: 30px !important;
+    min-height: 20px !important;
+    resize: none !important;
+    border-radius: 6px !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    background: var(--inputBackgroundColor) 0% 0% no-repeat padding-box !important;
+    border: 1px solid #ABB0B3 !important;
+    outline: none !important;
+}
+
+.sapMInputBaseContentWrapper {
+    height: 100% !important;
+    box-sizing: border-box;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;
+    vertical-align: middle;
+    margin: 0;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    border-radius: 6px !important;
+}
+
+/* Botón Guardar */
+.btnDialogAccept {
+    background-color: var(--btnAcceptColor) !important;
+    color: var(--textBtnColor) !important;
+    border-style: none !important;
+    font-size: 13px;
+    height: var(--dialogBtnHeigt);
+    display: inline-block;
+    margin: 0 !important;
+    line-height: 12px;
+    border-radius: var(--dialogBtnRadius);
+    outline: none;
+    padding: 0px 20px 0px 20px;
+    box-shadow: 0px 0px 2px 0px var(--btnAcceptColor);
+}
+
+span.sapMBtnInner.sapMBtnAccept {
+    color: var(--textBtnColor) !important;
+}
+
+
+/* Botón Cerrar */
+.btnDialogCancel {
+    background-color: var(--btnCancelColor) !important;
+    border-color: var(--btnCancelColor) !important;
+    color: var(--textBtnCancelColor) !important;
+    border-style: none !important;
+    font-size: 11px;
+    height: var(--dialogBtnHeigt);
+    display: inline-block;
+    margin: 1%;
+    line-height: 12px;
+    outline: none;
+    padding: 0px 20px 0px 20px;
+    box-shadow: 0px 0px 2px 0px #bfbfbf;
+    border-radius: var(--dialogBtnRadius);
+}
+
+span.sapMBtnInner.sapMBtnReject {
+    color: var(--textBtnCancelColor) !important;
+}
+
+.sapMInputBaseInner:not(.sapMInputBaseReadonlyWrapper):not(.sapMInputBaseContentWrapperState):focus {
+    border-color: var(--borderInputColor) !important;
+}
+
+.sapMInputBaseContentWrapper:not(.sapMInputBaseReadonlyWrapper):not(.sapMInputBaseContentWrapperState) {
+    box-shadow: none !important;
+}
+
+.sapUiSizeCompact.sapMDialog>footer .sapMFooter-CTX,
+.sapUiSizeCompact .sapMDialog>footer .sapMFooter-CTX {
+    height: 3.5rem !important;
+}
+
+.sapUiSizeCompact.sapMDialog>footer,
+.sapUiSizeCompact .sapMDialog>footer {
+    border-top: none !important;
+}
+
+.vboxIp {
+    grid-column: 1 / -1;
+}
+
+.sapMDialog>header .sapMDialogTitleGroup .sapMTitle {
+    color: var(--alert-color) !important;
+}
+
+.itemInput {
+    text-align: left !important;
+}
+
+.customToastDialog .sapMFlexBoxJustifyStart {
+    justify-content: center !important;
+    gap: 10px !important;
+    align-items: flex-start !important;
+}

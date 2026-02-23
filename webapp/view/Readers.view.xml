@@ -1,0 +1,38 @@
+<mvc:View controllerName="fw.flexwarehouse.controller.Readers"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    displayBlock="true">
+    
+      <Page id="pagReaders">
+        <VBox id="vbxHeadersReaders" class="header">            
+            <VBox id="tlbHeaderReaders" class="headerTitle">
+                <Label id="lblTitleReaders" class="title" text=" Administrador de Reader"></Label>
+            </VBox>
+            <VBox id="vbxbottonAddReaders" class="headerbuttons">
+                <Button id="btnAddReaders" text="Agregar Reader" class="btnAccept" icon="sap-icon://add" press="onOpenDialog"/>
+            </VBox>
+        </VBox>  
+
+        <!-- Tabla con Toolbar para el botón -->
+        <Table id="tblReaders" items="{ReaderModel>/ReadersSet}"> 
+            <columns>
+                <Column id="colDeleteReader"><Text id="txtReaderDelete" text="Eliminar"/></Column>            
+                <Column id="colReaderReader"><Text id="txtReaderReader" text="Nombre"/></Column>
+                <Column id="colReaderIP"><Text id="txtReaderIP" text="Dirección IP"/></Column>
+                <Column id="colReaderAntenna"><Text id="txtReaderAntenna" text="Antena"/></Column>
+                <Column id="colEditReader"><Text id="txtEditReader" text="Editar"/></Column>
+            </columns>   
+            <items>
+                <ColumnListItem id="colListItemReader">
+                    <cells>
+                        <Button id="btnDeleteReader" icon="sap-icon://delete" press="onConfirmDelete" type="Reject"/>
+                        <Text id="txtReaderValueReader" text="{ReaderModel>Reader}"/>
+                        <Text id="txtReaderValueIP" text="{ReaderModel>Ip}"/>
+                        <Text id="txtReaderValueAntenna" text="{ReaderModel>Antenna}"/>
+                        <Button id="btnEditReader" icon="sap-icon://edit" press="onOpenDialog" type="Accept"/>
+                    </cells>
+                </ColumnListItem>
+            </items>      
+        </Table>
+    </Page>
+</mvc:View>

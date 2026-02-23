@@ -1,0 +1,22 @@
+{
+  "welcomeFile": "index.html",
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "^/destinations/s4hanadev/opu/odata/sap/ZREADERS_SRV/(.*)$",
+      "target": "/opu/odata/sap/ZREADERS_SRV/$1",
+      "destination": "s4hanadev",
+      "authenticationType": "xsuaa"
+    },
+    {
+      "source": "^/destinations/s4hanadev/opu/odata/sap/ZLABEL_PRINT_SRV/(.*)$",
+      "target": "/opu/odata/sap/ZLABEL_PRINT_SRV/$1",
+      "destination": "s4hanadev",
+      "authenticationType": "xsuaa"
+    },
+    {
+      "source": "^(.*)$",
+      "localDir": "webapp"
+    }
+  ]
+}

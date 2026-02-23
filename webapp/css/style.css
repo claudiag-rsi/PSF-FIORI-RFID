@@ -1,0 +1,126 @@
+/* Enter your custom styles here */
+:root {
+    --btnAcceptColor: #03695c;
+    --btnCancelColor: #D4DADD29;
+    --textBtnColor: #fff;
+}
+
+/* Enter your custom styles here */
+html,
+body,
+body>div,
+#container,
+#container-uiarea {
+    height: 100%;
+    outline: none !important;
+    outline-style: none !important;
+}
+
+.header,
+.filters {
+    margin: 1rem 2rem 0 2rem !important;
+}
+
+.btnAccept .sapMBtnInner {
+    color: white !important;
+}
+
+/* Botón Agregar */
+.btnAccept {
+    background-color: var(--btnAcceptColor) !important;
+    color: var(--textBtnColor);
+    border-style: none !important;
+    font-size: 13px;
+    height: var(--dialogBtnHeigt) !important;
+    display: inline-block;
+    margin: 0 !important;
+    line-height: 12px;
+    border-radius: var(--dialogBtnRadius);
+    outline: none;
+    padding: 0px 20px 0px 20px !important;
+    box-shadow: 0px 0px 2px 0px var(--btnAcceptColor);
+}
+
+/* Icono blanco dentro del botón */
+.btnAccept .sapUiIcon {
+    color: var(--textBtnColor) !important;
+}
+
+/* Quitar outline y box-shadow al foco */
+#_IDButtonAdd:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.title {
+    font-size: 24px !important;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    padding-bottom: 0;
+}
+
+.headerbuttons {
+    text-align: right;
+    flex: 1;
+}
+
+.headerTitle {
+    float: left;
+    flex: 1;
+}
+
+.filters {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    border: 1px solid lightgray;
+    background: white;
+}
+
+.equalWidth {
+    flex: 1;
+}
+
+.pdRight-10 {
+    padding-right: 10px;
+}
+
+.pdLeft-10 {
+    padding-left: 10px;
+}
+
+.btnCenterFilters {
+    margin: 0 auto;
+}
+
+.filterButtonsTransactions {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.filterTransactions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.last {
+    grid-column: 2;
+    grid-row: 3;
+    justify-self: end;
+    padding-right: 10px;
+}
+
+.buttonsfilterPrint {
+    flex-direction: row;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+

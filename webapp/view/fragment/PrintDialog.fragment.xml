@@ -1,0 +1,55 @@
+<Dialog xmlns="sap.m" xmlns:core="sap.ui.core" 
+        title="Impresión Etiqueta" id="PrintDialog" stretchOnPhone="true" class="customDialog">
+
+  <content>
+    <VBox id="vBoxMainPrint" class="sapUiSmallMargin customVBoxPrint" width="100%">
+        <VBox id="vBoxQuantityPallets">
+            <Label id="lblQuantityPallets" text="Cantidad de pallet estándar*" class="customLabel"/>
+            <Input id="inpQuantityPallets" placeholder="Cantidad de pallet estándar" class="customInput"/>
+        </VBox>
+        
+        <VBox id="vBoxPartNumber">
+            <Label id="lblPartNumber" text="Número parte*" class="customLabel"/>
+            <Input id="inpPartNumber" placeholder="Número parte" class="customInput"/>
+        </VBox>
+
+         <VBox id="vBoxCode">     
+            <Label id="lblCode" text="Código producto*" class="customLabel"/>
+            <Input id="inpProductCode" placeholder="Código producto" class="customInput"/>
+        </VBox>
+
+          <VBox id="vBoxBoxesNumber">
+            <Label id="lblBoxesNumber" text="Cantidad de cajas*" class="customLabel"/>
+            <Input id="inpBoxesNumber" placeholder="Cantidad" class="customInput"/>
+        </VBox>
+
+          <VBox id="vBoxLocation">
+            <Label id="lblLocation" text="Ubicación*" class="customLabel"/>
+            <Input id="inpLocation" placeholder="Ubicación" class="customInput"/>
+        </VBox>
+
+         <VBox id="vBoxProductionLine">
+            <Label id="lblProductionLine" text="Linea producción*" class="customLabel"/>
+            <Input id="inpProductionLine" placeholder="Linea producción" class="customInput"/>
+        </VBox>
+
+          <VBox id="vBoxDocument">
+            <Label id="lblDocument" text="Documento*" class="customLabel"/>
+            <Input id="inpDocument" placeholder="Documento" class="customInput"/>
+        </VBox>
+        
+          <VBox id="vBoxEmbilstado">
+            <Label id="lblEmbilstado" text="Embilstado*" class="customLabel"/>
+            <Input id="inpEmbilstado" placeholder="Embilstado" class="customInput"/>
+        </VBox>
+    </VBox>
+  </content>
+  
+  <beginButton>
+    <Button  id="btnAcceptPrint" text="Guardar" press=".onSave"  type="Accept" class="btnDialogAccept"/>
+  </beginButton>
+ 
+  <endButton>
+    <Button id="btnClosePrint" text="Cerrar" press=".onCancel" type="Reject" class="btnDialogCancel"/>
+  </endButton>
+</Dialog>

@@ -1,0 +1,58 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    controllerName="com.flexwarehouse.app.zflexwarehouse.controller.Transactions">
+    
+    <Page id="pagTransactions">
+        <VBox id="vbxHeadersTransactions" class="header">            
+            <VBox id="tlbHeaderTransactions" class="headerTitle">
+                <Label id="lblTitleTransactions" class="title" text="Transacciones de material"></Label>
+            </VBox>              
+        </VBox>   
+        <VBox id="vbxFiltersTransactions" class="filters filterTransactions">
+            <VBox id="vbxProductFilterTransactions" class="equalWidth pdRight-10">
+                <Label id="lblProductFilterTransactions" text="Producto" class="customLabel"/>
+                <Input id="inpProductFilterTransactions" placeholder="Producto" class="customInput"/>
+            </VBox>
+            <VBox id="vbxReaderFilterTransactions" class="equalWidth pdRight-10">
+                <Label id="lblReaderFilterTransactions" text="Reader" class="customLabel"/>
+                <Input id="inpReaderFilterTransactions" placeholder="Reader" class="customInput"/>
+            </VBox>
+            <VBox id="vbxStartdateFilterTransactions" class="equalWidth pdRight-10">
+                <Label id="lblStartdateFilterTransactions" text="Fecha inicio" class="customLabel"/>
+                <Input type="Date" id="inpStartdateFilterTransactions" placeholder="Fecha inicio" class="customInput"/>
+            </VBox>
+            <VBox id="vbxfinalDateFilterTransactions" class="equalWidth pdRight-10">
+                <Label id="lblfinalDateFilterTransactions" text="Fecha final" class="customLabel"/>
+                <Input type="Date" id="inpfinalDateilterTransactions" placeholder="Fecha final" class="customInput"/>
+            </VBox>
+            <VBox id="vbxbuttonsFiltersTransactions" class="equalWidth filterButtonsTransactions last">
+                <VBox id="vbxbuttonFilterTransactions" class="btnCenterFilters">
+                    <Button id="btnFilterTransactions" text="Filtrar" class="btnAccept " press="onOpenDialog"/>
+                </VBox>             
+            </VBox>
+        </VBox>
+
+        <!-- Tabla con Toolbar para el botón -->
+        <Table id="tblTransactions" items="{Transaction>/transactions}">           
+             <columns>
+                <Column id="colTransactionsProduct"><Text id="txtTransactionsProduct" text="Producto"/></Column>
+                <Column id="colTransactionsReader"><Text id="txtTransactionsReader" text="Reader"/></Column>
+                <Column id="colTransactionsAntenna"><Text id="txtTransactionsAntenna" text="Antena"/></Column>
+                <Column id="colTransactionsDate"><Text id="txtTransactionsDate" text="Fecha"/></Column>
+                <Column id="colTransactionsLastReading"><Text id="txtTransactionsLastReading" text="Ultima lectura"/></Column>
+            </columns>
+               <items>
+                <ColumnListItem id="colListItemTransactions">
+                    <cells>
+                        <Text id="txtTransactionsValueID" text="{Transaction>Product}"/>
+                        <Text id="txtTransactionsValueName" text="{Transaction>Reader}"/>
+                        <Text id="txtTransactionsValueAntenna" text="{Transaction>Antenna}"/>
+                        <Text id="txtTransactionsValueDate" text="{Transaction>Date}"/>
+                        <Text id="txtTransactionsValueLastReading" text="{Transaction>LastReading}"/>
+                    </cells>
+                </ColumnListItem>
+                </items>      
+        </Table>
+    </Page>
+</mvc:View>

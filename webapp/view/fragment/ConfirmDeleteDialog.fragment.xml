@@ -1,0 +1,32 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        id="confirmDeleteDialog"
+        title="Confirmar eliminación"
+        type="Message"
+        class="sapUiContentPadding">
+
+        <content>
+            <VBox id="vBoxMessage">
+                <Text id="txtMessage"
+                    text="¿Estás seguro de que deseas eliminar el siguiente registro: {deleteMsg>/message}?"
+                    wrapping="true"/>            
+            </VBox>
+        </content>
+
+        <beginButton>
+            <Button id="btnDeleteItem" type="Accept" class="btnDialogAccept"
+                text="Eliminar"
+                press=".onDelete"/>
+        </beginButton>
+
+        <endButton>
+            <Button id="btnNotDeleteItem"  type="Reject" class="btnDialogCancel"
+                text="Cancelar"
+                press=".onCancelDelete"/>
+        </endButton>
+
+    </Dialog>
+</core:FragmentDefinition>

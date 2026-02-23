@@ -1,0 +1,30 @@
+<Dialog xmlns="sap.m" xmlns:core="sap.ui.core" 
+        title="Reader" 
+        id="ReaderDialog" 
+        stretchOnPhone="true"
+        class="customDialog">
+  <content>
+  <VBox id="vbxMain" class="sapUiSmallMargin customVBoxReader" width="100%">
+      <VBox id="vbxReader" class="itemInput">
+         <Label id="lblReader" text="Nombre*" class="customLabel"/>
+         <Input id="inpReader" placeholder="Nombre" class="customInput"/>
+      </VBox>
+      
+      <VBox id="vbxAntenna" class="itemInput">     
+          <Label id="lblAntenna" text="Antena*" class="customLabel"/>
+          <Input id="inpAntenna" placeholder="Antena" class="customInput"/>
+      </VBox>
+       
+      <VBox id="vbxIP" class="vboxIp itemInput">
+           <Label id="lblIp" text="Dirección IP*" class="customLabel"/>
+           <Input id="inpIp" placeholder="Dirección IP" class="customInput"/>
+       </VBox>
+    </VBox>
+  </content>
+  <beginButton>
+    <Button id="btnAcceptReader" text="Guardar" press=".onSave"  type="Accept" class="btnDialogAccept"/>
+  </beginButton>
+  <endButton>
+    <Button id="btnCloseReader" text="Cerrar" press=".onCancel" type="Reject" class="btnDialogCancel"/>
+  </endButton>
+</Dialog>

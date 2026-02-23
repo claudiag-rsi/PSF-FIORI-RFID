@@ -1,0 +1,25 @@
+.customToastDialog .sapMDialogSection {
+    padding: 12px 20px;
+    width: max-content;
+    min-width: max-content;
+    max-width: max-content;
+}
+
+.customToastDialog.sapMDialog {
+    text-align: right !important;
+    bottom: 20px !important;
+    top: inherit !important;
+    width: max-content !important;
+    min-width: max-content !important;
+    max-width: max-content !important;
+}
+
+.customToastDialog.sapMFlexBoxJustifyStart {
+    justify-content: center !important;
+    gap: 10px !important;
+}
+
+.sapMDialogScroll {
+    width: calc(100% - 20px) !important;
+    margin: 10px !important;
+}

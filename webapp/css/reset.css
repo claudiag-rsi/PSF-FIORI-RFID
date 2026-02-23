@@ -1,0 +1,72 @@
+.sapMBtnInner,
+.sapMBtnHoverable,
+.sapMFocusable,
+.sapMBtnText,
+.sapMBtnIconFirst,
+.sapMBtnDefault {
+    outline: none !important;
+}
+
+.sapMIBar.sapMTB.sapMTBHeader-CTX {
+    padding-left: 0 !important;
+    padding-bottom: 20px !important;
+}
+
+.sapUiSizeCompact .sapMTB.sapMTBHeader-CTX {
+    height: 3.5rem !important;
+}
+
+.sapMColumnHeader {
+    justify-content: center !important;
+    text-align: center !important;
+}
+
+.sapMListTblSelCol,
+.sapMListTblCell,
+.sapMListTblNavCol {
+    justify-content: center !important;
+    text-align: center !important;
+}
+
+button:focus,
+input:focus,
+textarea:focus,
+.sapMBtn:focus,
+.sapUiTable td:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.sapMIBar.sapMTB-Info-CTX .sapMBtnInner,
+.sapUiSizeCompact .sapMBtnInner {
+    background: transparent !important;
+    outline: none !important;
+    border: none !important;
+}
+
+.sapMBtn:hover>.sapMBtnHoverable.sapMBtnAccept:not(.sapMBtnActive):not(.sapMBtnDisabled):not(.sapMToggleBtnPressed) bdi {
+    color: white !important;
+}
+
+.sapMBtn:hover>.sapMBtnHoverable.sapMBtnReject:not(.sapMBtnActive):not(.sapMToggleBtnPressed) bdi {
+    color: black !important;
+}
+
+.sapMList {
+    padding: 2rem !important;
+}
+
+html.sap-desktop:not(.sapUiNativeScrollbars) {
+    scrollbar-color: var(--btnAcceptColor) var(--sapScrollBar_TrackColor);
+}
+
+.sapMLIBFocusable:focus,
+.sapMTblCellFocusable:focus {
+    outline: none !important;
+    outline-offset: calc(-0.125rem - 0.0625rem);
+}
+
+.sapMDialogBeginButton,
+.sapMDialogEndButton {
+    min-width: 6rem !important;
+}

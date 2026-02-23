@@ -1,0 +1,69 @@
+<mvc:View controllerName="fw.flexwarehouse.controller.Print"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    displayBlock="true">
+    
+    <Page id="pagPrint">
+ <VBox id="vbxHeadersPrint" class="header">            
+                <VBox id="tlbHeaderPrint" class="headerTitle">
+                   <Label id="lblTitlePrint" class="title" text=" Impresión de Etiquetas"></Label>
+                  </VBox>
+                <VBox id="vbxbotonAdd" class="headerbuttons">
+                    <Button id="btnAddPrint" text="Nueva Impresión" class="btnAccept" icon="sap-icon://add" press="onOpenDialog"/>
+                </VBox>
+            </VBox>    
+ <VBox id="vbxFiltersPrint" class="filters">
+        <VBox id="vbxProductFilterPrint" class="equalWidth pdRight-10">
+            <Label id="lblProductFilterPrint" text="Producto" class="customLabel"/>
+            <Input id="inpProductFilterPrint" placeholder="Producto" class="customInput"/>
+        </VBox>
+          <VBox id="vbxStartdateFilterPrint" class="equalWidth pdRight-10">
+            <Label id="lblStartdateFilterPrint" text="Fecha inicio" class="customLabel"/>
+            <DatePicker displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy" id="inpStartDateFilterPrint" placeholder="Fecha inicio" class="customInput"/>
+        </VBox>
+         <VBox id="vbxfinalDateFilter" class="equalWidth pdRight-10">
+            <Label id="lblfinalDateFilter" text="Fecha final" class="customLabel"/>
+            <DatePicker displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy" id="inpfinalDateFilterPrint" placeholder="Fecha final" class="customInput"/>
+        </VBox>
+           <VBox id="vbxbuttonsFiltersPrint" class="equalWidth buttonsfilterPrint">
+            <VBox id="vbxbuttonFilterPrint" class="btnCenterFilters">
+                <Button id="btnFilterPrint" text="Filtrar" class="btnAccept " press="onFilters"/>
+            </VBox>
+             <VBox id="vbxbuttonCleanPrint" class="btnCenterFilters">
+                <Button id="btnCleanPrint" text="Limpiar" class="btnAccept "  press="onCleanFilters"/>
+            </VBox>
+        </VBox>
+    </VBox>
+
+        <!-- Tabla con Toolbar para el botón -->
+        <Table id="tblPrint" items="{LabelPrintModel>/LabelPrintSet}">
+              <columns>
+               <!-- <Column id="colPrintLabelPrintId"><Text id="txtPrintLabelPrintId" text="Id"/></Column> -->
+                 <Column id="colPrintLabelPrintDocDate"><Text id="txtPrintLabelPrintDocDate" text="Fecha Documento"/></Column>
+                <Column id="colPrintProductCode"><Text id="txtPrintProductCode" text="Código Producto"/></Column>
+                <Column id="colPrintPartNumber"><Text id="txtPrintPartNumber" text="Número Parte"/></Column>
+                <Column id="colPrintQuantityPallets"><Text id="txtPrintQuantityPallets" text="Cantidad"/></Column>
+                <Column id="colPrintLocation"><Text id="txtPrintLocation" text="Locación"/></Column>
+                <Column id="colPrintProductionLine"><Text id="txtPrintProductionLine" text="Linea Producción"/></Column>
+                <Column id="colPrintDocument"><Text id="txtPrintDocument" text="Documento"/></Column>
+                <Column id="colEditPrint"><Text id="txtPrintEdit" text="Detalle"/></Column>
+            </columns> 
+
+               <items>
+                <ColumnListItem id="colListItemPrint">
+                    <cells>
+                     <!-- <Text id="txtPrintValueLabelPrintId" text="{LabelPrintModel>Labelprintid}"/> -->
+                        <Text id="txtPrintValueDocDate" text="{ path: 'LabelPrintModel>Docdate', formatter: '.formatDate.formatDate' }"/>
+                        <Text id="txtPrintValueProductcode" text="{LabelPrintModel>Productcode}"/>
+                         <Text id="txtPrintValuePartNumber" text="{LabelPrintModel>Partnumber}"/>
+                        <Text id="txtPrintValueQuantityPallets" text="{LabelPrintModel>Quantitypallets}"/>
+                        <Text id="txtPrintValueLocation" text="{LabelPrintModel>Location}"/>
+                        <Text id="txtPrintValueProductionLine" text="{LabelPrintModel>Productionline}"/>                          
+                        <Text id="txtPrintValueDocument" text="{LabelPrintModel>Document}"/>
+                        <Button id="btnEditPrint2" icon="sap-icon://show" press="onOpenDialog" type="Accept"/>                    
+                    </cells>
+                </ColumnListItem>
+                 </items>
+        </Table>
+    </Page>
+</mvc:View>
