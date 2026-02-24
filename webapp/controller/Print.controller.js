@@ -48,6 +48,11 @@ sap.ui.define([
             const dStart = oView.byId("inpStartDateFilterPrint").getDateValue();
             const dEnd = oView.byId("inpfinalDateFilterPrint").getDateValue();
 
+            if (!sProduct && !dStart && !dEnd) {
+                ToastHelper.warning(oView, "Favor de agregar producto o rango de fechas a consultar.");
+                return;
+            }
+            
             if (!this.validateDate(oView, dStart, dEnd)) return;
 
             oBinding.filter(this.loadToFilter(sProduct, dStart, dEnd));

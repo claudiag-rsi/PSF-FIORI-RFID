@@ -3,34 +3,34 @@
     xmlns="sap.m"
     displayBlock="true">
     
-    <Page id="pagPrint">
+    <Page id="pagPrint" title="{i18n>viewNamePrint}">
  <VBox id="vbxHeadersPrint" class="header">            
                 <VBox id="tlbHeaderPrint" class="headerTitle">
-                   <Label id="lblTitlePrint" class="title" text=" Impresión de Etiquetas"></Label>
+                   <Label id="lblTitlePrint" class="title" text="{i18n>titlePrint}"></Label>
                   </VBox>
                 <VBox id="vbxbotonAdd" class="headerbuttons">
-                    <Button id="btnAddPrint" text="Nueva Impresión" class="btnAccept" icon="sap-icon://add" press="onOpenDialog"/>
+                    <Button id="btnAddPrint" text="{i18n>newPrinting}" class="btnAccept" icon="sap-icon://add" press="onOpenDialog"/>
                 </VBox>
             </VBox>    
  <VBox id="vbxFiltersPrint" class="filters">
         <VBox id="vbxProductFilterPrint" class="equalWidth pdRight-10">
-            <Label id="lblProductFilterPrint" text="Producto" class="customLabel"/>
-            <Input id="inpProductFilterPrint" placeholder="Producto" class="customInput"/>
+            <Label id="lblProductFilterPrint" text="{i18n>firstFilterParameter}" class="customLabel"/>
+            <Input id="inpProductFilterPrint" placeholder="{i18n>firstFilterParameter}" class="customInput"/>
         </VBox>
           <VBox id="vbxStartdateFilterPrint" class="equalWidth pdRight-10">
-            <Label id="lblStartdateFilterPrint" text="Fecha inicio" class="customLabel"/>
+            <Label id="lblStartdateFilterPrint" text="{i18n>secondFilterParameter}" class="customLabel"/>
             <DatePicker displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy" id="inpStartDateFilterPrint" placeholder="Fecha inicio" class="customInput"/>
         </VBox>
          <VBox id="vbxfinalDateFilter" class="equalWidth pdRight-10">
-            <Label id="lblfinalDateFilter" text="Fecha final" class="customLabel"/>
+            <Label id="lblfinalDateFilter" text="{i18n>thirdFilterParameter}" class="customLabel"/>
             <DatePicker displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy" id="inpfinalDateFilterPrint" placeholder="Fecha final" class="customInput"/>
         </VBox>
            <VBox id="vbxbuttonsFiltersPrint" class="equalWidth buttonsfilterPrint">
             <VBox id="vbxbuttonFilterPrint" class="btnCenterFilters">
-                <Button id="btnFilterPrint" text="Filtrar" class="btnAccept " press="onFilters"/>
+                <Button id="btnFilterPrint" icon="sap-icon://filter" text="{i18n>btnFilter}" class="btnAccept " press="onFilters"/>
             </VBox>
              <VBox id="vbxbuttonCleanPrint" class="btnCenterFilters">
-                <Button id="btnCleanPrint" text="Limpiar" class="btnAccept "  press="onCleanFilters"/>
+                <Button id="btnCleanPrint" icon="sap-icon://clear-filter" text="{i18n>btnCleanFilters}" class="btnAccept "  press="onCleanFilters"/>
             </VBox>
         </VBox>
     </VBox>
@@ -39,13 +39,13 @@
         <Table id="tblPrint" items="{LabelPrintModel>/LabelPrintSet}">
               <columns>
                <!-- <Column id="colPrintLabelPrintId"><Text id="txtPrintLabelPrintId" text="Id"/></Column> -->
-                 <Column id="colPrintLabelPrintDocDate"><Text id="txtPrintLabelPrintDocDate" text="Fecha Documento"/></Column>
-                <Column id="colPrintProductCode"><Text id="txtPrintProductCode" text="Código Producto"/></Column>
-                <Column id="colPrintPartNumber"><Text id="txtPrintPartNumber" text="Número Parte"/></Column>
-                <Column id="colPrintQuantityPallets"><Text id="txtPrintQuantityPallets" text="Cantidad"/></Column>
-                <Column id="colPrintLocation"><Text id="txtPrintLocation" text="Locación"/></Column>
-                <Column id="colPrintProductionLine"><Text id="txtPrintProductionLine" text="Linea Producción"/></Column>
-                <Column id="colPrintDocument"><Text id="txtPrintDocument" text="Documento"/></Column>
+                 <Column id="colPrintLabelPrintDocDate"><Text id="txtPrintLabelPrintDocDate" text="{i18n>columnDateDocument}"/></Column>
+                <Column id="colPrintProductCode"><Text id="txtPrintProductCode" text="{i18n>columnProductCode}"/></Column>
+                <Column id="colPrintPartNumber"><Text id="txtPrintPartNumber" text="{i18n>columnPartNumber}"/></Column>
+                <Column id="colPrintQuantityPallets"><Text id="txtPrintQuantityPallets" text="{i18n>columnQuantityPallets}"/></Column>
+                <Column id="colPrintLocation"><Text id="txtPrintLocation" text="{i18n>columnLocation}"/></Column>
+                <Column id="colPrintProductionLine"><Text id="txtPrintProductionLine" text="{i18n>columnProductionLine}"/></Column>
+                <Column id="colPrintDocument"><Text id="txtPrintDocument" text="{i18n>columnDocument}"/></Column>
                 <Column id="colEditPrint"><Text id="txtPrintEdit" text="Detalle"/></Column>
             </columns> 
 

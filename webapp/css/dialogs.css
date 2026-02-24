@@ -118,11 +118,6 @@ span.sapMBtnInner.sapMBtnReject {
     box-shadow: none !important;
 }
 
-.sapUiSizeCompact.sapMDialog>footer .sapMFooter-CTX,
-.sapUiSizeCompact .sapMDialog>footer .sapMFooter-CTX {
-    height: 3.5rem !important;
-}
-
 .sapUiSizeCompact.sapMDialog>footer,
 .sapUiSizeCompact .sapMDialog>footer {
     border-top: none !important;

@@ -109,32 +109,22 @@
       },
       "routes": [
         {
-          "name": "Default",
+          "name": "Readers",
           "pattern": "",
           "target": "TargetReaders"
         },
         {
-          "name": "Readers",
-          "pattern": "readers",
-          "target": "TargetReaders"
-        },
-        {
           "name": "Print",
-          "pattern": "print",
+          "pattern": "Print",
           "target": "TargetPrint"
         },
         {
           "name": "Transactions",
-          "pattern": "transactions",
+          "pattern": "Transactions",
           "target": "TargetTransactions"
         }
       ],
       "targets": {
-        "TargetApp": {
-          "viewName": "App",
-          "viewId": "App",
-          "viewLevel": 1
-        },
         "TargetReaders": {
           "viewName": "Readers",
           "viewId": "Readers",

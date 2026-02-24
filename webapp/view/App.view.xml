@@ -1,7 +1,29 @@
 <mvc:View controllerName="fw.flexwarehouse.controller.App"
     displayBlock="true"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <App id="app">
-    </App>
+    xmlns="sap.m"
+    xmlns:tnt="sap.tnt">
+   <tnt:ToolPage id="toolPage">
+        <tnt:header>
+            <tnt:ToolHeader id="tlh">
+                <Button id="sideNavigationToggleButton" icon="sap-icon://menu2" type="Transparent" press=".onSideNavButtonPress" />
+                <Title id="titleApp" text="{i18n>appName}" />
+                <ToolbarSpacer id="tls" />
+            </tnt:ToolHeader>
+        </tnt:header>
+
+        <tnt:sideContent>
+            <tnt:SideNavigation id="sinselect" selectedKey="reader" itemSelect=".onItemSelect">
+                <tnt:NavigationList id="navList">
+                    <tnt:NavigationListItem id="navReaders" text="{i18n>viewNameReader}" icon="sap-icon://tags" key="Readers" />
+                    <tnt:NavigationListItem id="navPrint" text="{i18n>viewNamePrint}" icon="sap-icon://print" key="Print" />       
+                     <!-- <tnt:NavigationListItem id="navTransactions" text="{i18n>viewNameTransactions}" icon="sap-icon://business-objects-experience" key="Transactions" />   -->
+                </tnt:NavigationList>
+            </tnt:SideNavigation>
+        </tnt:sideContent>
+
+        <tnt:mainContents>
+            <App id="app" /> 
+        </tnt:mainContents>
+    </tnt:ToolPage>
 </mvc:View>

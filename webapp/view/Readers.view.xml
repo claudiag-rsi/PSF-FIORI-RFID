@@ -3,24 +3,24 @@
     xmlns="sap.m"
     displayBlock="true">
     
-      <Page id="pagReaders">
+      <Page id="pagReaders" title="{i18n>viewNameReader}">
         <VBox id="vbxHeadersReaders" class="header">            
             <VBox id="tlbHeaderReaders" class="headerTitle">
-                <Label id="lblTitleReaders" class="title" text=" Administrador de Reader"></Label>
+                <Label id="lblTitleReaders" class="title" text="{i18n>titleReaders}"></Label>
             </VBox>
             <VBox id="vbxbottonAddReaders" class="headerbuttons">
-                <Button id="btnAddReaders" text="Agregar Reader" class="btnAccept" icon="sap-icon://add" press="onOpenDialog"/>
+                <Button id="btnAddReaders" text="{i18n>btnAdd}" class="btnAccept" icon="sap-icon://add" press="onOpenDialog"/>
             </VBox>
         </VBox>  
 
         <!-- Tabla con Toolbar para el botón -->
         <Table id="tblReaders" items="{ReaderModel>/ReadersSet}"> 
             <columns>
-                <Column id="colDeleteReader"><Text id="txtReaderDelete" text="Eliminar"/></Column>            
-                <Column id="colReaderReader"><Text id="txtReaderReader" text="Nombre"/></Column>
-                <Column id="colReaderIP"><Text id="txtReaderIP" text="Dirección IP"/></Column>
-                <Column id="colReaderAntenna"><Text id="txtReaderAntenna" text="Antena"/></Column>
-                <Column id="colEditReader"><Text id="txtEditReader" text="Editar"/></Column>
+                <Column id="colDeleteReader"><Text id="txtReaderDelete" text="{i18n>delete}"/></Column>            
+                <Column id="colReaderReader"><Text id="txtReaderReader" text="{i18n>columnName}"/></Column>
+                <Column id="colReaderIP"><Text id="txtReaderIP" text="{i18n>columnIp}"/></Column>
+                <Column id="colReaderAntenna"><Text id="txtReaderAntenna" text="{i18n>columnAnntena}"/></Column>
+                <Column id="colEditReader"><Text id="txtEditReader" text="{i18n>update}"/></Column>
             </columns>   
             <items>
                 <ColumnListItem id="colListItemReader">
