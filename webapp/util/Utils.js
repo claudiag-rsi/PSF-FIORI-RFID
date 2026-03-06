@@ -1,6 +1,7 @@
 sap.ui.define([
     "fw/flexwarehouse/util/Constants",
-], function (Constants) {
+      "fw/flexwarehouse/util/ToastHelper"
+], function (Constants,ToastHelper) {
     "use strict";
 
     return {
@@ -51,6 +52,28 @@ sap.ui.define([
 
             // Format dd-MM-yyyy
             return [parts[2], parts[1], parts[0]].join(Constants.DATE_SEPARATOR);
+        },
+        validateDate: function (oView, dStart, dEnd) {
+            if (!dStart && !dEnd) { return true; }
+
+            // Si falta una de las dos
+            if (!dStart) {
+                ToastHelper.warning(oView, "Favor de ingresar fecha inicial a consultar.");
+                return false;
+            }
+
+            if (!dEnd) {
+                ToastHelper.warning(oView, "Favor de ingresar fecha final a consultar.");
+                return false;
+            }
+
+            // Validar rango
+            if (dEnd < dStart) {
+                ToastHelper.warning(oView, "La fecha final no puede ser menor a la fecha inicial.");
+                return false;
+            }
+
+            return true;
         },
     }
 });

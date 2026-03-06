@@ -1,55 +1,59 @@
 <mvc:View
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
-    controllerName="com.flexwarehouse.app.zflexwarehouse.controller.Transactions">
+    controllerName="fw.flexwarehouse.controller.Transactions">
     
-    <Page id="pagTransactions">
+    <Page id="pagTransactions" title="{i18n>viewNameTransactions}">
         <VBox id="vbxHeadersTransactions" class="header">            
             <VBox id="tlbHeaderTransactions" class="headerTitle">
-                <Label id="lblTitleTransactions" class="title" text="Transacciones de material"></Label>
+                <Label id="lblTitleTransactions" class="title" text="{i18n>viewNameTransactions}"></Label>
             </VBox>              
         </VBox>   
         <VBox id="vbxFiltersTransactions" class="filters filterTransactions">
             <VBox id="vbxProductFilterTransactions" class="equalWidth pdRight-10">
-                <Label id="lblProductFilterTransactions" text="Producto" class="customLabel"/>
-                <Input id="inpProductFilterTransactions" placeholder="Producto" class="customInput"/>
+                <Label id="lblProductFilterTransactions" text="{i18n>firstTransactionFilterParameter}" class="customLabel"/>
+                <Input id="inpProductFilterTransactions" placeholder="{i18n>firstTransactionFilterParameter}" class="customInput"/>
             </VBox>
             <VBox id="vbxReaderFilterTransactions" class="equalWidth pdRight-10">
-                <Label id="lblReaderFilterTransactions" text="Reader" class="customLabel"/>
-                <Input id="inpReaderFilterTransactions" placeholder="Reader" class="customInput"/>
+                <Label id="lblReaderFilterTransactions" text="{i18n>secondTransactionFilterParameter}" class="customLabel"/>
+                <Input id="inpReaderFilterTransactions" placeholder="{i18n>secondTransactionFilterParameter}" class="customInput"/>
             </VBox>
             <VBox id="vbxStartdateFilterTransactions" class="equalWidth pdRight-10">
-                <Label id="lblStartdateFilterTransactions" text="Fecha inicio" class="customLabel"/>
-                <Input type="Date" id="inpStartdateFilterTransactions" placeholder="Fecha inicio" class="customInput"/>
+                <Label id="lblStartdateFilterTransactions" text="{i18n>thirdTransactionFilterParameter}" class="customLabel"/>
+                <DatePicker displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy" id="dapStartdateFilterTransactions" placeholder="{i18n>thirdTransactionFilterParameter}" class="customInput"/>
+
             </VBox>
             <VBox id="vbxfinalDateFilterTransactions" class="equalWidth pdRight-10">
-                <Label id="lblfinalDateFilterTransactions" text="Fecha final" class="customLabel"/>
-                <Input type="Date" id="inpfinalDateilterTransactions" placeholder="Fecha final" class="customInput"/>
+                <Label id="lblfinalDateFilterTransactions" text="{i18n>fourthTransactionFilterParameter}" class="customLabel"/>
+                <DatePicker displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy" id="dapfinalDateilterTransactions" placeholder="{i18n>fourthTransactionFilterParameter}" class="customInput"/>
             </VBox>
             <VBox id="vbxbuttonsFiltersTransactions" class="equalWidth filterButtonsTransactions last">
                 <VBox id="vbxbuttonFilterTransactions" class="btnCenterFilters">
-                    <Button id="btnFilterTransactions" text="Filtrar" class="btnAccept " press="onOpenDialog"/>
-                </VBox>             
+                    <Button id="btnFilterTransactions" text="{i18n>btnFilter}" class="btnAccept " press="onFilters"/>
+                </VBox>    
+                 <VBox id="vbxbuttonCleanTransactions" class="btnCenterFilters">
+                <Button id="btnCleanTransactions" icon="sap-icon://clear-filter" text="{i18n>btnCleanFilters}" class="btnAccept "  press="onCleanFilters"/>
+            </VBox>         
             </VBox>
         </VBox>
 
         <!-- Tabla con Toolbar para el botón -->
-        <Table id="tblTransactions" items="{Transaction>/transactions}">           
+        <Table id="tblTransactions" items="{TransactionsModel>/TransactionsSet}">           
              <columns>
-                <Column id="colTransactionsProduct"><Text id="txtTransactionsProduct" text="Producto"/></Column>
-                <Column id="colTransactionsReader"><Text id="txtTransactionsReader" text="Reader"/></Column>
-                <Column id="colTransactionsAntenna"><Text id="txtTransactionsAntenna" text="Antena"/></Column>
-                <Column id="colTransactionsDate"><Text id="txtTransactionsDate" text="Fecha"/></Column>
-                <Column id="colTransactionsLastReading"><Text id="txtTransactionsLastReading" text="Ultima lectura"/></Column>
+                <Column id="colTransactionsProduct"><Text id="txtTransactionsProduct" text="{i18n>columnProduct}"/></Column>
+                <Column id="colTransactionsReader"><Text id="txtTransactionsReader" text="{i18n>columnReader}"/></Column>
+                <Column id="colTransactionsAntenna"><Text id="txtTransactionsAntenna" text="{i18n>columnAntenna}"/></Column>
+                <Column id="colTransactionsDate"><Text id="txtTransactionsDate" text="{i18n>columnDate}"/></Column>
+                <Column id="colTransactionsLastReading"><Text id="txtTransactionsLastReading" text="{i18n>columnLastReading}"/></Column>
             </columns>
                <items>
                 <ColumnListItem id="colListItemTransactions">
                     <cells>
-                        <Text id="txtTransactionsValueID" text="{Transaction>Product}"/>
-                        <Text id="txtTransactionsValueName" text="{Transaction>Reader}"/>
-                        <Text id="txtTransactionsValueAntenna" text="{Transaction>Antenna}"/>
-                        <Text id="txtTransactionsValueDate" text="{Transaction>Date}"/>
-                        <Text id="txtTransactionsValueLastReading" text="{Transaction>LastReading}"/>
+                        <Text id="txtTransactionsValueID" text="{TransactionsModel>Product}"/>
+                        <Text id="txtTransactionsValueName" text="{TransactionsModel>Reader}"/>
+                        <Text id="txtTransactionsValueAntenna" text="{TransactionsModel>Antenna}"/>
+                         <Text id="txtTransactionsValueDate" text="{ path: 'TransactionsModel>Date', formatter: '.formatDate.formatDate' }"/>
+                          <Text id="txtTransactionsValueLastReading" text="{ path: 'TransactionsModel>LastReading', formatter: '.formatDate.formatDate' }"/>
                     </cells>
                 </ColumnListItem>
                 </items>      

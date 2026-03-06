@@ -95,12 +95,14 @@ body>div,
 
 .btnCenterFilters {
     margin: 0 auto;
+    padding: 10px;
 }
 
 .filterButtonsTransactions {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+    flex-direction: row;
 }
 
 .filterTransactions {
@@ -114,7 +116,6 @@ body>div,
     grid-column: 2;
     grid-row: 3;
     justify-self: end;
-    padding-right: 10px;
 }
 
 .buttonsfilterPrint {
@@ -123,4 +124,3 @@ body>div,
     justify-content: center !important;
     align-items: center !important;
 }
-

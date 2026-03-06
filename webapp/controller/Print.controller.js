@@ -29,7 +29,7 @@ sap.ui.define([
         onCancel: function () { Utils.closeDialog(this, Constants.FRAGMENTS.LABEL_PRINT); },
 
         onSave: function () {
-            const oLabelPrint = this.getFromFragmento();
+            const oLabelPrint = this.getFromFragment();
 
             if (!this.isValid(oLabelPrint)) {
                 ToastHelper.warning(this.getView(), "Campos obligatorios.");
@@ -52,8 +52,8 @@ sap.ui.define([
                 ToastHelper.warning(oView, "Favor de agregar producto o rango de fechas a consultar.");
                 return;
             }
-            
-            if (!this.validateDate(oView, dStart, dEnd)) return;
+
+            if (!Utils.validateDate(oView, dStart, dEnd)) return;
 
             oBinding.filter(this.loadToFilter(sProduct, dStart, dEnd));
         },
@@ -85,7 +85,7 @@ sap.ui.define([
                     Utils.closeDialog(this, Constants.FRAGMENTS.LABEL_PRINT);
                 },
                 error: function (oError) {
-                    let sMessage = "Error al imprimir la etiqueta.";
+                    let sMessage = oError ? oError.message : "Error al imprimir la etiqueta.";
 
                     try {
                         // Parsear mensaje del error
@@ -105,18 +105,14 @@ sap.ui.define([
 
         isValid: function (oLabelPrint) {
             return !!(
-                oLabelPrint.Quantitypallets &&
-                oLabelPrint.Partnumber &&
-                oLabelPrint.Productcode &&
-                oLabelPrint.Boxesnumber &&
-                oLabelPrint.Location &&
-                oLabelPrint.Productionline &&
-                oLabelPrint.Document &&
-                oLabelPrint.Embilstado
+                oLabelPrint.Quantitypallets && oLabelPrint.Partnumber &&
+                oLabelPrint.Productcode && oLabelPrint.Boxesnumber &&
+                oLabelPrint.Location && oLabelPrint.Productionline &&
+                oLabelPrint.Document && oLabelPrint.Embilstado
             );
         },
 
-        getFromFragmento: function () {
+        getFromFragment: function () {
             return {
                 Quantitypallets: String(this.byId("inpQuantityPallets").getValue(), 10) || 0,
                 Partnumber: this.byId("inpPartNumber").getValue(),
@@ -129,50 +125,30 @@ sap.ui.define([
             };
         },
 
-        loadToFragment: function (oData) {
-            this.byId("inpProductCode").setValue(oData.Productcode || Constants.STRING_EMPTY);
-            this.byId("inpPartNumber").setValue(oData.Partnumber || Constants.STRING_EMPTY);
-            this.byId("inpQuantityPallets").setValue(oData.Quantitypallets || Constants.STRING_EMPTY);
-            this.byId("inpBoxesNumber").setValue(oData.Boxesnumber || Constants.STRING_EMPTY);
-            this.byId("inpProductionLine").setValue(oData.Productionline || Constants.STRING_EMPTY);
-            this.byId("inpLocation").setValue(oData.Location || Constants.STRING_EMPTY);
-            this.byId("inpDocument").setValue(oData.Document || Constants.STRING_EMPTY);
-            this.byId("inpEmbilstado").setValue(oData.Embilstado || Constants.STRING_EMPTY);
-        },
-
-        validateDate: function (oView, dStart, dEnd) {
-            if (!dStart && !dEnd) { return true; }
-
-            // Si falta una de las dos
-            if (!dStart) {
-                ToastHelper.warning(oView, "Favor de ingresar fecha inicial a consultar.");
-                return false;
-            }
-
-            if (!dEnd) {
-                ToastHelper.warning(oView, "Favor de ingresar fecha final a consultar.");
-                return false;
-            }
-
-            // Validar rango
-            if (dEnd < dStart) {
-                ToastHelper.warning(oView, "La fecha final no puede ser menor a la fecha inicial.");
-                return false;
-            }
-
-            return true;
+        loadToFragment: function (oLabelPrint) {
+            this.byId("inpProductCode").setValue(oLabelPrint.Productcode || Constants.STRING_EMPTY);
+            this.byId("inpPartNumber").setValue(oLabelPrint.Partnumber || Constants.STRING_EMPTY);
+            this.byId("inpQuantityPallets").setValue(oLabelPrint.Quantitypallets || Constants.STRING_EMPTY);
+            this.byId("inpBoxesNumber").setValue(oLabelPrint.Boxesnumber || Constants.STRING_EMPTY);
+            this.byId("inpProductionLine").setValue(oLabelPrint.Productionline || Constants.STRING_EMPTY);
+            this.byId("inpLocation").setValue(oLabelPrint.Location || Constants.STRING_EMPTY);
+            this.byId("inpDocument").setValue(oLabelPrint.Document || Constants.STRING_EMPTY);
+            this.byId("inpEmbilstado").setValue(oLabelPrint.Embilstado || Constants.STRING_EMPTY);
         },
 
         loadToFilter: function (sProduct, dStart, dEnd) {
             // ?$filter=Productcode eq '1'
             const aFilters = [];
+            const oModel = sap.ui.model;
+            const oFilter = oModel.Filter;
+            const oOperator = oModel.FilterOperator;
+
             if (sProduct)
-                aFilters.push(new sap.ui.model.Filter("Productcode", sap.ui.model.FilterOperator.EQ, sProduct));
+                aFilters.push(new oFilter("Productcode", oOperator.EQ, sProduct));
 
             if (dStart && dEnd)
-                aFilters.push(new sap.ui.model.Filter("Docdate", sap.ui.model.FilterOperator.BT, Utils.toABAPDate(dStart), Utils.toABAPDate(dEnd)));
+                aFilters.push(new oFilter("Docdate", oOperator.BT, Utils.toABAPDate(dStart), Utils.toABAPDate(dEnd)));
 
-            console.log(aFilters);
             return aFilters;
         },
 
@@ -181,9 +157,9 @@ sap.ui.define([
 
             Object.values(this._mDialogs).forEach(pDialog => {
                 pDialog.then(oDialog => {
-                    if (oDialog && !oDialog.bIsDestroyed) {
+                    if (oDialog && !oDialog.bIsDestroyed)
                         oDialog.destroy();
-                    }
+
                 });
             });
 

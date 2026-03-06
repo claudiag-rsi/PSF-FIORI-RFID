@@ -19,11 +19,11 @@
         </VBox>
           <VBox id="vbxStartdateFilterPrint" class="equalWidth pdRight-10">
             <Label id="lblStartdateFilterPrint" text="{i18n>secondFilterParameter}" class="customLabel"/>
-            <DatePicker displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy" id="inpStartDateFilterPrint" placeholder="Fecha inicio" class="customInput"/>
+            <DatePicker displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy" id="inpStartDateFilterPrint" placeholder="{i18n>secondFilterParameter}" class="customInput"/>
         </VBox>
          <VBox id="vbxfinalDateFilter" class="equalWidth pdRight-10">
             <Label id="lblfinalDateFilter" text="{i18n>thirdFilterParameter}" class="customLabel"/>
-            <DatePicker displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy" id="inpfinalDateFilterPrint" placeholder="Fecha final" class="customInput"/>
+            <DatePicker displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy" id="inpfinalDateFilterPrint" placeholder="{i18n>thirdFilterParameter}" class="customInput"/>
         </VBox>
            <VBox id="vbxbuttonsFiltersPrint" class="equalWidth buttonsfilterPrint">
             <VBox id="vbxbuttonFilterPrint" class="btnCenterFilters">
