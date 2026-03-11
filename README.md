@@ -7,7 +7,7 @@
 |**Generation Platform**<br>SAP Business Application Studio|
 |**Template Used**<br>Basic V2|
 |**Service Type**<br>SAP System (ABAP On-Premise)|
-|**Service URL**<br>http://fapdvw04:1443/sap/opu/odata/sap/ZREADERS_SRV_SRV_03|
+|**Service URL**<br>http://fapdvw04:1443/sap/opu/odata/sap/ZREADERS_SRV|
 |**Module Name**<br>flexwarehouse|
 |**Application Title**<br>Lectura de rfid|
 |**Namespace**<br>fw|
