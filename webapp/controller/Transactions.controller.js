@@ -7,6 +7,7 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("fw.flexwarehouse.controller.Transactions", {
+        formatDate: Utils,
         onInit() { },
 
         onFilters: function () {
@@ -53,11 +54,10 @@ sap.ui.define([
                 aFilters.push(new oFilter("Productcode", oOperator.EQ, sProduct));
 
             if (sReader)
-                aFilters.push(new oFilter("Reader", oOperator.EQ, sReader)
-                );
+                aFilters.push(new oFilter("Reader", oOperator.EQ, sReader));
 
             if (dStart && dEnd)
-                aFilters.push(new oFilter("Docdate", oOperator.BT, Utils.toABAPDate(dStart), Utils.toABAPDate(dEnd)));
+                aFilters.push(new oFilter("Erdat", oOperator.BT, dStart, dEnd));
 
             return aFilters;
         },

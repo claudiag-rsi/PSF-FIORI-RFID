@@ -1,7 +1,7 @@
 sap.ui.define([
     "fw/flexwarehouse/util/Constants",
-      "fw/flexwarehouse/util/ToastHelper"
-], function (Constants,ToastHelper) {
+    "fw/flexwarehouse/util/ToastHelper"
+], function (Constants, ToastHelper) {
     "use strict";
 
     return {
@@ -38,7 +38,7 @@ sap.ui.define([
         toABAPDate(date) {
             if (date instanceof Date) {
                 var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-                    pattern: Constants.FORMAT_DATE
+                    pattern: Constants.FORMAT_ABAP_DATE
                 });
 
                 return oDateFormat.format(date);
@@ -52,6 +52,18 @@ sap.ui.define([
 
             // Format dd-MM-yyyy
             return [parts[2], parts[1], parts[0]].join(Constants.DATE_SEPARATOR);
+        },
+        formatDateToString: function (date) {
+
+            if (!date) return Constants.STRING_EMPTY;
+
+            var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+                pattern: Constants.FORMAT_DATE,
+                UTC: true
+            });
+
+            return oDateFormat.format(new Date(date));
+
         },
         validateDate: function (oView, dStart, dEnd) {
             if (!dStart && !dEnd) { return true; }

@@ -38,7 +38,7 @@
         </VBox>
 
         <!-- Tabla con Toolbar para el botón -->
-        <Table id="tblTransactions" items="{TransactionsModel>/TransactionsSet}">           
+        <Table id="tblTransactions" items="{TransactionModel>/TransactionSet}">           
              <columns>
                 <Column id="colTransactionsProduct"><Text id="txtTransactionsProduct" text="{i18n>columnProduct}"/></Column>
                 <Column id="colTransactionsReader"><Text id="txtTransactionsReader" text="{i18n>columnReader}"/></Column>
@@ -49,11 +49,11 @@
                <items>
                 <ColumnListItem id="colListItemTransactions">
                     <cells>
-                        <Text id="txtTransactionsValueID" text="{TransactionsModel>Product}"/>
-                        <Text id="txtTransactionsValueName" text="{TransactionsModel>Reader}"/>
-                        <Text id="txtTransactionsValueAntenna" text="{TransactionsModel>Antenna}"/>
-                         <Text id="txtTransactionsValueDate" text="{ path: 'TransactionsModel>Date', formatter: '.formatDate.formatDate' }"/>
-                          <Text id="txtTransactionsValueLastReading" text="{ path: 'TransactionsModel>LastReading', formatter: '.formatDate.formatDate' }"/>
+                        <Text id="txtTransactionsValueID" text="{TransactionModel>Productcode}"/>
+                        <Text id="txtTransactionsValueName" text="{TransactionModel>Reader}"/>
+                        <Text id="txtTransactionsValueAntenna" text="{TransactionModel>Antenna}"/>
+                         <Text id="txtTransactionsValueDate" text="{ path: 'TransactionModel>Erdat', formatter: '.formatDate.formatDateToString' }"/>
+                          <Text id="txtTransactionsValueLastReading" text="{ path: 'TransactionModel>Aedat', formatter: '.formatDate.formatDateToString' }"/>
                     </cells>
                 </ColumnListItem>
                 </items>      

@@ -8,10 +8,11 @@ sap.ui.define([], function () {
             LABEL_PRINT: "PrintDialog"
         },
         STRING_EMPTY: "",
-        DATE_SEPARATOR:"-",
+        DATE_SEPARATOR: "-",
         FRAGMENT_PATH: ".view.fragment.",
-        READER_MODEL_NAME:"ReaderModel",
-        LABEL_PRINT_MODEL_NAME:"LabelPrintModel",
-        FORMAT_DATE: "yyyyMMdd"
+        READER_MODEL_NAME: "ReaderModel",
+        LABEL_PRINT_MODEL_NAME: "LabelPrintModel",
+        FORMAT_ABAP_DATE: "yyyyMMdd",
+        FORMAT_DATE: "dd-MM-yyyy"
     };
 });

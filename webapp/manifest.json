@@ -32,7 +32,7 @@
           "odataVersion": "2.0"
         }
       },
-      "TransactionsService": {
+      "TransactionService": {
         "uri": "/sap/opu/odata/sap/ZTRANSACTIONS_SRV/",
         "type": "OData",
         "settings": {
@@ -85,8 +85,8 @@
         "dataSource": "LabelPrintService",
         "type": "sap.ui.model.odata.v2.ODataModel"
       },
-      "TransactionsModel": {
-        "dataSource": "TransactionsService",
+      "TransactionModel": {
+        "dataSource": "TransactionService",
         "type": "sap.ui.model.odata.v2.ODataModel"
       }
     },

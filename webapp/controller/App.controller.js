@@ -6,6 +6,7 @@ sap.ui.define([
   return BaseController.extend("fw.flexwarehouse.controller.App", {
     onInit: function () {
       var oRouter = this.getOwnerComponent().getRouter();
+    
       oRouter.attachRouteMatched(this.onRouteMatched, this);
     },
 
@@ -13,15 +14,18 @@ sap.ui.define([
     onSideNavButtonPress: function () {
       var oToolPage = this.byId("toolPage");
       var bSideExpanded = oToolPage.getSideExpanded();
+      
       oToolPage.setSideExpanded(!bSideExpanded);
     },
 
     // Función que detecta qué ítem del menú se seleccionó
     onItemSelect: function (oEvent) {
-      var sKey = oEvent.getParameter("item").getKey(); // Esto obtendrá "Readers", "Print" o "Transactions"
+      // Esto obtendrá "Readers", "Print" o "Transactions"
+      var sKey = oEvent.getParameter("item").getKey();
       var oRouter = this.getOwnerComponent().getRouter();
 
-      oRouter.navTo(sKey); // Ejecuta la navegación
+      // Ejecuta la navegación
+      oRouter.navTo(sKey);
     }
   });
 });
