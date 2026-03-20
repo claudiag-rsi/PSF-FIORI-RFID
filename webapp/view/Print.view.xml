@@ -3,7 +3,7 @@
     xmlns="sap.m"
     displayBlock="true">
     
-    <Page id="pagPrint" title="{i18n>viewNamePrint}">
+    <Page id="pagPrint" class="titlePage" title="{i18n>viewNamePrint}">
  <VBox id="vbxHeadersPrint" class="header">            
                 <VBox id="tlbHeaderPrint" class="headerTitle">
                    <Label id="lblTitlePrint" class="title" text="{i18n>titlePrint}"></Label>

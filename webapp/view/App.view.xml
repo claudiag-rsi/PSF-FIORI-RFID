@@ -7,7 +7,7 @@
         <tnt:header>
             <tnt:ToolHeader id="tlh">
                 <Button id="sideNavigationToggleButton" icon="sap-icon://menu2" type="Transparent" press=".onSideNavButtonPress" />
-                <Title id="titleApp" text="{i18n>appName}" />
+                <Title class="titleApp" id="titleApp" text="{i18n>appName}" />
                 <ToolbarSpacer id="tls" />
             </tnt:ToolHeader>
         </tnt:header>
