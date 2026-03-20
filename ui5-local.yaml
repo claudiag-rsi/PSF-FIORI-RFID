@@ -38,7 +38,7 @@ server:
       configuration:
         mountPath: /
         services:
-          - urlPath: /sap/opu/odata/sap/ZREADERS_SRV_SRV_03
+          - urlPath: /sap/opu/odata/sap/ZREADERS_SRV
             metadataPath: ./webapp/localService/mainService/metadata.xml
             mockdataPath: ./webapp/localService/mainService/data
             generateMockData: true

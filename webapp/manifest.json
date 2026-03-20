@@ -10,6 +10,20 @@
     "title": "{{appTitle}}",
     "description": "{{appDescription}}",
     "resources": "resources.json",
+    "crossNavigation": {
+      "inbounds": {
+        "intent1": {
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          },
+          "semanticObject": "RFDI",
+          "action": "display",
+          "title": "Lectura de RFID",
+          "icon": "sap.icon://shipping-status"
+        }
+      }
+    },
     "sourceTemplate": {
       "id": "@sap/generator-fiori:basic",
       "version": "1.20.2",
@@ -20,8 +34,6 @@
         "uri": "/sap/opu/odata/sap/ZREADERS_SRV/",
         "type": "OData",
         "settings": {
-          "annotations": [],
-          "localUri": "localService/mainService/metadata.xml",
           "odataVersion": "2.0"
         }
       },

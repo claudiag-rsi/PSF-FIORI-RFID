@@ -18,13 +18,7 @@ server:
         backend:
           # Proxy para desarrollo local usando /sap
           - path: /sap
-            url: http://fapdvw04:1443
-            destination: s4hanadev
-          # Proxy para desarrollo local usando /destinations/s4hanadev
-          - path: /destinations/s4hanadev
-            url: http://fapdvw04:1443
-            destination: s4hanadev
-            rewrite: true # reescribe la ruta para que funcione local
+            destination: s4hanadev        
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:
