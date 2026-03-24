@@ -42,7 +42,7 @@
 
 /* Inputs */
 .customInput {
-    width: 100%;
+    width: 100% !important;
     height: 30px !important;
     min-height: 20px !important;
     resize: none !important;
@@ -139,4 +139,13 @@ span.sapMBtnInner.sapMBtnReject {
     justify-content: center !important;
     gap: 10px !important;
     align-items: flex-start !important;
+}
+/* gris cuando es placeholder */
+.customSelect.placeholder .sapMSltLabel {
+    color: #556b82;
+}
+
+/* negro cuando hay valor */
+.customSelect .sapMSltLabel {
+    color: #000;
 }

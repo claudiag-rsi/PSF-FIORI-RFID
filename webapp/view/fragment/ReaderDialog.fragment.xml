@@ -1,30 +1,30 @@
 <Dialog xmlns="sap.m" xmlns:core="sap.ui.core" 
-        title="Reader" 
+        title="{i18n>modalNameReader}" 
         id="ReaderDialog" 
         stretchOnPhone="true"
         class="customDialog">
   <content>
   <VBox id="vbxMain" class="sapUiSmallMargin customVBoxReader" width="100%">
       <VBox id="vbxReader" class="itemInput">
-         <Label id="lblReader" text="Nombre*" class="customLabel"/>
-         <Input id="inpReader" placeholder="Nombre" class="customInput"/>
+         <Label id="lblReader" text="{i18n>columnName}*" class="customLabel"/>
+         <Input id="inpReader" placeholder="{i18n>columnName}" class="customInput"/>
       </VBox>
       
       <VBox id="vbxAntenna" class="itemInput">     
-          <Label id="lblAntenna" text="Antena*" class="customLabel"/>
-          <Input id="inpAntenna" placeholder="Antena" class="customInput"/>
+          <Label id="lblAntenna" text="{i18n>columnAnntena}*" class="customLabel"/>
+          <Input id="inpAntenna" placeholder="{i18n>columnAnntena}" class="customInput"/>
       </VBox>
        
       <VBox id="vbxIP" class="vboxIp itemInput">
-           <Label id="lblIp" text="Dirección IP*" class="customLabel"/>
-           <Input id="inpIp" placeholder="Dirección IP" class="customInput"/>
+           <Label id="lblIp" text="{i18n>columnIp}*" class="customLabel"/>
+           <Input id="inpIp" placeholder="{i18n>columnIp}" class="customInput"/>
        </VBox>
     </VBox>
   </content>
   <beginButton>
-    <Button id="btnAcceptReader" text="Guardar" press=".onSave"  type="Accept" class="btnDialogAccept"/>
+    <Button id="btnAcceptReader" text="{i18n>save}" press=".onSave"  type="Accept" class="btnDialogAccept"/>
   </beginButton>
   <endButton>
-    <Button id="btnCloseReader" text="Cerrar" press=".onCancel" type="Reject" class="btnDialogCancel"/>
+    <Button id="btnCloseReader" text="{i18n>close}" press=".onCancel" type="Reject" class="btnDialogCancel"/>
   </endButton>
 </Dialog>

@@ -8,11 +8,22 @@ sap.ui.define([
 
     return BaseController.extend("fw.flexwarehouse.controller.Print", {
         formatDate: Utils,
-        onInit() { },
+        onInit() { this._catalogsLoaded = false; },
+
+        loadCatalogs: function () {
+            if (this._catalogsLoaded) return;
+
+            this.getProductionLines();
+            this.getProduct();
+
+            this._catalogsLoaded = true;
+        },
 
         // Abrir Modal para agregar o editar
         onOpenDialog: function (oEvent) {
             const oEditContext = oEvent?.getSource()?.getBindingContext(Constants.LABEL_PRINT_MODEL_NAME) || null;
+
+            this.loadCatalogs();
 
             // Crear fragmento si no existe
             Utils.getFragment(this, Constants.FRAGMENTS.LABEL_PRINT).then(oDialog => {
@@ -21,9 +32,117 @@ sap.ui.define([
                 this.loadToFragment(oLabelPrint);
 
                 this.byId("btnAcceptPrint").setVisible(!oEditContext);
+                this.byId("inpProduct").setEnabled(false);
 
                 oDialog.open();
             });
+        },
+
+        getProduct: function () {
+            const oModel = this.getModelPrint();
+
+            oModel.read("/ProductSet", {
+                success: (oData) => {
+
+                    const aData = this.formatProduct(oData);
+
+                    const oJsonModel = new sap.ui.model.json.JSONModel(aData);
+                    this.getView().setModel(oJsonModel, Constants.PRODUCT_MODEL_NAME);
+
+                    this.initSelectPlaceholderBehavior("selProductCode");
+                },
+                error: (oError) => { console.error("Error al cargar líneas:", oError); }
+            });
+        },
+
+        getProductionLines: function () {
+            const oModel = this.getModelPrint();
+
+            oModel.read("/ProductionLinesSet", {
+                success: (oData) => {
+
+                    const aData = this.formatProductionLines(oData);
+
+                    const oJsonModel = new sap.ui.model.json.JSONModel(aData);
+                    this.getView().setModel(oJsonModel, Constants.PRODUCTION_LINE_MODEL_NAME);
+
+                    this.initSelectPlaceholderBehavior("selProductionLines");
+                },
+                error: (oError) => { console.error("Error al cargar líneas:", oError); }
+            });
+        },
+
+        getModelPrint: function () {
+            const oView = this.getView();
+            return oView.getModel(Constants.LABEL_PRINT_MODEL_NAME);
+        },
+
+        formatProduct: function (oData) {
+            const aData = oData.results.map(item => ({
+                ...item,
+                Description: item.Matnr
+            }));
+
+
+            // 👉 placeholder real
+            aData.unshift({
+                Mandt: Constants.STRING_EMPTY,
+                Matnr: Constants.STRING_EMPTY,
+                Spras: Constants.STRING_EMPTY,
+                Maktx: Constants.STRING_EMPTY,
+                Maktg: Constants.STRING_EMPTY,
+                Description: Constants.EMPTY_ELEMENT,
+            });
+
+            return aData;
+        },
+
+        formatProductionLines: function (oData) {
+            const aData = oData.results.map(item => ({
+                ...item,
+                Description: item.Arbpl
+            }));
+
+
+            // 👉 placeholder real
+            aData.unshift({
+                Mandt: Constants.STRING_EMPTY,
+                Werks: Constants.STRING_EMPTY,
+                Arbpl: Constants.STRING_EMPTY,
+                Description: Constants.EMPTY_ELEMENT,
+            });
+
+            return aData;
+        },
+
+        initSelectPlaceholderBehavior: function (id) {
+            const oSelect = this.byId(id);
+
+            const fnUpdateStyle = () => {
+                const bEmpty = !oSelect.getSelectedKey();
+                oSelect.toggleStyleClass("placeholder", bEmpty);
+            };
+
+            // evitar múltiples attach
+            oSelect.detachChange(fnUpdateStyle);
+            oSelect.attachChange(fnUpdateStyle);
+
+            fnUpdateStyle();
+        },
+
+        onProductChange: function (oEvent) {
+            const oSelectedItem = oEvent.getSource().getSelectedItem();
+
+            if (!oSelectedItem) return;
+
+            const oContext = oSelectedItem.getBindingContext(Constants.PRODUCT_MODEL_NAME);
+            const oProduct = oContext.getObject();
+
+            // Setear descripción
+            this.getView().getModel(Constants.PRODUCT_MODEL_NAME).setProperty(
+                "/Maktx",
+                oProduct.Maktx
+            );
         },
 
         onCancel: function () { Utils.closeDialog(this, Constants.FRAGMENTS.LABEL_PRINT); },
@@ -41,8 +160,6 @@ sap.ui.define([
 
         onFilters: function () {
             const oView = this.getView();
-            const oTable = oView.byId("tblPrint");
-            const oBinding = oTable.getBinding("items");
 
             const sProduct = oView.byId("inpProductFilterPrint").getValue();
             const dStart = oView.byId("inpStartDateFilterPrint").getDateValue();
@@ -55,25 +172,27 @@ sap.ui.define([
 
             if (!Utils.validateDate(oView, dStart, dEnd)) return;
 
+            const oTable = oView.byId("tblPrint");
+            const oBinding = oTable.getBinding("items");
+
             oBinding.filter(this.loadToFilter(sProduct, dStart, dEnd));
         },
 
         onCleanFilters: function () {
-            const oView = this.getView();
-            const oTable = oView.byId("tblPrint");
-            const oBinding = oTable.getBinding("items");
-
             this.byId("inpProductFilterPrint").setValue(Constants.STRING_EMPTY);
             this.byId("inpStartDateFilterPrint").setValue(null);
             this.byId("inpfinalDateFilterPrint").setValue(null);
 
+            const oView = this.getView();
+            const oTable = oView.byId("tblPrint");
             oTable.getBinding("items").filter([]);
+
+            const oBinding = oTable.getBinding("items");
             oBinding.refresh();
         },
 
         add: function (oLabelPrint) {
-            const oView = this.getView();
-            const oModel = oView.getModel(Constants.LABEL_PRINT_MODEL_NAME);
+            const oModel = this.getModelPrint();
 
             oModel.create("/LabelPrintSet", oLabelPrint, {
                 success: () => {
@@ -106,31 +225,31 @@ sap.ui.define([
         isValid: function (oLabelPrint) {
             return !!(
                 oLabelPrint.Quantitypallets && oLabelPrint.Partnumber &&
-                oLabelPrint.Productcode && oLabelPrint.Boxesnumber &&
-                oLabelPrint.Location && oLabelPrint.Productionline &&
-                oLabelPrint.Document && oLabelPrint.Embilstado
+                oLabelPrint.Boxesnumber && oLabelPrint.Location &&
+                oLabelPrint.Document && oLabelPrint.Embilstado &&
+                oLabelPrint.Productcode && oLabelPrint.Productionline
             );
         },
 
         getFromFragment: function () {
             return {
                 Quantitypallets: String(this.byId("inpQuantityPallets").getValue(), 10) || 0,
-                Partnumber: this.byId("inpPartNumber").getValue(),
-                Productcode: this.byId("inpProductCode").getValue(),
+                Partnumber: this.byId("inpProduct").getValue(),
+                Productcode: this.byId("selProductCode").getSelectedKey(),
                 Boxesnumber: String(this.byId("inpBoxesNumber").getValue(), 10) || 0,
                 Location: this.byId("inpLocation").getValue(),
-                Productionline: this.byId("inpProductionLine").getValue(),
+                Productionline: this.byId("selProductionLines").getSelectedKey(),
                 Document: String(this.byId("inpDocument").getValue(), 10) || 0,
                 Embilstado: String(this.byId("inpEmbilstado").getValue(), 10) || 0
             };
         },
 
         loadToFragment: function (oLabelPrint) {
-            this.byId("inpProductCode").setValue(oLabelPrint.Productcode || Constants.STRING_EMPTY);
-            this.byId("inpPartNumber").setValue(oLabelPrint.Partnumber || Constants.STRING_EMPTY);
+            this.byId("selProductCode").setSelectedKey(oLabelPrint?.Productcode);
+            this.byId("inpProduct").setValue(oLabelPrint.Partnumber || Constants.STRING_EMPTY);
             this.byId("inpQuantityPallets").setValue(oLabelPrint.Quantitypallets || Constants.STRING_EMPTY);
             this.byId("inpBoxesNumber").setValue(oLabelPrint.Boxesnumber || Constants.STRING_EMPTY);
-            this.byId("inpProductionLine").setValue(oLabelPrint.Productionline || Constants.STRING_EMPTY);
+            this.byId("selProductionLines").setSelectedKey(oLabelPrint?.Productionline);
             this.byId("inpLocation").setValue(oLabelPrint.Location || Constants.STRING_EMPTY);
             this.byId("inpDocument").setValue(oLabelPrint.Document || Constants.STRING_EMPTY);
             this.byId("inpEmbilstado").setValue(oLabelPrint.Embilstado || Constants.STRING_EMPTY);

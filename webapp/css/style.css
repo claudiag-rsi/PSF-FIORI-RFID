@@ -133,3 +133,8 @@ body>div,
 .sapMIBar.sapMHeader-CTX {
     padding-left: 10px !important;
 }
+
+/* .sapMList 0*/
+.p_5rem {
+    padding: 0.5rem !important;
+}
