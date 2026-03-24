@@ -32,7 +32,6 @@ sap.ui.define([
                 this.loadToFragment(oLabelPrint);
 
                 this.byId("btnAcceptPrint").setVisible(!oEditContext);
-                this.byId("inpProduct").setEnabled(false);
 
                 oDialog.open();
             });
@@ -130,21 +129,6 @@ sap.ui.define([
             fnUpdateStyle();
         },
 
-        onProductChange: function (oEvent) {
-            const oSelectedItem = oEvent.getSource().getSelectedItem();
-
-            if (!oSelectedItem) return;
-
-            const oContext = oSelectedItem.getBindingContext(Constants.PRODUCT_MODEL_NAME);
-            const oProduct = oContext.getObject();
-
-            // Setear descripción
-            this.getView().getModel(Constants.PRODUCT_MODEL_NAME).setProperty(
-                "/Maktx",
-                oProduct.Maktx
-            );
-        },
-
         onCancel: function () { Utils.closeDialog(this, Constants.FRAGMENTS.LABEL_PRINT); },
 
         onSave: function () {
@@ -192,7 +176,8 @@ sap.ui.define([
         },
 
         add: function (oLabelPrint) {
-            const oModel = this.getModelPrint();
+            const oView = this.getView();
+            const oModel = oView.getModel(Constants.LABEL_PRINT_MODEL_NAME);
 
             oModel.create("/LabelPrintSet", oLabelPrint, {
                 success: () => {
@@ -224,7 +209,7 @@ sap.ui.define([
 
         isValid: function (oLabelPrint) {
             return !!(
-                oLabelPrint.Quantitypallets && oLabelPrint.Partnumber &&
+                oLabelPrint.Quantitypallets &&
                 oLabelPrint.Boxesnumber && oLabelPrint.Location &&
                 oLabelPrint.Document && oLabelPrint.Embilstado &&
                 oLabelPrint.Productcode && oLabelPrint.Productionline
@@ -234,7 +219,7 @@ sap.ui.define([
         getFromFragment: function () {
             return {
                 Quantitypallets: String(this.byId("inpQuantityPallets").getValue(), 10) || 0,
-                Partnumber: this.byId("inpProduct").getValue(),
+                Partnumber: "0",
                 Productcode: this.byId("selProductCode").getSelectedKey(),
                 Boxesnumber: String(this.byId("inpBoxesNumber").getValue(), 10) || 0,
                 Location: this.byId("inpLocation").getValue(),
@@ -245,14 +230,28 @@ sap.ui.define([
         },
 
         loadToFragment: function (oLabelPrint) {
-            this.byId("selProductCode").setSelectedKey(oLabelPrint?.Productcode);
-            this.byId("inpProduct").setValue(oLabelPrint.Partnumber || Constants.STRING_EMPTY);
+            this.byId("selProductCode").setSelectedKey(oLabelPrint?.Productcode || Constants.STRING_EMPTY);
             this.byId("inpQuantityPallets").setValue(oLabelPrint.Quantitypallets || Constants.STRING_EMPTY);
             this.byId("inpBoxesNumber").setValue(oLabelPrint.Boxesnumber || Constants.STRING_EMPTY);
             this.byId("selProductionLines").setSelectedKey(oLabelPrint?.Productionline);
             this.byId("inpLocation").setValue(oLabelPrint.Location || Constants.STRING_EMPTY);
             this.byId("inpDocument").setValue(oLabelPrint.Document || Constants.STRING_EMPTY);
             this.byId("inpEmbilstado").setValue(oLabelPrint.Embilstado || Constants.STRING_EMPTY);
+        },
+
+        getProductByCode: function (sCode) {
+            if (!sCode) return Constants.STRING_EMPTY;
+
+            const oModel = this.getView().getModel(Constants.PRODUCT_MODEL_NAME);
+
+            if (!oModel) return Constants.STRING_EMPTY;
+
+            const oData = oModel.getData();
+            const aProducts = oData.results || oData;
+
+            const oProduct = aProducts.find(p => p.Matnr === sCode);
+
+            return oProduct?.Maktx || Constants.STRING_EMPTY;
         },
 
         loadToFilter: function (sProduct, dStart, dEnd) {

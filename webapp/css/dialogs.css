@@ -6,7 +6,7 @@
     --inputBackgroundColor: #ABB0B314;
     --borderInputColor: #ABB0B3;
     --textBtnCancelColor: #000;
-    --alert-color: #aa0808;
+    --alertColor: #aa0808;
 }
 
 /* Dialog general - Modal */
@@ -51,6 +51,14 @@
     background: var(--inputBackgroundColor) 0% 0% no-repeat padding-box !important;
     border: 1px solid #ABB0B3 !important;
     outline: none !important;
+}
+
+.customText-noDrop {
+    padding-left: 12px;
+    color: #566c82 !important;
+    line-height: 30px;
+    cursor: no-drop;
+    height: max-content !important;
 }
 
 .sapMInputBaseContentWrapper {
@@ -128,7 +136,7 @@ span.sapMBtnInner.sapMBtnReject {
 }
 
 .sapMDialog>header .sapMDialogTitleGroup .sapMTitle {
-    color: var(--alert-color) !important;
+    color: var(--alertColor) !important;
 }
 
 .itemInput {
@@ -140,6 +148,7 @@ span.sapMBtnInner.sapMBtnReject {
     gap: 10px !important;
     align-items: flex-start !important;
 }
+
 /* gris cuando es placeholder */
 .customSelect.placeholder .sapMSltLabel {
     color: #556b82;

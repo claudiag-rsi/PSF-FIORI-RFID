@@ -4,7 +4,7 @@
     title="{i18n>modalNamePrint}"
     id="PrintDialog"
     stretchOnPhone="true"
-    class="customDialog"
+    class="customDialog customFont"
 >
     <content>
         <VBox id="vBoxMainPrint"
@@ -14,11 +14,11 @@
              <VBox id="vBoxProductCode">
                 <Label id="lblProductCode"
                     text="{i18n>columnProductCode}*"
-                    class="customLabel"
+                    class="customLabel customFont"
                 />
               <Select id="selProductCode"
-                  class="customInput customSelect"
-                  selectedKey=""
+                  class="customInput customSelect customFont"
+                  selectedKey="{ProductModel>/Productcode}"
                   change="onProductChange"
                   items="{ path: 'ProductModel>/' }">
 
@@ -29,16 +29,15 @@
             </VBox>    
    
             <VBox id="vBoxProduct">
-                <Label
-                    id="lblProduct"
+                <Label id="lblProduct"
                     text="{i18n>columnProduct}*"
-                    class="customLabel"
+                    class="customLabel customFont"
                 />
-                <Input
-                    id="inpProduct"
-                    placeholder="{i18n>columnProduct}"
-                     value="{ProductModel>/Maktx}"
-                    class="customInput"
+                <Text id="inpProduct"
+                     text="{= ${ProductModel>/Productcode} 
+                            ? ${path: 'ProductModel>/Productcode', formatter: '.getProductByCode'} 
+                            : ${i18n>columnProduct} }" 
+                    class="customInput customText-noDrop customFont"
                 />
             </VBox>     
 
@@ -46,12 +45,12 @@
                 <Label
                     id="lblQuantityPallets"
                     text="{i18n>columnQuantityPallets}*"
-                    class="customLabel"
+                    class="customLabel customFont"
                 />
                 <Input
                     id="inpQuantityPallets"
                     placeholder="{i18n>columnQuantityPallets}"
-                    class="customInput"
+                    class="customInput customFont"
                 />
             </VBox>
 
@@ -59,33 +58,33 @@
                 <Label
                     id="lblBoxesNumber"
                     text="{i18n>columnNumberBoxes}*"
-                    class="customLabel"
+                    class="customLabel customFont"
                 />
                 <Input
                     id="inpBoxesNumber"
                     placeholder="{i18n>columnNumberBoxes}"
-                    class="customInput"
+                    class="customInput customFont"
                 />
             </VBox>
 
             <VBox id="vBoxLocation">
                 <Label id="lblLocation"
                     text="{i18n>columnLocation}*"
-                    class="customLabel"
+                    class="customLabel customFont"
                 />
                 <Input id="inpLocation"
                     placeholder="{i18n>columnLocation}"
-                    class="customInput"
+                    class="customInput customFont"
                 />
             </VBox>
 
             <VBox id="vBoxProductionLines">
                 <Label id="lblProductionLine"
                     text="{i18n>columnProductionLine}*"
-                    class="customLabel"
+                    class="customLabel customFont"
                 />
               <Select id="selProductionLines"
-                  class="customInput customSelect"
+                  class="customInput customSelect customFont"
                   selectedKey=""
                   items="{ path: 'ProductionLineModel>/' }">
 
@@ -98,22 +97,22 @@
             <VBox id="vBoxDocument">
                 <Label id="lblDocument"
                     text="{i18n>columnDocument}*"
-                    class="customLabel"
+                    class="customLabel customFont"
                 />
                 <Input id="inpDocument"
                     placeholder="{i18n>columnDocument}"
-                    class="customInput"
+                    class="customInput customFont"
                 />
             </VBox>
 
             <VBox id="vBoxEmbilstado">
                 <Label id="lblEmbilstado"
                     text="Embilstado*"
-                    class="customLabel"
+                    class="customLabel customFont"
                 />
                 <Input id="inpEmbilstado"
                     placeholder="Embilstado"
-                    class="customInput"
+                    class="customInput customFont"
                 />
             </VBox>
         </VBox>

@@ -3,6 +3,7 @@
     --btnAcceptColor: #03695c;
     --btnCancelColor: #D4DADD29;
     --textBtnColor: #fff;
+    --fontFamilyPrimary: "Roboto", Arial, sans-serif;
 }
 
 /* Enter your custom styles here */
@@ -137,4 +138,10 @@ body>div,
 /* .sapMList 0*/
 .p_5rem {
     padding: 0.5rem !important;
+}
+
+.customFont,
+.sapMInputBaseInner {
+    font-family: var(--fontFamilyPrimary) !important;
+    font-size: .875rem !important;
 }

@@ -40,8 +40,7 @@
               <columns>
                <!-- <Column id="colPrintLabelPrintId"><Text id="txtPrintLabelPrintId" text="Id"/></Column> -->
                  <Column id="colPrintLabelPrintDocDate"><Text id="txtPrintLabelPrintDocDate" text="{i18n>columnDateDocument}"/></Column>
-                <Column id="colPrintProductCode"><Text id="txtPrintProductCode" text="{i18n>columnProductCode}"/></Column>
-                <Column id="colPrintPartNumber"><Text id="txtPrintPartNumber" text="{i18n>columnPartNumber}"/></Column>
+                <Column id="colPrintProductCode"><Text id="txtPrintProductCode" text="{i18n>columnProductCode}"/></Column>               
                 <Column id="colPrintQuantityPallets"><Text id="txtPrintQuantityPallets" text="{i18n>columnQuantityPallets}"/></Column>
                 <Column id="colPrintLocation"><Text id="txtPrintLocation" text="{i18n>columnLocation}"/></Column>
                 <Column id="colPrintProductionLine"><Text id="txtPrintProductionLine" text="{i18n>columnProductionLine}"/></Column>
@@ -51,16 +50,14 @@
 
                <items>
                 <ColumnListItem id="colListItemPrint">
-                    <cells>
-                     <!-- <Text id="txtPrintValueLabelPrintId" text="{LabelPrintModel>Labelprintid}"/> -->
+                    <cells>                 
                         <Text id="txtPrintValueDocDate" text="{ path: 'LabelPrintModel>Docdate', formatter: '.formatDate.formatDate' }"/>
-                        <Text id="txtPrintValueProductcode" text="{LabelPrintModel>Productcode}"/>
-                         <Text id="txtPrintValuePartNumber" text="{LabelPrintModel>Partnumber}"/>
+                        <Text id="txtPrintValueProductcode" text="{LabelPrintModel>Productcode}"/>                         
                         <Text id="txtPrintValueQuantityPallets" text="{LabelPrintModel>Quantitypallets}"/>
                         <Text id="txtPrintValueLocation" text="{LabelPrintModel>Location}"/>
                         <Text id="txtPrintValueProductionLine" text="{LabelPrintModel>Productionline}"/>                          
                         <Text id="txtPrintValueDocument" text="{LabelPrintModel>Document}"/>
-                        <Button id="btnEditPrint2" icon="sap-icon://show" press="onOpenDialog" type="Accept"/>                    
+                        <Button id="btnEditPrint" icon="sap-icon://show" press="onOpenDialog" type="Accept"/>                    
                     </cells>
                 </ColumnListItem>
                  </items>
