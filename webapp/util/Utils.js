@@ -35,6 +35,7 @@ sap.ui.define([
                 oDialog.close();
             });
         },
+
         toABAPDate(date) {
             if (date instanceof Date) {
                 var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
@@ -44,6 +45,7 @@ sap.ui.define([
                 return oDateFormat.format(date);
             }
         },
+
         formatDate: function (date) {
 
             if (!date) return Constants.STRING_EMPTY;
@@ -53,6 +55,7 @@ sap.ui.define([
             // Format dd-MM-yyyy
             return [parts[2], parts[1], parts[0]].join(Constants.DATE_SEPARATOR);
         },
+
         formatDateToString: function (date) {
 
             if (!date) return Constants.STRING_EMPTY;
@@ -65,6 +68,7 @@ sap.ui.define([
             return oDateFormat.format(new Date(date));
 
         },
+        
         validateDate: function (oView, dStart, dEnd) {
             if (!dStart && !dEnd) { return true; }
 
@@ -86,6 +90,71 @@ sap.ui.define([
             }
 
             return true;
+        },
+
+        setJsonModel: function (oView, sName, aData, iSize = 1000) {
+            const oModel = new sap.ui.model.json.JSONModel(aData);
+            oModel.setSizeLimit(iSize);
+           oView.setModel(oModel, sName);
+        },
+
+        initSelect: function (oSelect) {
+
+            const fnUpdateStyle = () => {
+                const bEmpty = !oSelect.getSelectedKey();
+                oSelect.toggleStyleClass("placeholder", bEmpty);
+            };
+
+            // evitar múltiples attach
+            oSelect.detachChange(fnUpdateStyle);
+            oSelect.attachChange(fnUpdateStyle);
+
+            fnUpdateStyle();
+        },
+
+        setProductPlaceholder: function (oView) {
+            const sText = oView
+                .getModel("i18n")
+                .getResourceBundle()
+                .getText("columnProduct");
+
+            oView.byId("txtProduct").setText(sText);
+        },
+
+        formatProduct: function (oData) {
+            const aData = oData.results.map(item => ({
+                ...item,
+                Description: item.Matnr
+            }));
+
+            // 👉 placeholder real
+            aData.unshift({
+                Mandt: Constants.STRING_EMPTY,
+                Matnr: Constants.STRING_EMPTY,
+                Spras: Constants.STRING_EMPTY,
+                Maktx: Constants.STRING_EMPTY,
+                Maktg: Constants.STRING_EMPTY,
+                Description: Constants.EMPTY_ELEMENT,
+            });
+
+            return aData;
+        },
+
+        formatProductionLines: function (oData) {
+            const aData = oData.results.map(item => ({
+                ...item,
+                Description: item.Arbpl
+            }));
+
+            // 👉 placeholder real
+            aData.unshift({
+                Mandt: Constants.STRING_EMPTY,
+                Werks: Constants.STRING_EMPTY,
+                Arbpl: Constants.STRING_EMPTY,
+                Description: Constants.EMPTY_ELEMENT,
+            });
+
+            return aData;
         },
     }
 });

@@ -59,6 +59,8 @@
     line-height: 30px;
     cursor: no-drop;
     height: max-content !important;
+    max-height: max-content !important;
+    min-height: 30px !important;
 }
 
 .sapMInputBaseContentWrapper {

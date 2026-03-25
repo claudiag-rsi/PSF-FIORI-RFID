@@ -44,7 +44,7 @@
                 <Column id="colPrintQuantityPallets"><Text id="txtPrintQuantityPallets" text="{i18n>columnQuantityPallets}"/></Column>
                 <Column id="colPrintLocation"><Text id="txtPrintLocation" text="{i18n>columnLocation}"/></Column>
                 <Column id="colPrintProductionLine"><Text id="txtPrintProductionLine" text="{i18n>columnProductionLine}"/></Column>
-                <Column id="colPrintDocument"><Text id="txtPrintDocument" text="{i18n>columnDocument}"/></Column>
+                <!-- <Column id="colPrintDocument"><Text id="txtPrintDocument" text="{i18n>columnDocument}"/></Column> -->
                 <Column id="colEditPrint"><Text id="txtPrintEdit" text="Detalle"/></Column>
             </columns> 
 
@@ -56,7 +56,7 @@
                         <Text id="txtPrintValueQuantityPallets" text="{LabelPrintModel>Quantitypallets}"/>
                         <Text id="txtPrintValueLocation" text="{LabelPrintModel>Location}"/>
                         <Text id="txtPrintValueProductionLine" text="{LabelPrintModel>Productionline}"/>                          
-                        <Text id="txtPrintValueDocument" text="{LabelPrintModel>Document}"/>
+                        <!-- <Text id="txtPrintValueDocument" text="{LabelPrintModel>Document}"/> -->
                         <Button id="btnEditPrint" icon="sap-icon://show" press="onOpenDialog" type="Accept"/>                    
                     </cells>
                 </ColumnListItem>
