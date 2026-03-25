@@ -1,14 +1,3 @@
-:root {
-    --dialogBtnHeigt: 35px;
-    --dialogBtnRadius: 6px;
-    --btnCancelColor: #D4DADD29;
-    --labelInputColor: #333333;
-    --inputBackgroundColor: #ABB0B314;
-    --borderInputColor: #ABB0B3;
-    --textBtnCancelColor: #000;
-    --alertColor: #aa0808;
-}
-
 /* Dialog general - Modal */
 .customDialog .sapMDialogContent,
 .sapMDialog {

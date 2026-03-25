@@ -18,5 +18,6 @@ sap.ui.define([], function () {
         FORMAT_DATE: "dd-MM-yyyy",
         EMPTY_ELEMENT : "Seleccione un elemento",
         REQUIRED_FIELDS_MESSAGE : "Los campos marcados con (*) son obligatorios.",
+        INVALID_FIELD_TYPES_MESSAGE : "Hay campos inválidos. Verifica que los valores numéricos sean correctos.",
     };
 });

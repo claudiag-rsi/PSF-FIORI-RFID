@@ -1,0 +1,13 @@
+:root {
+    --dialogBtnHeigt: 35px;
+    --dialogBtnRadius: 6px;
+    --labelInputColor: #333333;
+    --inputBackgroundColor: #ABB0B314;
+    --borderInputColor: #ABB0B3;
+    --textBtnCancelColor: #000;
+    --alertColor: #aa0808;
+    --btnAcceptColor: #03695c;
+    --btnCancelColor: #D4DADD29;
+    --textBtnColor: #fff;
+    --fontFamilyPrimary: "Roboto", Arial, sans-serif;
+}

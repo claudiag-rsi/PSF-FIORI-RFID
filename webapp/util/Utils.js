@@ -68,7 +68,7 @@ sap.ui.define([
             return oDateFormat.format(new Date(date));
 
         },
-        
+
         validateDate: function (oView, dStart, dEnd) {
             if (!dStart && !dEnd) { return true; }
 
@@ -95,11 +95,10 @@ sap.ui.define([
         setJsonModel: function (oView, sName, aData, iSize = 1000) {
             const oModel = new sap.ui.model.json.JSONModel(aData);
             oModel.setSizeLimit(iSize);
-           oView.setModel(oModel, sName);
+            oView.setModel(oModel, sName);
         },
 
         initSelect: function (oSelect) {
-
             const fnUpdateStyle = () => {
                 const bEmpty = !oSelect.getSelectedKey();
                 oSelect.toggleStyleClass("placeholder", bEmpty);
@@ -156,5 +155,13 @@ sap.ui.define([
 
             return aData;
         },
+
+        isNumber: function (field) {
+            const quantity = Number(field);
+
+            return !!(
+                !isNaN(quantity)
+            );
+        }
     }
 });

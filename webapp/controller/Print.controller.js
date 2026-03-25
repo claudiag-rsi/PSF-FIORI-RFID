@@ -10,24 +10,24 @@ sap.ui.define([
 
     return BaseController.extend("fw.flexwarehouse.controller.Print", {
         formatDate: Utils,
-        onInit() { this._catalogsLoaded = false; },       
-      
-        onOpenDialog: function (oEvent) {
+        onInit() { this._catalogsLoaded = false; },
+
+        onOpenDialog: async function (oEvent) {
             const oEditContext = oEvent?.getSource()?.getBindingContext(Constants.LABEL_PRINT_MODEL_NAME) || null;
             this._oDetailContext = oEditContext;
 
-            this._loadCatalogs();
+            await this._loadCatalogs();
 
-            // Crear fragmento si no existe
-            Utils.getFragment(this, Constants.FRAGMENTS.LABEL_PRINT).then(oDialog => {
+            const oDialog = await Utils.getFragment(this, Constants.FRAGMENTS.LABEL_PRINT);
 
-                const oLabelPrint = oEditContext?.getObject() || {};
+            const oLabelPrint = oEditContext?.getObject() || {};
 
-                this._loadToFragment(oLabelPrint);
-                this._setModeUI(!oEditContext);
+            this._loadToFragment(oLabelPrint);
+            this._setModeUI(!oEditContext);
 
-                oDialog.open();
-            });
+            oDialog.open();
+
+            PrintUtils._initSelects(this.getView());
         },
 
         onCancel: function () { Utils.closeDialog(this, Constants.FRAGMENTS.LABEL_PRINT); },
@@ -37,6 +37,11 @@ sap.ui.define([
 
             if (!PrintUtils._isValid(oLabelPrint)) {
                 ToastHelper.warning(this.getView(), Constants.REQUIRED_FIELDS_MESSAGE, 1000);
+                return;
+            }
+
+            if (!Utils.isNumber(oLabelPrint.Quantitypallets) || !Utils.isNumber(oLabelPrint.Boxesnumber)) {
+                ToastHelper.warning(this.getView(), Constants.INVALID_FIELD_TYPES_MESSAGE, 1000);
                 return;
             }
 
@@ -95,11 +100,13 @@ sap.ui.define([
             this.byId("txtProduct").setText(oProduct?.Maktx || Constants.STRING_EMPTY);
         },
 
-        _loadCatalogs: function () {
+        _loadCatalogs: async function () {
             if (this._catalogsLoaded) return;
 
-            this._loadProductionLines();
-            this._loadProducts();
+            await Promise.all([
+                this._loadProductionLines(),
+                this._loadProducts()
+            ]);
 
             this._catalogsLoaded = true;
         },
@@ -178,10 +185,14 @@ sap.ui.define([
 
         _setModeUI: function (bIsAdd) {
             this.byId("btnAcceptPrint").setVisible(bIsAdd);
+            this.byId("selProductCode").setEnabled(bIsAdd);
+            this.byId("inpQuantityPallets").setEnabled(bIsAdd);
+            this.byId("inpBoxesNumber").setEnabled(bIsAdd);
+            this.byId("inpLocation").setEnabled(bIsAdd);
+            this.byId("selProductionLines").setEnabled(bIsAdd);
 
-            if (bIsAdd) {
+            if (bIsAdd)
                 Utils.setProductPlaceholder(this.getView());
-            }
         },
 
         _loadProducts: async function () {
@@ -190,7 +201,6 @@ sap.ui.define([
             const aData = Utils.formatProduct(oData);
 
             Utils.setJsonModel(this.getView(), Constants.PRODUCT_MODEL_NAME, aData);
-            Utils.initSelect(this.byId("selProductCode"));
         },
 
         _loadProductionLines: async function () {
@@ -199,7 +209,6 @@ sap.ui.define([
             const aData = Utils.formatProductionLines(oData);
 
             Utils.setJsonModel(this.getView(), Constants.PRODUCTION_LINE_MODEL_NAME, aData);
-            Utils.initSelect(this.byId("selProductionLines"));
         },
 
         _getModelPrint: function () {
