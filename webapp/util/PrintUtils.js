@@ -1,6 +1,7 @@
 sap.ui.define([
     "fw/flexwarehouse/util/Constants",
-], function (Constants) {
+    "fw/flexwarehouse/util/Utils",
+], function (Constants, Utils) {
     "use strict";
 
     return {
@@ -18,8 +19,8 @@ sap.ui.define([
         },
 
         _initSelects: function (oView) {
-            Utils.initSelect(oView.byId("selProductCode"));
-            Utils.initSelect(oView.byId("selProductionLines"));
-        },
+            Utils.initSelect(oView.byId(Constants.PRINTING_COMPONENTS.PRODUCT_CODE));
+            Utils.initSelect(oView.byId(Constants.PRINTING_COMPONENTS.PRODUCTION_LINE));
+        }
     };
 });

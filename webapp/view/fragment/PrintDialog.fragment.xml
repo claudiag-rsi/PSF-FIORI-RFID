@@ -16,16 +16,18 @@
                     text="{i18n>columnProductCode}*"
                     class="customLabel customFont"
                 />
-              <Select id="selProductCode"
-                  class="customInput customSelect customFont"
-                  selectedKey="{ProductModel>/Productcode}"
-                  change="onProductChange"
-                  items="{ path: 'ProductModel>/' }">
+                <ComboBox id="cbxProductCode"
+                          class="customInput customSelect customFont"
+                          selectedKey="{ProductModel>/Productcode}"
+                          change="onProductChange"
+                          showSecondaryValues="true"
+                          filterSecondaryValues="true"
+                          items="{ path: 'ProductModel>/' }">
 
-                  <core:Item id="coiProductCode"
-                      key="{ProductModel>Matnr}"
-                      text="{ProductModel>Description}" />
-              </Select>
+                          <core:ListItem id="colProductCode" 
+                                     key="{ProductModel>Matnr}"
+                                     text="{ProductModel>Description}" />
+                </ComboBox>
             </VBox>    
    
             <VBox id="vBoxProduct">
@@ -81,15 +83,17 @@
                     text="{i18n>columnProductionLine}*"
                     class="customLabel customFont"
                 />
-              <Select id="selProductionLines"
-                  class="customInput customSelect customFont"
-                  selectedKey=""
-                  items="{ path: 'ProductionLineModel>/' }">
+                <ComboBox id="cbxProductionLines"
+                        class="customInput customSelect customFont"
+                        selectedKey="{ProductionLineModel>/selectedKey}"
+                        showSecondaryValues="true"
+                        filterSecondaryValues="true"
+                        items="{ path: 'ProductionLineModel>/' }">
 
-                  <core:Item id="coiProductionLines"
-                      key="{ProductionLineModel>Arbpl}"
-                      text="{ProductionLineModel>Description}" />
-              </Select>
+                        <core:ListItem  id="colProductionLines"
+                            key="{ProductionLineModel>Arbpl}"
+                            text="{ProductionLineModel>Description}"/>
+                </ComboBox>
             </VBox>
 
             <!-- <VBox id="vBoxDocument">

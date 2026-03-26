@@ -2,8 +2,9 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "fw/flexwarehouse/util/ToastHelper",
     "fw/flexwarehouse/util/Constants",
-    "fw/flexwarehouse/util/Utils"
-], (Controller, ToastHelper, Constants, Utils) => {
+    "fw/flexwarehouse/util/Utils",
+    "fw/flexwarehouse/util/DialogManager"
+], (Controller, ToastHelper, Constants, Utils, DialogManager) => {
     "use strict";
 
     return Controller.extend("fw.flexwarehouse.controller.Transactions", {
@@ -62,18 +63,6 @@ sap.ui.define([
             return aFilters;
         },
 
-        onExit: function () {
-            if (!this._mDialogs) return;
-
-            Object.values(this._mDialogs).forEach(pDialog => {
-                pDialog.then(oDialog => {
-                    if (oDialog && !oDialog.bIsDestroyed) {
-                        oDialog.destroy();
-                    }
-                });
-            });
-
-            this._mDialogs = null;
-        }
+        onExit: function () { DialogManager.destroyDialogs(this, "_mDialogs"); }
     });
 });

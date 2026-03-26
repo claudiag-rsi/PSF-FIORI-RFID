@@ -52,8 +52,9 @@ textarea:focus,
     color: black !important;
 }
 
-.sapMList {
-    padding: 2rem !important;
+.sapUiSizeCompact .sapMInputBase:not(.sapMInputBaseReadonly) .sapMInputBaseIconContainer .sapMInputBaseIcon {
+    height: 28px !important;
+    line-height: 28px !important;
 }
 
 html.sap-desktop:not(.sapUiNativeScrollbars) {
@@ -69,4 +70,8 @@ html.sap-desktop:not(.sapUiNativeScrollbars) {
 .sapMDialogBeginButton,
 .sapMDialogEndButton {
     min-width: 6rem !important;
+}
+
+input:disabled {
+    color: #566c82 !important;
 }

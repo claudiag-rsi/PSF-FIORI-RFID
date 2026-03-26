@@ -111,15 +111,6 @@ sap.ui.define([
             fnUpdateStyle();
         },
 
-        setProductPlaceholder: function (oView) {
-            const sText = oView
-                .getModel("i18n")
-                .getResourceBundle()
-                .getText("columnProduct");
-
-            oView.byId("txtProduct").setText(sText);
-        },
-
         formatProduct: function (oData) {
             const aData = oData.results.map(item => ({
                 ...item,
@@ -162,6 +153,33 @@ sap.ui.define([
             return !!(
                 !isNaN(quantity)
             );
+        },
+
+        setDefaultValues: function (oCombo) {
+            oCombo.setSelectedKey("");
+            oCombo.setValue("Seleccione un elemento");
+        },
+
+        setProductPlaceholder: function (oView) {
+            const sText = oView
+                .getModel("i18n")
+                .getResourceBundle()
+                .getText("columnProduct");
+
+            oView.byId(Constants.PRINTING_COMPONENTS.PRODUCT).setText(sText);
+        },
+
+        getErrorMessage: function (oError, sMessageDefault) {
+            let sMessage = oError?.message || sMessageDefault;
+
+            try {
+                const oResponse = JSON.parse(oError.responseText);
+                sMessage = oResponse?.error?.message?.value || sMessage;
+            } catch (e) {
+                console.error("Error parseando mensaje del backend.", e);
+            }
+
+            return sMessage;
         }
     }
 });

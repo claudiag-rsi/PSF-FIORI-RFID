@@ -137,3 +137,7 @@ body>div,
     font-family: var(--fontFamilyPrimary) !important;
     font-size: .875rem !important;
 }
+
+.p_2rem {
+    padding: 2rem !important
+}

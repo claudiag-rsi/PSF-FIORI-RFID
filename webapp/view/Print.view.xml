@@ -4,51 +4,54 @@
     displayBlock="true">
     
     <Page id="pagPrint" class="titlePage" title="{i18n>viewNamePrint}">
- <VBox id="vbxHeadersPrint" class="header">            
-                <VBox id="tlbHeaderPrint" class="headerTitle">
-                   <Label id="lblTitlePrint" class="title" text="{i18n>titlePrint}"></Label>
-                  </VBox>
-                <VBox id="vbxbotonAdd" class="headerbuttons">
-                    <Button id="btnAddPrint" text="{i18n>newPrinting}" class="btnAccept" icon="sap-icon://add" press="onOpenDialog"/>
-                </VBox>
-            </VBox>    
- <VBox id="vbxFiltersPrint" class="filters">
-        <VBox id="vbxProductFilterPrint" class="equalWidth pdRight-10">
-            <Label id="lblProductFilterPrint" text="{i18n>firstFilterParameter}" class="customLabel"/>
-            <Input id="inpProductFilterPrint" placeholder="{i18n>firstFilterParameter}" class="customInput"/>
-        </VBox>
-          <VBox id="vbxStartdateFilterPrint" class="equalWidth pdRight-10">
-            <Label id="lblStartdateFilterPrint" text="{i18n>secondFilterParameter}" class="customLabel"/>
-            <DatePicker displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy" id="inpStartDateFilterPrint" placeholder="{i18n>secondFilterParameter}" class="customInput"/>
-        </VBox>
-         <VBox id="vbxfinalDateFilter" class="equalWidth pdRight-10">
-            <Label id="lblfinalDateFilter" text="{i18n>thirdFilterParameter}" class="customLabel"/>
-            <DatePicker displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy" id="inpfinalDateFilterPrint" placeholder="{i18n>thirdFilterParameter}" class="customInput"/>
-        </VBox>
-           <VBox id="vbxbuttonsFiltersPrint" class="equalWidth buttonsfilterPrint">
-            <VBox id="vbxbuttonFilterPrint" class="btnCenterFilters">
-                <Button id="btnFilterPrint" icon="sap-icon://filter" text="{i18n>btnFilter}" class="btnAccept " press="onFilters"/>
+        <VBox id="vbxHeadersPrint" class="header">            
+            <VBox id="tlbHeaderPrint" class="headerTitle">
+                <Label id="lblTitlePrint" class="title" text="{i18n>titlePrint}"></Label>
             </VBox>
-             <VBox id="vbxbuttonCleanPrint" class="btnCenterFilters">
-                <Button id="btnCleanPrint" icon="sap-icon://clear-filter" text="{i18n>btnCleanFilters}" class="btnAccept "  press="onCleanFilters"/>
-            </VBox>
-        </VBox>
-    </VBox>
 
-        <!-- Tabla con Toolbar para el botón -->
-        <Table id="tblPrint" items="{LabelPrintModel>/LabelPrintSet}">
-              <columns>
-               <!-- <Column id="colPrintLabelPrintId"><Text id="txtPrintLabelPrintId" text="Id"/></Column> -->
-                 <Column id="colPrintLabelPrintDocDate"><Text id="txtPrintLabelPrintDocDate" text="{i18n>columnDateDocument}"/></Column>
+            <VBox id="vbxbotonAdd" class="headerbuttons">
+                <Button id="btnAddPrint" text="{i18n>newPrinting}" class="btnAccept" icon="sap-icon://add" press="onOpenDialog"/>
+            </VBox>
+        </VBox>    
+      
+        <VBox id="vbxFiltersPrint" class="filters">
+            <VBox id="vbxProductFilterPrint" class="equalWidth pdRight-10">
+                <Label id="lblProductFilterPrint" text="{i18n>firstFilterParameter}" class="customLabel"/>
+                <Input id="inpProductFilterPrint" placeholder="{i18n>firstFilterParameter}" class="customInput"/>
+            </VBox>
+            
+            <VBox id="vbxStartdateFilterPrint" class="equalWidth pdRight-10">
+                <Label id="lblStartdateFilterPrint" text="{i18n>secondFilterParameter}" class="customLabel"/>
+                <DatePicker displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy" id="inpStartDateFilterPrint" placeholder="{i18n>secondFilterParameter}" class="customInput"/>
+            </VBox>
+
+            <VBox id="vbxfinalDateFilter" class="equalWidth pdRight-10">
+                <Label id="lblfinalDateFilter" text="{i18n>thirdFilterParameter}" class="customLabel"/>
+                <DatePicker displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy" id="inpfinalDateFilterPrint" placeholder="{i18n>thirdFilterParameter}" class="customInput"/>
+            </VBox>
+            
+            <VBox id="vbxbuttonsFiltersPrint" class="equalWidth buttonsfilterPrint">
+                <VBox id="vbxbuttonFilterPrint" class="btnCenterFilters">
+                    <Button id="btnFilterPrint" icon="sap-icon://filter" text="{i18n>btnFilter}" class="btnAccept " press="onFilters"/>
+                </VBox>
+              
+                <VBox id="vbxbuttonCleanPrint" class="btnCenterFilters">
+                    <Button id="btnCleanPrint" icon="sap-icon://clear-filter" text="{i18n>btnCleanFilters}" class="btnAccept "  press="onCleanFilters"/>
+                </VBox>
+            </VBox>
+        </VBox>
+
+        <Table class="p_2rem" id="tblPrint" items="{LabelPrintModel>/LabelPrintSet}">
+            <columns>
+                <Column id="colPrintLabelPrintDocDate"><Text id="txtPrintLabelPrintDocDate" text="{i18n>columnDateDocument}"/></Column>
                 <Column id="colPrintProductCode"><Text id="txtPrintProductCode" text="{i18n>columnProductCode}"/></Column>               
                 <Column id="colPrintQuantityPallets"><Text id="txtPrintQuantityPallets" text="{i18n>columnQuantityPallets}"/></Column>
                 <Column id="colPrintLocation"><Text id="txtPrintLocation" text="{i18n>columnLocation}"/></Column>
                 <Column id="colPrintProductionLine"><Text id="txtPrintProductionLine" text="{i18n>columnProductionLine}"/></Column>
-                <!-- <Column id="colPrintDocument"><Text id="txtPrintDocument" text="{i18n>columnDocument}"/></Column> -->
                 <Column id="colEditPrint"><Text id="txtPrintEdit" text="Detalle"/></Column>
             </columns> 
 
-               <items>
+            <items>
                 <ColumnListItem id="colListItemPrint">
                     <cells>                 
                         <Text id="txtPrintValueDocDate" text="{ path: 'LabelPrintModel>Docdate', formatter: '.formatDate.formatDate' }"/>
@@ -56,11 +59,10 @@
                         <Text id="txtPrintValueQuantityPallets" text="{LabelPrintModel>Quantitypallets}"/>
                         <Text id="txtPrintValueLocation" text="{LabelPrintModel>Location}"/>
                         <Text id="txtPrintValueProductionLine" text="{LabelPrintModel>Productionline}"/>                          
-                        <!-- <Text id="txtPrintValueDocument" text="{LabelPrintModel>Document}"/> -->
                         <Button id="btnEditPrint" icon="sap-icon://show" press="onOpenDialog" type="Accept"/>                    
                     </cells>
                 </ColumnListItem>
-                 </items>
+            </items>
         </Table>
     </Page>
 </mvc:View>
