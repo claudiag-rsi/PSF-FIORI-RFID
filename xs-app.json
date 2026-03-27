@@ -1,16 +1,31 @@
 {
-  "welcomeFile": "index.html",
+  "welcomeFile": "/index.html",
   "authenticationMethod": "route",
   "routes": [
     {
-      "source": "^/sap/(.*)$",
-      "target": "/$1",
+      "source": "^<apply-service-segment-path>/(.*)$",
+      "target": "<apply-service-segment-path>/$1",
       "destination": "s4hanadev",
-      "authenticationType": "xsuaa"
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/resources/(.*)$",
+      "target": "/resources/$1",
+      "authenticationType": "none",
+      "destination": "ui5"
+    },
+    {
+      "source": "^/test-resources/(.*)$",
+      "target": "/test-resources/$1",
+      "authenticationType": "none",
+      "destination": "ui5"
     },
     {
       "source": "^(.*)$",
-      "localDir": "webapp"
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
     }
   ]
 }
