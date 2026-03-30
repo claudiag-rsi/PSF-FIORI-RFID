@@ -2,9 +2,9 @@
   "welcomeFile": "/index.html",
   "authenticationMethod": "route",
   "routes": [
-    {
-      "source": "^<apply-service-segment-path>/(.*)$",
-      "target": "<apply-service-segment-path>/$1",
+     {
+      "source": "^/sap/(.*)$",
+      "target": "/sap/$1",
       "destination": "s4hanadev",
       "authenticationType": "xsuaa",
       "csrfProtection": false

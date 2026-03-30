@@ -130,13 +130,12 @@ sap.ui.define([
             return aData;
         },
 
-        formatProductionLines: function (oData) {
+        formatTableProductionLine: function (oData, field) {
             const aData = oData.results.map(item => ({
                 ...item,
-                Description: item.Arbpl
+                Description: item[field] || Constants.STRING_EMPTY
             }));
 
-            // 👉 placeholder real
             aData.unshift({
                 Mandt: Constants.STRING_EMPTY,
                 Werks: Constants.STRING_EMPTY,

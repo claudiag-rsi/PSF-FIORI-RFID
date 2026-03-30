@@ -21,6 +21,16 @@ sap.ui.define([
         _initSelects: function (oView) {
             Utils.initSelect(oView.byId(Constants.PRINTING_COMPONENTS.PRODUCT_CODE));
             Utils.initSelect(oView.byId(Constants.PRINTING_COMPONENTS.PRODUCTION_LINE));
-        }
+        },
+
+        _updateProductionLineSelection: function (aData, selectedWerks, oView) {
+            const combo = oView.byId(Constants.PRINTING_COMPONENTS.PRODUCTION_LINE);
+
+            if (!combo) return;
+
+            Utils.setDefaultValues(combo);
+        },
+
+        _filterUniqueValues: function (aData) { return Array.from(new Map(aData.map(item => [item.Werks, item])).values()); },
     };
 });

@@ -67,15 +67,23 @@
                 />
             </VBox>
 
-            <VBox id="vBoxLocation">
-                <Label id="lblLocation"
+           <VBox id="vBoxlocations">
+                <Label id="lbllocations"
                     text="{i18n>columnLocation}*"
                     class="customLabel customFont"
                 />
-                <Input id="inpLocation"
-                    placeholder="{i18n>columnLocation}"
-                    class="customInput customFont"
-                />
+                <ComboBox id="cbxLocations"
+                        class="customInput customSelect customFont"
+                        selectedKey="{locationsModel>/selectedKey}"
+                        showSecondaryValues="true"
+                        filterSecondaryValues="true"
+                        change="onLocationChange"
+                        items="{ path: 'locationsModel>/' }">
+
+                        <core:ListItem  id="colLocations"
+                            key="{locationsModel>Werks}"
+                            text="{locationsModel>Description}"/>
+                </ComboBox>
             </VBox>
 
             <VBox id="vBoxProductionLines">

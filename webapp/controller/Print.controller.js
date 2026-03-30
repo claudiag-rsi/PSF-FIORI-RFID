@@ -15,7 +15,6 @@ sap.ui.define([
 
         onOpenDialog: async function (oEvent) {
             const oEditContext = oEvent?.getSource()?.getBindingContext(Constants.PRINT_MODEL_NAME) || null;
-            this._oDetailContext = oEditContext;
 
             await this._loadCatalogs();
 
@@ -66,7 +65,7 @@ sap.ui.define([
             const oTable = oView.byId(Constants.PRINTING_COMPONENTS.TABLE);
             const oBinding = oTable.getBinding(Constants.PRINTING_COMPONENTS.TABLE_ITEMS);
 
-            oBinding.filter(this.loadToFilter(sProduct, dStart, dEnd));
+            oBinding.filter(this._loadToFilter(sProduct, dStart, dEnd));
         },
 
         onCleanFilters: function () {
@@ -101,13 +100,20 @@ sap.ui.define([
             this.byId(Constants.PRINTING_COMPONENTS.PRODUCT).setText(oProduct?.Maktx || Constants.STRING_EMPTY);
         },
 
+        onLocationChange: function (oEvent) {
+            const sWerks = oEvent.getSource().getSelectedKey();
+
+            this._loadProductionLines(sWerks);
+        },
+
         _loadCatalogs: async function () {
             if (this._catalogsLoaded) return;
 
-            await Promise.all([
-                this._loadProductionLines(),
-                this._loadProducts()
-            ]);
+            await this._loadLocation();
+            await this._loadProducts();
+
+            // carga inicial sin filtro o con default
+            await this._loadProductionLines();
 
             this._catalogsLoaded = true;
         },
@@ -136,7 +142,7 @@ sap.ui.define([
                 Product: String(this.byId(Constants.PRINTING_COMPONENTS.PRODUCT).getText(), 10) || 0,
                 Productcode: this.byId(Constants.PRINTING_COMPONENTS.PRODUCT_CODE).getSelectedKey(),
                 Boxesnumber: String(this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER).getValue(), 10) || 0,
-                Location: this.byId(Constants.PRINTING_COMPONENTS.LOCATION).getValue(),
+                Location: this.byId(Constants.PRINTING_COMPONENTS.LOCATION).getSelectedKey(),
                 Productionline: this.byId(Constants.PRINTING_COMPONENTS.PRODUCTION_LINE).getSelectedKey(),
                 Document: "0",
                 Embilstado: "0",
@@ -150,10 +156,10 @@ sap.ui.define([
             this.byId(Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS).setValue(oLabelPrint.Quantitypallets || Constants.STRING_EMPTY);
             this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER).setValue(oLabelPrint.Boxesnumber || Constants.STRING_EMPTY);
             this.byId(Constants.PRINTING_COMPONENTS.PRODUCTION_LINE).setSelectedKey(oLabelPrint?.Productionline);
-            this.byId(Constants.PRINTING_COMPONENTS.LOCATION).setValue(oLabelPrint.Location || Constants.STRING_EMPTY);
+            this.byId(Constants.PRINTING_COMPONENTS.LOCATION).setSelectedKey(oLabelPrint?.Location);
         },
 
-        loadToFilter: function (sProduct, dStart, dEnd) {
+        _loadToFilter: function (sProduct, dStart, dEnd) {
             const aFilters = [];
             const oModel = sap.ui.model;
             const oFilter = oModel.Filter;
@@ -171,19 +177,21 @@ sap.ui.define([
         _setModeUI: function (bIsAdd) {
             const comboProductionLines = this.byId(Constants.PRINTING_COMPONENTS.PRODUCTION_LINE);
             const comboProductCode = this.byId(Constants.PRINTING_COMPONENTS.PRODUCT_CODE);
+            const comboLocation = this.byId(Constants.PRINTING_COMPONENTS.LOCATION);
 
             this.byId(Constants.PRINTING_COMPONENTS.CREATE).setVisible(bIsAdd);
             this.byId(Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS).setEnabled(bIsAdd);
             this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER).setEnabled(bIsAdd);
-            this.byId(Constants.PRINTING_COMPONENTS.LOCATION).setEnabled(bIsAdd);
 
             comboProductCode.setEnabled(bIsAdd);
             comboProductionLines.setEnabled(bIsAdd);
+            comboLocation.setEnabled(bIsAdd);
 
             if (bIsAdd) {
                 Utils.setProductPlaceholder(this.getView());
-                Utils.setDefaultValues(comboProductionLines,);
+                Utils.setDefaultValues(comboProductionLines);
                 Utils.setDefaultValues(comboProductCode);
+                Utils.setDefaultValues(comboLocation);
             }
         },
 
@@ -194,11 +202,32 @@ sap.ui.define([
             Utils.setJsonModel(this.getView(), Constants.PRODUCT_MODEL_NAME, aData);
         },
 
-        _loadProductionLines: async function () {
-            const oData = await PrintService.getProductionLines(this._getPrintModel());
-            const aData = Utils.formatProductionLines(oData);
+        _loadProductionLines: async function (selectedWerks) {
+            const oView = this.getView();
 
-            Utils.setJsonModel(this.getView(), Constants.PRODUCTION_LINE_MODEL_NAME, aData);
+            // 1. Obtener y transformar datos
+            const oData = await PrintService.getProductionLines(this._getPrintModel());
+            const aFormatted = Utils.formatTableProductionLine(oData, "Arbpl");
+
+            // 2. Filtrar (sin mutar)
+            const aFiltered = selectedWerks
+                ? aFormatted.filter(item => item.Werks === selectedWerks)
+                : aFormatted;
+
+            // 3. Setear modelo
+            Utils.setJsonModel(oView, Constants.PRODUCTION_LINE_MODEL_NAME, aFiltered);
+
+
+            // 4. Manejo de UI separado
+            PrintUtils._updateProductionLineSelection(aFiltered, selectedWerks, oView);
+        },
+
+        _loadLocation: async function () {
+            const oData = await PrintService.getProductionLines(this._getPrintModel());
+            const aData = Utils.formatTableProductionLine(oData, "Werks");
+            const aUnique = PrintUtils._filterUniqueValues(aData);
+
+            Utils.setJsonModel(this.getView(), Constants.LOCATION_MODEL_NAME, aUnique);
         },
 
         _getPrintModel: function () { return this.getView().getModel(Constants.PRINT_MODEL_NAME); },
