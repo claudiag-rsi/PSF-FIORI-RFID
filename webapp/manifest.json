@@ -38,7 +38,7 @@
         }
       },
       "LabelPrintService": {
-        "uri": "/sap/opu/odata/sap/ZLABEL_PRINT_SRV/",
+        "uri": "/sap/opu/odata/sap/ZPRINTING_LABELS_SRV/",
         "type": "OData",
         "settings": {
           "odataVersion": "2.0"

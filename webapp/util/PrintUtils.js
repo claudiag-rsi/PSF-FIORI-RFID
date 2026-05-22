@@ -12,7 +12,6 @@ sap.ui.define([
                 oLabelPrint.Boxesnumber &&
                 oLabelPrint.Location &&
                 oLabelPrint.Document &&
-                oLabelPrint.Embilstado &&
                 oLabelPrint.Productcode &&
                 oLabelPrint.Productionline
             );

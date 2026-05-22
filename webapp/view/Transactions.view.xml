@@ -38,7 +38,7 @@
         </VBox>
 
         <!-- Tabla con Toolbar para el botón -->
-        <Table id="tblTransactions" items="{TransactionModel>/TransactionSet}">           
+        <Table class="p_2rem" id="tblTransactions" items="{TransactionModel>/TransactionSet}">           
              <columns>
                 <Column id="colTransactionsProduct"><Text id="txtTransactionsProduct" text="{i18n>columnProduct}"/></Column>
                 <Column id="colTransactionsReader"><Text id="txtTransactionsReader" text="{i18n>columnReader}"/></Column>

@@ -179,6 +179,12 @@ sap.ui.define([
             }
 
             return sMessage;
+        },
+
+        mapObjectToControls: function (oView, aControls) {
+            aControls.forEach(({ id, value }) => {
+                oView.byId(id).setValue(value);
+            });
         }
     }
 });

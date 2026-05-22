@@ -19,7 +19,6 @@ sap.ui.define([
             await this._loadCatalogs();
 
             const oDialog = await Utils.getFragment(this, Constants.FRAGMENTS.LABEL_PRINT);
-
             const oLabelPrint = oEditContext?.getObject() || {};
 
             this._loadToFragment(oLabelPrint);
@@ -69,19 +68,22 @@ sap.ui.define([
         },
 
         onCleanFilters: function () {
-            this.byId(Constants.PRINTING_COMPONENTS.PRODUCT_FILTER).setValue(Constants.STRING_EMPTY);
-            this.byId(Constants.PRINTING_COMPONENTS.START_DATE_FILTER).setValue(null);
-            this.byId(Constants.PRINTING_COMPONENTS.FINAL_DATE_FILTER).setValue(null);
+            const aControls = [
+                { id: Constants.PRINTING_COMPONENTS.PRODUCT_FILTER, value: Constants.STRING_EMPTY },
+                { id: Constants.PRINTING_COMPONENTS.START_DATE_FILTER, value: null },
+                { id: Constants.PRINTING_COMPONENTS.FINAL_DATE_FILTER, value: null }
+            ];
 
-            const oView = this.getView();
-            const oTable = oView.byId(Constants.PRINTING_COMPONENTS.TABLE);
-            oTable.getBinding(Constants.PRINTING_COMPONENTS.TABLE_ITEMS).filter([]);
+            Utils.mapObjectToControls(this, aControls);
 
+            const oTable = this.byId(Constants.PRINTING_COMPONENTS.TABLE);
             const oBinding = oTable.getBinding(Constants.PRINTING_COMPONENTS.TABLE_ITEMS);
+
+            oTable.getBinding(Constants.PRINTING_COMPONENTS.TABLE_ITEMS).filter([]);
             oBinding.refresh();
         },
 
-        onProductChange: function (oEvent) {
+        onProductChange: async function (oEvent) {
             const sKey = oEvent.getSource().getSelectedKey();
 
             if (!sKey) {
@@ -89,38 +91,29 @@ sap.ui.define([
                 return;
             }
 
-            const oProductModel = this._getProductModel();
-            if (!oProductModel) return;
-
-            const oData = oProductModel.getData();
-            const aProducts = oData.results || oData;
-
-            const oProduct = aProducts.find(p => p.Matnr === sKey);
-
-            this.byId(Constants.PRINTING_COMPONENTS.PRODUCT).setText(oProduct?.Maktx || Constants.STRING_EMPTY);
+            await this._loadProduct(sKey);
+            await this._loadProductDetails(sKey);
         },
 
         onLocationChange: function (oEvent) {
             const sWerks = oEvent.getSource().getSelectedKey();
 
-            this._loadProductionLines(sWerks);
+            this._getProductionLines(sWerks);
         },
 
         _loadCatalogs: async function () {
             if (this._catalogsLoaded) return;
 
-            await this._loadLocation();
-            await this._loadProducts();
-
-            // carga inicial sin filtro o con default
-            await this._loadProductionLines();
+            await this._getLocation();
+            await this._getProducts();
+            await this._getProductionLines();
 
             this._catalogsLoaded = true;
         },
 
         _create: function (oLabelPrint) {
             const oView = this.getView();
-            const oODataModel = this._getPrintModel();
+            const oODataModel = this._getModel(Constants.PRINT_MODEL_NAME);
 
             oODataModel.create("/LabelPrintSet", oLabelPrint, {
                 success: () => {
@@ -145,7 +138,6 @@ sap.ui.define([
                 Location: this.byId(Constants.PRINTING_COMPONENTS.LOCATION).getSelectedKey(),
                 Productionline: this.byId(Constants.PRINTING_COMPONENTS.PRODUCTION_LINE).getSelectedKey(),
                 Document: "0",
-                Embilstado: "0",
                 Partnumber: "0",
             };
         },
@@ -157,6 +149,8 @@ sap.ui.define([
             this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER).setValue(oLabelPrint.Boxesnumber || Constants.STRING_EMPTY);
             this.byId(Constants.PRINTING_COMPONENTS.PRODUCTION_LINE).setSelectedKey(oLabelPrint?.Productionline);
             this.byId(Constants.PRINTING_COMPONENTS.LOCATION).setSelectedKey(oLabelPrint?.Location);
+            this.byId(Constants.PRINTING_COMPONENTS.EMBILSTADO).setValue(oLabelPrint?.Embilstado);
+
         },
 
         _loadToFilter: function (sProduct, dStart, dEnd) {
@@ -169,7 +163,7 @@ sap.ui.define([
                 aFilters.push(new oFilter("Productcode", oOperator.EQ, sProduct));
 
             if (dStart && dEnd)
-                aFilters.push(new oFilter("Docdate", oOperator.BT, Utils.toABAPDate(dStart), Utils.toABAPDate(dEnd)));
+                aFilters.push(new oFilter("Docdate", oOperator.BT, dStart, dEnd));
 
             return aFilters;
         },
@@ -181,7 +175,10 @@ sap.ui.define([
 
             this.byId(Constants.PRINTING_COMPONENTS.CREATE).setVisible(bIsAdd);
             this.byId(Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS).setEnabled(bIsAdd);
-            this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER).setEnabled(bIsAdd);
+            this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER).setEnabled(bIsAdd);           
+            this.byId(Constants.PRINTING_COMPONENTS.EMBILSTADO).setEnabled(bIsAdd);
+
+            this.byId(Constants.PRINTING_COMPONENTS.EMBILSTADO_DIV).setVisible(!bIsAdd);
 
             comboProductCode.setEnabled(bIsAdd);
             comboProductionLines.setEnabled(bIsAdd);
@@ -195,18 +192,58 @@ sap.ui.define([
             }
         },
 
-        _loadProducts: async function () {
-            const oData = await PrintService.getProducts(this._getPrintModel());
+        _loadProduct: async function (sKey) {
+            const oProductModel = this._getModel(Constants.PRODUCT_MODEL_NAME);
+            if (!oProductModel) return;
+
+            const oProduct = oProductModel.getData();
+
+            const aProducts = oProduct.results || oProduct;
+            const oItemProduct = aProducts.find(p => p.Matnr === sKey);
+
+            this.byId(Constants.PRINTING_COMPONENTS.PRODUCT).setText(oItemProduct?.Maktx || Constants.STRING_EMPTY);
+        },
+
+        _loadProductDetails: async function (sKey) {
+            const oView = this.getView();
+
+            try {
+                const oData = await PrintService.getProductDetails(this._getModel(Constants.PRINT_MODEL_NAME), sKey);
+                Utils.setJsonModel(oView, Constants.PRODUCT_DETAILS_MODEL_NAME, oData);
+
+                const oProductDetailsModel = this._getModel(Constants.PRODUCT_DETAILS_MODEL_NAME);
+                if (!oProductDetailsModel) return;
+
+                const oProductDetails = oProductDetailsModel.getData();
+
+                Utils.mapObjectToControls(this, [
+                    { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: oProductDetails?.Umrez },
+                    { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: oProductDetails?.Ean11 }
+                ]);
+
+            }
+            catch (sErrorMessage) {
+                ToastHelper.error(oView, sErrorMessage);
+
+                Utils.mapObjectToControls(this, [
+                    { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: Constants.STRING_EMPTY },
+                    { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: Constants.STRING_EMPTY }
+                ]);
+            }
+        },
+
+        _getProducts: async function () {
+            const oData = await PrintService.getProducts(this._getModel(Constants.PRINT_MODEL_NAME));
             const aData = Utils.formatProduct(oData);
 
             Utils.setJsonModel(this.getView(), Constants.PRODUCT_MODEL_NAME, aData);
         },
 
-        _loadProductionLines: async function (selectedWerks) {
+        _getProductionLines: async function (selectedWerks) {
             const oView = this.getView();
 
             // 1. Obtener y transformar datos
-            const oData = await PrintService.getProductionLines(this._getPrintModel());
+            const oData = await PrintService.getProductionLines(this._getModel(Constants.PRINT_MODEL_NAME));
             const aFormatted = Utils.formatTableProductionLine(oData, "Arbpl");
 
             // 2. Filtrar (sin mutar)
@@ -217,22 +254,19 @@ sap.ui.define([
             // 3. Setear modelo
             Utils.setJsonModel(oView, Constants.PRODUCTION_LINE_MODEL_NAME, aFiltered);
 
-
             // 4. Manejo de UI separado
             PrintUtils._updateProductionLineSelection(aFiltered, selectedWerks, oView);
         },
 
-        _loadLocation: async function () {
-            const oData = await PrintService.getProductionLines(this._getPrintModel());
+        _getLocation: async function () {
+            const oData = await PrintService.getProductionLines(this._getModel(Constants.PRINT_MODEL_NAME));
             const aData = Utils.formatTableProductionLine(oData, "Werks");
             const aUnique = PrintUtils._filterUniqueValues(aData);
 
             Utils.setJsonModel(this.getView(), Constants.LOCATION_MODEL_NAME, aUnique);
         },
 
-        _getPrintModel: function () { return this.getView().getModel(Constants.PRINT_MODEL_NAME); },
-
-        _getProductModel: function () { return this.getView().getModel(Constants.PRODUCT_MODEL_NAME); },
+        _getModel: function (modelName) { return this.getView().getModel(modelName); },
 
         onExit: function () { DialogManager.destroyDialogs(this, "_mDialogs"); },
     });

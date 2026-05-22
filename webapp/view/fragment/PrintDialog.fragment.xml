@@ -4,8 +4,7 @@
     title="{i18n>modalNamePrint}"
     id="PrintDialog"
     stretchOnPhone="true"
-    class="customDialog customFont"
->
+    class="customDialog customFont">
     <content>
         <VBox id="vBoxMainPrint"
               class="sapUiSmallMargin customVBoxPrint"
@@ -29,8 +28,8 @@
                                      text="{ProductModel>Description}" />
                 </ComboBox>
             </VBox>    
-   
-            <VBox id="vBoxProduct">
+
+            <VBox class="full-width-second-row" id="vBoxProduct">
                 <Label id="lblProduct"
                     text="{i18n>columnProduct}*"
                     class="customLabel customFont"
@@ -50,6 +49,19 @@
                 <Input
                     id="inpQuantityPallets"
                     placeholder="{i18n>columnQuantityPallets}"
+                    class="customInput customFont"
+                />
+            </VBox>
+
+              <VBox id="vBoxEmbilted">
+                <Label
+                    id="lblEmbilted"
+                    text="{i18n>columnEmbilted}"
+                    class="customLabel customFont"
+                />
+                <Input
+                    id="inpEmbilted"
+                    placeholder="{i18n>columnEmbilted}"
                     class="customInput customFont"
                 />
             </VBox>

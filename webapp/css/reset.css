@@ -73,5 +73,5 @@ html.sap-desktop:not(.sapUiNativeScrollbars) {
 }
 
 input:disabled {
-    color: #566c82 !important;
+    color: black !important;
 }

@@ -17,7 +17,7 @@
                 <tnt:NavigationList id="navList">
                     <tnt:NavigationListItem id="navReaders" text="{i18n>viewNameReader}" icon="sap-icon://tags" key="Readers" />
                     <tnt:NavigationListItem id="navPrint" text="{i18n>viewNamePrint}" icon="sap-icon://print" key="Print" />       
-                     <!-- <tnt:NavigationListItem id="navTransactions" text="{i18n>viewNameTransactions}" icon="sap-icon://business-objects-experience" key="Transactions" />   -->
+                    <!-- <tnt:NavigationListItem id="navTransactions" text="{i18n>viewNameTransactions}" icon="sap-icon://business-objects-experience" key="Transactions" /> -->
                 </tnt:NavigationList>
             </tnt:SideNavigation>
         </tnt:sideContent>
