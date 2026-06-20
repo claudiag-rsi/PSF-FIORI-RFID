@@ -11,10 +11,11 @@ sap.ui.define([], () => {
             });
         },
 
-        getProductDetails: function (oModel, sKey) {
+        getProductDetails: function (oModel, sMatnr, sWerks) {
             return new Promise((resolve, reject) => {
+                var sPath = `/ProductDetailsSet(Matnr='${sMatnr}',Werks='${sWerks}')`;
 
-                oModel.read(`/ProductDetailsSet('${sKey}')`, {
+                oModel.read(sPath, {
                     success: resolve,
                     error: function (oError) {
 

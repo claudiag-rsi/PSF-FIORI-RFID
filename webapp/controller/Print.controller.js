@@ -92,12 +92,26 @@ sap.ui.define([
             }
 
             await this._loadProduct(sKey);
-            await this._loadProductDetails(sKey);
         },
 
         onLocationChange: function (oEvent) {
             const sWerks = oEvent.getSource().getSelectedKey();
+            var sMatnr = this.byId(Constants.PRINTING_COMPONENTS.PRODUCT_CODE).getSelectedKey();
 
+            if (sWerks == Constants.STRING_EMPTY || sMatnr == Constants.STRING_EMPTY) {
+                const aControls = [
+                    { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: Constants.STRING_EMPTY },
+                    { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: Constants.STRING_EMPTY }
+                ];
+                Utils.mapObjectToControls(this, aControls);
+
+                if (sMatnr == Constants.STRING_EMPTY)
+                    Utils.setDefaultValues(this.byId(Constants.PRINTING_COMPONENTS.LOCATION));
+
+                return;
+            }
+
+            this._loadProductDetails(sMatnr, sWerks);
             this._getProductionLines(sWerks);
         },
 
@@ -175,7 +189,7 @@ sap.ui.define([
 
             this.byId(Constants.PRINTING_COMPONENTS.CREATE).setVisible(bIsAdd);
             this.byId(Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS).setEnabled(bIsAdd);
-            this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER).setEnabled(bIsAdd);           
+            this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER).setEnabled(bIsAdd);
             this.byId(Constants.PRINTING_COMPONENTS.EMBILSTADO).setEnabled(bIsAdd);
 
             this.byId(Constants.PRINTING_COMPONENTS.EMBILSTADO_DIV).setVisible(!bIsAdd);
@@ -204,11 +218,11 @@ sap.ui.define([
             this.byId(Constants.PRINTING_COMPONENTS.PRODUCT).setText(oItemProduct?.Maktx || Constants.STRING_EMPTY);
         },
 
-        _loadProductDetails: async function (sKey) {
+        _loadProductDetails: async function (sMatnr, sWerks) {
             const oView = this.getView();
 
             try {
-                const oData = await PrintService.getProductDetails(this._getModel(Constants.PRINT_MODEL_NAME), sKey);
+                const oData = await PrintService.getProductDetails(this._getModel(Constants.PRINT_MODEL_NAME), sMatnr, sWerks);
                 Utils.setJsonModel(oView, Constants.PRODUCT_DETAILS_MODEL_NAME, oData);
 
                 const oProductDetailsModel = this._getModel(Constants.PRODUCT_DETAILS_MODEL_NAME);
