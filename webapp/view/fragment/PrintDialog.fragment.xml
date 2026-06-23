@@ -115,28 +115,6 @@
                             text="{ProductionLineModel>Description}"/>
                 </ComboBox>
             </VBox>
-
-            <!-- <VBox id="vBoxDocument">
-                <Label id="lblDocument"
-                    text="{i18n>columnDocument}*"
-                    class="customLabel customFont"
-                />
-                <Input id="inpDocument"
-                    placeholder="{i18n>columnDocument}"
-                    class="customInput customFont"
-                />
-            </VBox>
-
-            <VBox id="vBoxEmbilstado">
-                <Label id="lblEmbilstado"
-                    text="Embilstado*"
-                    class="customLabel customFont"
-                />
-                <Input id="inpEmbilstado"
-                    placeholder="Embilstado"
-                    class="customInput customFont"
-                />
-            </VBox> -->
         </VBox>
     </content>
 
