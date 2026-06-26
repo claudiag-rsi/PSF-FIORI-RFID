@@ -92,6 +92,17 @@ sap.ui.define([
             }
 
             await this._loadProduct(sKey);
+
+            var sWerks = this.byId(Constants.PRINTING_COMPONENTS.LOCATION).getSelectedKey();
+            if (sWerks != Constants.STRING_EMPTY) {
+
+                Utils.mapObjectToControls(this, [
+                    { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: Constants.STRING_EMPTY },
+                    { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: Constants.STRING_EMPTY }
+                ]);
+
+                Utils.setDefaultValues(this.byId(Constants.PRINTING_COMPONENTS.LOCATION));
+            }
         },
 
         onLocationChange: function (oEvent) {

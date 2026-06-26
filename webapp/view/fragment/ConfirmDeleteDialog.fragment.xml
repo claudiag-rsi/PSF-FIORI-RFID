@@ -10,22 +10,24 @@
 
         <content>
             <VBox id="vBoxMessage">
-                <Text id="txtMessage"
-                    text="¿Estás seguro de que deseas eliminar el siguiente registro: {deleteMsg>/message}?"
-                    wrapping="true"/>            
+                <Text id="txtMessage" text="¿Estás seguro de que deseas eliminar el siguiente registro: {deleteMsg>/message}?" wrapping="true"/>            
             </VBox>
         </content>
 
         <beginButton>
-            <Button id="btnDeleteItem" type="Accept" class="btnDialogAccept"
-                text="Eliminar"
-                press=".onDelete"/>
+            <Button id="btnDeleteItem" 
+                    type="Accept" 
+                    class="btnDialogAccept"
+                    text="Eliminar"
+                    press=".onDelete"/>
         </beginButton>
 
         <endButton>
-            <Button id="btnNotDeleteItem"  type="Reject" class="btnDialogCancel"
-                text="Cancelar"
-                press=".onCancelDelete"/>
+            <Button id="btnNotDeleteItem"  
+                    type="Reject" 
+                    class="btnDialogCancel"
+                    text="Cancelar"
+                    press=".onCancelDelete"/>
         </endButton>
 
     </Dialog>

@@ -5,12 +5,14 @@
     id="PrintDialog"
     stretchOnPhone="true"
     class="customDialog customFont">
+    
     <content>
         <VBox id="vBoxMainPrint"
               class="sapUiSmallMargin customVBoxPrint"
               width="100%">                
 
-             <VBox id="vBoxProductCode">
+            <!-- Código de Producto* -->
+            <VBox id="vBoxProductCode">
                 <Label id="lblProductCode"
                     text="{i18n>columnProductCode}*"
                     class="customLabel customFont"
@@ -29,6 +31,7 @@
                 </ComboBox>
             </VBox>    
 
+            <!-- Producto* -->
             <VBox class="full-width-second-row" id="vBoxProduct">
                 <Label id="lblProduct"
                     text="{i18n>columnProduct}*"
@@ -40,46 +43,8 @@
                 />
             </VBox>     
 
-            <VBox id="vBoxQuantityPallets">
-                <Label
-                    id="lblQuantityPallets"
-                    text="{i18n>columnQuantityPallets}*"
-                    class="customLabel customFont"
-                />
-                <Input
-                    id="inpQuantityPallets"
-                    placeholder="{i18n>columnQuantityPallets}"
-                    class="customInput customFont"
-                />
-            </VBox>
-
-              <VBox id="vBoxEmbilted">
-                <Label
-                    id="lblEmbilted"
-                    text="{i18n>columnEmbilted}"
-                    class="customLabel customFont"
-                />
-                <Input
-                    id="inpEmbilted"
-                    placeholder="{i18n>columnEmbilted}"
-                    class="customInput customFont"
-                />
-            </VBox>
-
-            <VBox id="vBoxBoxesNumber">
-                <Label
-                    id="lblBoxesNumber"
-                    text="{i18n>columnNumberBoxes}*"
-                    class="customLabel customFont"
-                />
-                <Input
-                    id="inpBoxesNumber"
-                    placeholder="{i18n>columnNumberBoxes}"
-                    class="customInput customFont"
-                />
-            </VBox>
-
-           <VBox id="vBoxlocations">
+            <!-- Ubicación* -->
+            <VBox id="vBoxlocations">
                 <Label id="lbllocations"
                     text="{i18n>columnLocation}*"
                     class="customLabel customFont"
@@ -98,11 +63,54 @@
                 </ComboBox>
             </VBox>
 
+            <!-- Emblistado -->
+            <VBox id="vBoxEmbilted">
+                <Label
+                    id="lblEmbilted"
+                    text="{i18n>columnEmbilted}"
+                    class="customLabel customFont"
+                />
+                <Input
+                    id="inpEmbilted"
+                    placeholder="{i18n>columnEmbilted}"
+                    class="customInput customFont"
+                />
+            </VBox>
+
+            <!--Cantidad de Pallets* -->
+            <VBox id="vBoxQuantityPallets">
+                <Label
+                    id="lblQuantityPallets"
+                    text="{i18n>columnQuantityPallets}*"
+                    class="customLabel customFont"
+                />
+                <Input
+                    id="inpQuantityPallets"
+                    placeholder="{i18n>columnQuantityPallets}"
+                    class="customInput customFont"
+                />
+            </VBox>
+
+            <!--Cantidad de cajas* -->
+            <VBox id="vBoxBoxesNumber">
+                <Label
+                    id="lblBoxesNumber"
+                    text="{i18n>columnNumberBoxes}*"
+                    class="customLabel customFont"
+                />
+                <Input
+                    id="inpBoxesNumber"
+                    placeholder="{i18n>columnNumberBoxes}"
+                    class="customInput customFont"
+                />
+            </VBox>
+
+            <!-- Linea de Producción* -->
             <VBox id="vBoxProductionLines">
                 <Label id="lblProductionLine"
                     text="{i18n>columnProductionLine}*"
-                    class="customLabel customFont"
-                />
+                    class="customLabel customFont" />
+
                 <ComboBox id="cbxProductionLines"
                         class="customInput customSelect customFont"
                         selectedKey="{ProductionLineModel>/selectedKey}"
@@ -115,24 +123,24 @@
                             text="{ProductionLineModel>Description}"/>
                 </ComboBox>
             </VBox>
+
         </VBox>
     </content>
 
     <beginButton>
         <Button id="btnAcceptPrint"
-            text="{i18n>save}"
-            press=".onSave"
-            type="Accept"
-            class="btnDialogAccept"
-        />
+                text="{i18n>save}"
+                press=".onSave"
+                type="Accept"
+                class="btnDialogAccept" />
     </beginButton>
 
     <endButton>
         <Button id="btnClosePrint"
-            text="{i18n>close}"
-            press=".onCancel"
-            type="Reject"
-            class="btnDialogCancel"
-        />
+                text="{i18n>close}"
+                press=".onCancel"
+                type="Reject"
+                class="btnDialogCancel" />
     </endButton>
+    
 </Dialog>
