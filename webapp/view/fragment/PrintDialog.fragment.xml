@@ -43,23 +43,23 @@
                 />
             </VBox>     
 
-            <!-- Ubicación* -->
-            <VBox id="vBoxlocations">
-                <Label id="lbllocations"
-                    text="{i18n>columnLocation}*"
+            <!-- Centro* -->
+            <VBox id="vBoxCenter">
+                <Label id="lblCenter"
+                    text="{i18n>columnCenter}*"
                     class="customLabel customFont"
                 />
-                <ComboBox id="cbxLocations"
+                <ComboBox id="cbxCenters"
                         class="customInput customSelect customFont"
-                        selectedKey="{locationsModel>/selectedKey}"
+                        selectedKey="{centersModel>/selectedKey}"
                         showSecondaryValues="true"
                         filterSecondaryValues="true"
-                        change="onLocationChange"
-                        items="{ path: 'locationsModel>/' }">
+                        change="onCenterChange"
+                        items="{ path: 'centersModel>/' }">
 
-                        <core:ListItem  id="colLocations"
-                            key="{locationsModel>Werks}"
-                            text="{locationsModel>Description}"/>
+                        <core:ListItem  id="colCenters"
+                            key="{centersModel>Werks}"
+                            text="{centersModel>Description}"/>
                 </ComboBox>
             </VBox>
 

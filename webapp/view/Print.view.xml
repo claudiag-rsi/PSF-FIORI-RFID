@@ -46,7 +46,7 @@
                 <Column id="colPrintLabelPrintDocDate"><Text id="txtPrintLabelPrintDocDate" text="{i18n>columnDateDocument}"/></Column>
                 <Column id="colPrintProductCode"><Text id="txtPrintProductCode" text="{i18n>columnProductCode}"/></Column>               
                 <Column id="colPrintQuantityPallets"><Text id="txtPrintQuantityPallets" text="{i18n>columnQuantityPallets}"/></Column>
-                <Column id="colPrintLocation"><Text id="txtPrintLocation" text="{i18n>columnLocation}"/></Column>
+                <Column id="colPrintCenter"><Text id="txtPrintCenter" text="{i18n>columnCenter}"/></Column>
                 <Column id="colPrintProductionLine"><Text id="txtPrintProductionLine" text="{i18n>columnProductionLine}"/></Column>
                 <Column id="colReaderEmbilted"><Text id="txtReaderEmbilted" text="{i18n>columnEmbilted}"/></Column>
                 <Column id="colEditPrint"><Text id="txtPrintEdit" text="Detalle"/></Column>
@@ -58,7 +58,7 @@
                         <Text id="txtPrintValueDocDate" text="{ path: 'LabelPrintModel>Docdate', formatter: '.formatDate.formatDateToString' }"/>
                         <Text id="txtPrintValueProductcode" text="{LabelPrintModel>Productcode}"/>                         
                         <Text id="txtPrintValueQuantityPallets" text="{LabelPrintModel>Quantitypallets}"/>
-                        <Text id="txtPrintValueLocation" text="{LabelPrintModel>Location}"/>
+                        <Text id="txtPrintValueCenter" text="{LabelPrintModel>Location}"/>
                         <Text id="txtPrintValueProductionLine" text="{LabelPrintModel>Productionline}"/> 
                         <Text id="txtPrintValueEmbilted" text="{LabelPrintModel>Embilstado}"/>                           
                         <Button id="btnEditPrint" icon="sap-icon://show" press="onOpenDialog" type="Accept"/>                    
