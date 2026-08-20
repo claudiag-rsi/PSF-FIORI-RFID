@@ -75,3 +75,15 @@ html.sap-desktop:not(.sapUiNativeScrollbars) {
 input:disabled {
     color: black !important;
 }
+
+.sapUiSizeCompact .sapMTB {
+    height: 3rem !important;
+}
+
+.sapUiSizeCompact .sapMTBShrinkItem:not(.sapMSF), .sapUiSizeCondensed .sapUiTableCell .sapMTBShrinkItem {
+    min-width: 1rem !important;
+}
+
+.sapMIBar.sapMTB .sapMBarChild~.sapMBarChild {
+    margin: 0 0 0 0.3rem !important;
+}
