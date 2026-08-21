@@ -4,77 +4,101 @@
     title="{i18n>modalNamePrint}"
     id="PrintDialog"
     stretchOnPhone="true"
-    class="customDialog customFont">
-    
+    class="customDialog customFont"
+>
     <content>
-        <VBox id="vBoxMainPrint"
-              class="sapUiSmallMargin customVBoxPrint"
-              width="100%">                
-
+        <VBox
+            id="vBoxMainPrint"
+            class="sapUiSmallMargin customVBoxPrint"
+            width="100%"
+        >
             <!-- Código de Producto* -->
             <VBox id="vBoxProductCode">
-                <Label id="lblProductCode"
+                <Label
+                    id="lblProductCode"
                     text="{i18n>columnProductCode}*"
                     class="customLabel customFont"
                 />
-                <ComboBox id="cbxProductCode"
-                          class="customInput customSelect customFont"
-                          selectedKey="{ProductModel>/Productcode}"
-                          change="onProductChange"
-                          showSecondaryValues="true"
-                          filterSecondaryValues="true"
-                          items="{ path: 'ProductModel>/' }">
-
-                          <core:ListItem id="colProductCode" 
-                                     key="{ProductModel>Matnr}"
-                                     text="{ProductModel>Description}" />
-                </ComboBox>
-            </VBox>    
-
-            <!-- Producto* -->
-            <VBox class="full-width-second-row" id="vBoxProduct">
-                <Label id="lblProduct"
-                    text="{i18n>columnProduct}*"
-                    class="customLabel customFont"
-                />
-                <Text id="txtProduct"
-                     text="ProductModel>/Product" 
-                    class="customInput customText-noDrop customFont"
-                />
-            </VBox>     
-
-            <!-- Centro* -->
-            <VBox id="vBoxCenter">
-                <Label id="lblCenter"
-                    text="{i18n>columnCenter}*"
-                    class="customLabel customFont"
-                />
-                <ComboBox id="cbxCenters"
-                        class="customInput customSelect customFont"
-                        selectedKey="{centersModel>/selectedKey}"
-                        showSecondaryValues="true"
-                        filterSecondaryValues="true"
-                        change="onCenterChange"
-                        items="{ path: 'centersModel>/' }">
-
-                        <core:ListItem  id="colCenters"
-                            key="{centersModel>Werks}"
-                            text="{centersModel>Description}"/>
+                <ComboBox
+                    id="cbxProductCode"
+                    class="customInput customSelect customFont"
+                    selectedKey="{ProductModel>/Productcode}"
+                    change="onProductChange"
+                    showSecondaryValues="true"
+                    filterSecondaryValues="true"
+                    items="{ path: 'ProductModel>/' }"
+                >
+                    <core:ListItem
+                        id="colProductCode"
+                        key="{ProductModel>Matnr}"
+                        text="{ProductModel>Description}"
+                    />
                 </ComboBox>
             </VBox>
 
-            <!-- Emblistado -->
-            <VBox id="vBoxEmbilted">
+            <!-- Linea de Producción* -->
+            <VBox id="vBoxProductionLines">
                 <Label
-                    id="lblEmbilted"
-                    text="{i18n>columnEmbilted}"
+                    id="lblProductionLine"
+                    text="{i18n>columnProductionLine}*"
                     class="customLabel customFont"
                 />
-                <Input
-                    id="inpEmbilted"
-                    placeholder="{i18n>columnEmbilted}"
-                    class="customInput customFont"
+
+                <ComboBox
+                    id="cbxProductionLines"
+                    class="customInput customSelect customFont"
+                    selectedKey="{ProductionLineModel>/selectedKey}"
+                    change="onProductChange"
+                    showSecondaryValues="true"
+                    filterSecondaryValues="true"
+                    items="{ path: 'ProductionLineModel>/' }"
+                >
+                    <core:ListItem
+                        id="colProductionLines"
+                        key="{ProductionLineModel>Arbpl}"
+                        text="{ProductionLineModel>Description}"
+                    />
+                </ComboBox>
+            </VBox>
+
+            <!-- Producto* -->
+            <VBox
+                class="full-width-second-row"
+                id="vBoxProduct"
+            >
+                <Label
+                    id="lblProduct"
+                    text="{i18n>columnProduct}*"
+                    class="customLabel customFont"
                 />
+                <Text
+                    id="txtProduct"
+                    text="ProductModel>/Product"
+                    class="customInput customText-noDrop customFont"
+                />
+            </VBox>
+
+            <!-- Centro* -->
+            <VBox id="vBoxCenter">
+                <Label
+                    id="lblCenter"
+                    text="{i18n>columnCenter}*"
+                    class="customLabel customFont"
+                />
+                <ComboBox
+                    id="cbxCenters"
+                    class="customInput customSelect customFont"
+                    selectedKey="{centersModel>/selectedKey}"
+                    showSecondaryValues="true"
+                    filterSecondaryValues="true"
+                    items="{ path: 'centersModel>/' }"
+                >
+                    <core:ListItem
+                        id="colCenters"
+                        key="{centersModel>Werks}"
+                        text="{centersModel>Description}"
+                    />
+                </ComboBox>
             </VBox>
 
             <!--Cantidad de Pallets* -->
@@ -101,46 +125,49 @@
                 <Input
                     id="inpBoxesNumber"
                     placeholder="{i18n>columnNumberBoxes}"
+                    type="Number"
+                    
+                    change="onValueChange"
                     class="customInput customFont"
                 />
             </VBox>
 
-            <!-- Linea de Producción* -->
-            <VBox id="vBoxProductionLines">
-                <Label id="lblProductionLine"
-                    text="{i18n>columnProductionLine}*"
-                    class="customLabel customFont" />
-
-                <ComboBox id="cbxProductionLines"
-                        class="customInput customSelect customFont"
-                        selectedKey="{ProductionLineModel>/selectedKey}"
-                        showSecondaryValues="true"
-                        filterSecondaryValues="true"
-                        items="{ path: 'ProductionLineModel>/' }">
-
-                        <core:ListItem  id="colProductionLines"
-                            key="{ProductionLineModel>Arbpl}"
-                            text="{ProductionLineModel>Description}"/>
-                </ComboBox>
+            <!-- Emblistado -->
+            <VBox
+                id="vBoxEmbilted"
+                class="row4"
+            >
+                <Label
+                    id="lblEmbilted"
+                    text="{i18n>columnEmbilted}"
+                    class="customLabel customFont"
+                />
+                <Input
+                    id="inpEmbilted"
+                    placeholder="{i18n>columnEmbilted}"
+                    class="customInput customFont"
+                />
             </VBox>
-
         </VBox>
     </content>
 
     <beginButton>
-        <Button id="btnAcceptPrint"
-                text="{i18n>save}"
-                press=".onSave"
-                type="Accept"
-                class="btnDialogAccept" />
+        <Button
+            id="btnAcceptPrint"
+            text="{i18n>save}"
+            press=".onSave"
+            type="Accept"
+            class="btnDialogAccept"
+        />
     </beginButton>
 
     <endButton>
-        <Button id="btnClosePrint"
-                text="{i18n>close}"
-                press=".onCancel"
-                type="Reject"
-                class="btnDialogCancel" />
+        <Button
+            id="btnClosePrint"
+            text="{i18n>close}"
+            press=".onCancel"
+            type="Reject"
+            class="btnDialogCancel"
+        />
     </endButton>
-    
 </Dialog>

@@ -1,4 +1,6 @@
-sap.ui.define([], () => {
+sap.ui.define([
+    "fw/flexwarehouse/util/Constants",
+], (Constants) => {
     "use strict";
 
     return {
@@ -48,7 +50,20 @@ sap.ui.define([], () => {
                     error: reject
                 });
             });
-        }
+        },
 
+        validateProductForProductionLine: function (oModel, sProduct, sProductionLine) {
+            return new Promise(function (resolve, reject) {
+                oModel.callFunction("/ValidateProductLine", {
+                    method: "GET",
+                    urlParameters: {
+                        Product: sProduct,
+                        ProductionLine: sProductionLine
+                    },
+                    success: function (oData) { resolve(oData); },
+                    error: function (oError) { reject(oError); }
+                });
+            });
+        },
     };
 });

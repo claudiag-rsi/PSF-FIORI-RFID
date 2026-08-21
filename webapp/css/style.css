@@ -152,3 +152,7 @@ body>div,
 .footerToolbar .sapMText {
     font-size: 0.875rem;
 }
+
+.row4 {
+    grid-column: 1 / -1;
+}

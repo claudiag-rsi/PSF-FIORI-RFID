@@ -43,5 +43,6 @@ sap.ui.define([], function () {
         EMPTY_ELEMENT: "Seleccione un elemento",
         REQUIRED_FIELDS_MESSAGE: "Los campos marcados con (*) son obligatorios.",
         INVALID_FIELD_TYPES_MESSAGE: "Hay campos inválidos. Verifica que los valores numéricos sean correctos.",
+        PRODUCT_NOT_ASSOCIATED_MESSAGE: "El producto [{0}] y la línea de producción [{1}] no se puede procesar.",
     };
 });

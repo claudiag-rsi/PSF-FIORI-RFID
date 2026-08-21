@@ -11,7 +11,11 @@ sap.ui.define([
 
     return BaseController.extend("fw.flexwarehouse.controller.Print", {
         formatDate: Utils,
-        onInit() { this._catalogsLoaded = false; },
+
+        onInit() {
+            this._catalogsLoaded = false;
+            this._maxValue = null;
+        },
 
         onOpenDialog: async function (oEvent) {
             const oEditContext = oEvent?.getSource()?.getBindingContext(Constants.PRINT_MODEL_NAME) || null;
@@ -29,7 +33,10 @@ sap.ui.define([
             PrintUtils._initSelects(this.getView());
         },
 
-        onCancel: function () { Utils.closeDialog(this, Constants.FRAGMENTS.LABEL_PRINT); },
+        onCancel: function () {
+            this._maxValue = null;
+            Utils.closeDialog(this, Constants.FRAGMENTS.LABEL_PRINT);
+        },
 
         onSave: function () {
             const oLabelPrint = this._getFormData();
@@ -84,46 +91,60 @@ sap.ui.define([
         },
 
         onProductChange: async function (oEvent) {
-            const sKey = oEvent.getSource().getSelectedKey();
+            const oLabelPrint = this._getFormData();
+            const sProductCode = oLabelPrint.Productcode;
+            const sProductionline = oLabelPrint.Productionline;
 
-            if (!sKey) {
+            if (sProductCode)
+                await this._loadProduct(sProductCode);
+
+            if (!sProductCode)
                 Utils.setProductPlaceholder(this.getView());
+
+
+            if (!sProductCode || !sProductionline)
                 return;
-            }
 
-            await this._loadProduct(sKey);
+            const oData = await PrintService.validateProductForProductionLine(this._getModel(Constants.PRINT_MODEL_NAME), sProductCode, sProductionline);
 
-            var sWerks = this.byId(Constants.PRINTING_COMPONENTS.CENTER).getSelectedKey();
-            if (sWerks != Constants.STRING_EMPTY) {
-
+            if (!oData.Exists) {
                 Utils.mapObjectToControls(this, [
                     { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: Constants.STRING_EMPTY },
                     { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: Constants.STRING_EMPTY }
                 ]);
 
                 Utils.setDefaultValues(this.byId(Constants.PRINTING_COMPONENTS.CENTER));
-            }
-        },
 
-        onCenterChange: function (oEvent) {
-            const sWerks = oEvent.getSource().getSelectedKey();
-            var sMatnr = this.byId(Constants.PRINTING_COMPONENTS.PRODUCT_CODE).getSelectedKey();
+                let message = Constants.PRODUCT_NOT_ASSOCIATED_MESSAGE
+                    .replace("{0}", sProductCode)
+                    .replace("{1}", sProductionline);
 
-            if (sWerks == Constants.STRING_EMPTY || sMatnr == Constants.STRING_EMPTY) {
-                const aControls = [
-                    { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: Constants.STRING_EMPTY },
-                    { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: Constants.STRING_EMPTY }
-                ];
-                Utils.mapObjectToControls(this, aControls);
-
-                if (sMatnr == Constants.STRING_EMPTY)
-                    Utils.setDefaultValues(this.byId(Constants.PRINTING_COMPONENTS.CENTER));
-
+                ToastHelper.warning(this.getView(), message, 3000);
                 return;
             }
 
-            this._loadProductDetails(sMatnr, sWerks);
-            this._getProductionLines(sWerks);
+            this.byId(Constants.PRINTING_COMPONENTS.CENTER).setSelectedKey(oData.Werks);
+            this._loadProductDetails(sProductCode, oData.Werks);
+        },
+
+        onValueChange: async function (oEvent) {
+            const oBoxesNumber = this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER);
+            const iValue = Number(oBoxesNumber.getValue());
+            const iMaxValue = this._maxValue;
+
+            if (iValue < 1) {
+                oBoxesNumber.setValue("1");
+
+                ToastHelper.warning(this.getView(), "La cantidad mínima es 1.", 3000);
+                return;
+            }
+
+            if (iMaxValue != null && iValue > iMaxValue) {
+                oBoxesNumber.setValue(iMaxValue.toString());
+
+                ToastHelper.warning(this.getView(), `La cantidad de cajas ingresada [${iValue}] no puede superar el valor de ${iMaxValue}.`, 3000);
+                return;
+            }
         },
 
         _loadCatalogs: async function () {
@@ -198,7 +219,6 @@ sap.ui.define([
             const comboProductCode = this.byId(Constants.PRINTING_COMPONENTS.PRODUCT_CODE);
             const comboCenter = this.byId(Constants.PRINTING_COMPONENTS.CENTER);
 
-            this.byId(Constants.PRINTING_COMPONENTS.CREATE).setVisible(bIsAdd);
             this.byId(Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS).setEnabled(bIsAdd);
             this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER).setEnabled(bIsAdd);
             this.byId(Constants.PRINTING_COMPONENTS.EMBILSTADO).setEnabled(bIsAdd);
@@ -234,18 +254,21 @@ sap.ui.define([
 
             try {
                 const oData = await PrintService.getProductDetails(this._getModel(Constants.PRINT_MODEL_NAME), sMatnr, sWerks);
+
                 Utils.setJsonModel(oView, Constants.PRODUCT_DETAILS_MODEL_NAME, oData);
 
                 const oProductDetailsModel = this._getModel(Constants.PRODUCT_DETAILS_MODEL_NAME);
+
                 if (!oProductDetailsModel) return;
 
                 const oProductDetails = oProductDetailsModel.getData();
+
+                this._maxValue = Number(oProductDetails?.Umrez);
 
                 Utils.mapObjectToControls(this, [
                     { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: oProductDetails?.Umrez },
                     { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: oProductDetails?.Ean11 }
                 ]);
-
             }
             catch (sErrorMessage) {
                 ToastHelper.error(oView, sErrorMessage);
