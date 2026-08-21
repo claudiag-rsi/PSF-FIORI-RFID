@@ -126,7 +126,6 @@
                     id="inpBoxesNumber"
                     placeholder="{i18n>columnNumberBoxes}"
                     type="Number"
-                    
                     change="onValueChange"
                     class="customInput customFont"
                 />

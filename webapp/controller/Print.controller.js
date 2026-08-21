@@ -219,15 +219,16 @@ sap.ui.define([
             const comboProductCode = this.byId(Constants.PRINTING_COMPONENTS.PRODUCT_CODE);
             const comboCenter = this.byId(Constants.PRINTING_COMPONENTS.CENTER);
 
-            this.byId(Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS).setEnabled(bIsAdd);
+            this.byId(Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS).setEnabled(false);
+            this.byId(Constants.PRINTING_COMPONENTS.EMBILSTADO).setEnabled(false);
             this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER).setEnabled(bIsAdd);
-            this.byId(Constants.PRINTING_COMPONENTS.EMBILSTADO).setEnabled(bIsAdd);
+
 
             this.byId(Constants.PRINTING_COMPONENTS.EMBILSTADO_DIV).setVisible(!bIsAdd);
 
             comboProductCode.setEnabled(bIsAdd);
             comboProductionLines.setEnabled(bIsAdd);
-            comboCenter.setEnabled(bIsAdd);
+            comboCenter.setEnabled(false);
 
             if (bIsAdd) {
                 Utils.setProductPlaceholder(this.getView());
