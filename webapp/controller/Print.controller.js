@@ -158,21 +158,18 @@ sap.ui.define([
         },
 
         _create: function (oLabelPrint) {
-            const oView = this.getView();
-            const oODataModel = this._getModel(Constants.PRINT_MODEL_NAME);
+            try {
+                const oODataModel = this._getModel(Constants.PRINT_MODEL_NAME);
 
-            oODataModel.create("/LabelPrintSet", oLabelPrint, {
-                success: () => {
-                    ToastHelper.success(oView, "La impresión se ha generado correctamente.");
-                    Utils.closeDialog(this, Constants.FRAGMENTS.LABEL_PRINT);
+                PrintService.create(oODataModel, oLabelPrint);
+                ToastHelper.success(this.getView(), "La impresión se ha generado correctamente.");
 
-                    oODataModel.refresh(true);
-                },
-                error: function (oError) {
-                    const sMessage = Utils.getErrorMessage(oError, "Error al imprimir la etiqueta.");
-                    ToastHelper.error(oView, sMessage);
-                }
-            });
+                oODataModel.refresh(true);
+            } catch (oError) {
+                const sMessage = Utils.getErrorMessage(oError, "Error al imprimir la etiqueta.");
+
+                ToastHelper.error(this.getView(), sMessage);
+            }
         },
 
         _getFormData: function () {

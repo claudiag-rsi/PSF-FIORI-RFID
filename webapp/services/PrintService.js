@@ -4,6 +4,15 @@ sap.ui.define([
     "use strict";
 
     return {
+        create: function (oModel, oLabelPrint) {
+            return new Promise((resolve, reject) => {
+                oModel.create("/LabelPrintSet", oLabelPrint, {
+                    success: resolve,
+                    error: reject
+                });
+            });
+        },
+
         getProducts: function (oModel) {
             return new Promise((resolve, reject) => {
                 oModel.read("/ProductSet", {
