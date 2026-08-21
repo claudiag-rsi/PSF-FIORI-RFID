@@ -90,40 +90,40 @@ sap.ui.define([
             oBinding.refresh();
         },
 
-        onProductChange: async function (oEvent) {
-            const oLabelPrint = this._getFormData();
-            const sProductCode = oLabelPrint.Productcode;
-            const sProductionline = oLabelPrint.Productionline;
+        onProductChange: async function () {
+            const {
+                Productcode: sProductCode,
+                Productionline: sProductionline
+            } = this._getFormData();
 
-            if (sProductCode)
-                await this._loadProduct(sProductCode);
-
-            if (!sProductCode)
+            if (!sProductCode) {
                 Utils.setProductPlaceholder(this.getView());
-
-
-            if (!sProductCode || !sProductionline)
-                return;
-
-            const oData = await PrintService.validateProductForProductionLine(this._getModel(Constants.PRINT_MODEL_NAME), sProductCode, sProductionline);
-
-            if (!oData.Exists) {
-                Utils.mapObjectToControls(this, [
-                    { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: Constants.STRING_EMPTY },
-                    { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: Constants.STRING_EMPTY }
-                ]);
-
-                Utils.setDefaultValues(this.byId(Constants.PRINTING_COMPONENTS.CENTER));
-
-                let message = Constants.PRODUCT_NOT_ASSOCIATED_MESSAGE
-                    .replace("{0}", sProductCode)
-                    .replace("{1}", sProductionline);
-
-                ToastHelper.warning(this.getView(), message, 3000);
                 return;
             }
 
-            this.byId(Constants.PRINTING_COMPONENTS.CENTER).setSelectedKey(oData.Werks);
+            await this._loadProduct(sProductCode);
+
+            if (!sProductionline) {
+                return;
+            }
+
+            const oData = await PrintService.validateProductForProductionLine(
+                this._getModel(Constants.PRINT_MODEL_NAME),
+                sProductCode,
+                sProductionline
+            );
+
+            if (!oData.Exists) {
+                this._handleProductNotAssociated(
+                    sProductCode,
+                    sProductionline
+                );
+                return;
+            }
+
+            this.byId(Constants.PRINTING_COMPONENTS.CENTER)
+                .setSelectedKey(oData.Werks);
+
             this._loadProductDetails(sProductCode, oData.Werks);
         },
 
@@ -310,6 +310,21 @@ sap.ui.define([
             const aUnique = PrintUtils._filterUniqueValues(aData);
 
             Utils.setJsonModel(this.getView(), Constants.CENTER_MODEL_NAME, aUnique);
+        },
+
+        _handleProductNotAssociated: function (sProductCode, sProductionline) {
+            Utils.mapObjectToControls(this, [
+                { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: Constants.STRING_EMPTY },
+                { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: Constants.STRING_EMPTY }
+            ]);
+
+            Utils.setDefaultValues(this.byId(Constants.PRINTING_COMPONENTS.CENTER));
+
+            const sMessage = Constants.PRODUCT_NOT_ASSOCIATED_MESSAGE
+                .replace("{0}", sProductCode)
+                .replace("{1}", sProductionline);
+
+            ToastHelper.warning(this.getView(), sMessage, 3000);
         },
 
         _getModel: function (modelName) { return this.getView().getModel(modelName); },
