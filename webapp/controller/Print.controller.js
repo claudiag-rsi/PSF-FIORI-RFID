@@ -11,16 +11,18 @@ sap.ui.define([
 
     return BaseController.extend("fw.flexwarehouse.controller.Print", {
         formatDate: Utils,
-        onInit() { this._catalogsLoaded = false; },
+
+        onInit() {
+            this._catalogsLoaded = false;
+            this._maxValue = null;
+        },
 
         onOpenDialog: async function (oEvent) {
             const oEditContext = oEvent?.getSource()?.getBindingContext(Constants.PRINT_MODEL_NAME) || null;
-            this._oDetailContext = oEditContext;
 
             await this._loadCatalogs();
 
             const oDialog = await Utils.getFragment(this, Constants.FRAGMENTS.LABEL_PRINT);
-
             const oLabelPrint = oEditContext?.getObject() || {};
 
             this._loadToFragment(oLabelPrint);
@@ -31,7 +33,10 @@ sap.ui.define([
             PrintUtils._initSelects(this.getView());
         },
 
-        onCancel: function () { Utils.closeDialog(this, Constants.FRAGMENTS.LABEL_PRINT); },
+        onCancel: function () {
+            this._maxValue = null;
+            Utils.closeDialog(this, Constants.FRAGMENTS.LABEL_PRINT);
+        },
 
         onSave: function () {
             const oLabelPrint = this._getFormData();
@@ -66,68 +71,109 @@ sap.ui.define([
             const oTable = oView.byId(Constants.PRINTING_COMPONENTS.TABLE);
             const oBinding = oTable.getBinding(Constants.PRINTING_COMPONENTS.TABLE_ITEMS);
 
-            oBinding.filter(this.loadToFilter(sProduct, dStart, dEnd));
+            oBinding.filter(this._loadToFilter(sProduct, dStart, dEnd));
         },
 
         onCleanFilters: function () {
-            this.byId(Constants.PRINTING_COMPONENTS.PRODUCT_FILTER).setValue(Constants.STRING_EMPTY);
-            this.byId(Constants.PRINTING_COMPONENTS.START_DATE_FILTER).setValue(null);
-            this.byId(Constants.PRINTING_COMPONENTS.FINAL_DATE_FILTER).setValue(null);
+            const aControls = [
+                { id: Constants.PRINTING_COMPONENTS.PRODUCT_FILTER, value: Constants.STRING_EMPTY },
+                { id: Constants.PRINTING_COMPONENTS.START_DATE_FILTER, value: null },
+                { id: Constants.PRINTING_COMPONENTS.FINAL_DATE_FILTER, value: null }
+            ];
 
-            const oView = this.getView();
-            const oTable = oView.byId(Constants.PRINTING_COMPONENTS.TABLE);
-            oTable.getBinding(Constants.PRINTING_COMPONENTS.TABLE_ITEMS).filter([]);
+            Utils.mapObjectToControls(this, aControls);
 
+            const oTable = this.byId(Constants.PRINTING_COMPONENTS.TABLE);
             const oBinding = oTable.getBinding(Constants.PRINTING_COMPONENTS.TABLE_ITEMS);
+
+            oTable.getBinding(Constants.PRINTING_COMPONENTS.TABLE_ITEMS).filter([]);
             oBinding.refresh();
         },
 
-        onProductChange: function (oEvent) {
-            const sKey = oEvent.getSource().getSelectedKey();
+        onProductChange: async function () {
+            const {
+                Productcode: sProductCode,
+                Productionline: sProductionline,
+                Location: sCenter
+            } = this._getFormData();
 
-            if (!sKey) {
+            if (!sProductCode) {
                 Utils.setProductPlaceholder(this.getView());
                 return;
             }
 
-            const oProductModel = this._getProductModel();
-            if (!oProductModel) return;
+            await this._loadProduct(sProductCode);
 
-            const oData = oProductModel.getData();
-            const aProducts = oData.results || oData;
+            if (!sProductCode || !sProductionline || !sCenter)
+                return;
 
-            const oProduct = aProducts.find(p => p.Matnr === sKey);
+            const oData = await PrintService.validateProductForProductionLine(
+                this._getModel(Constants.PRINT_MODEL_NAME),
+                sProductCode,
+                sProductionline,
+                sCenter
+            );
 
-            this.byId(Constants.PRINTING_COMPONENTS.PRODUCT).setText(oProduct?.Maktx || Constants.STRING_EMPTY);
+            if (!oData.Exists) {
+                this._maxValue = null;
+                Utils.setDefaultValues(this.byId(Constants.PRINTING_COMPONENTS.CENTER));
+
+                Utils.mapObjectToControls(this, [
+                    { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: Constants.STRING_EMPTY },
+                    { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: Constants.STRING_EMPTY }
+                ]);
+
+                ToastHelper.warning(this.getView(), oData.Message, 3000);
+
+                return;
+            }
+            
+            await this._loadProductDetails(sProductCode, sCenter);
+        },
+
+        onValueChange: async function (oEvent) {
+            const oBoxesNumber = this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER);
+            const iValue = Number(oBoxesNumber.getValue());
+            const iMaxValue = this._maxValue;
+
+            if (iValue < 1) {
+                oBoxesNumber.setValue("1");
+
+                ToastHelper.warning(this.getView(), "La cantidad mínima es 1.", 3000);
+                return;
+            }
+
+            if (iMaxValue != null && iValue > iMaxValue) {
+                oBoxesNumber.setValue(iMaxValue.toString());
+
+                ToastHelper.warning(this.getView(), `La cantidad de cajas ingresada [${iValue}] no puede superar el valor de ${iMaxValue}.`, 3000);
+                return;
+            }
         },
 
         _loadCatalogs: async function () {
             if (this._catalogsLoaded) return;
 
-            await Promise.all([
-                this._loadProductionLines(),
-                this._loadProducts()
-            ]);
+            await this._getCenter();
+            await this._getProducts();
+            await this._getProductionLines();
 
             this._catalogsLoaded = true;
         },
 
         _create: function (oLabelPrint) {
-            const oView = this.getView();
-            const oODataModel = this._getPrintModel();
+            try {
+                const oODataModel = this._getModel(Constants.PRINT_MODEL_NAME);
 
-            oODataModel.create("/LabelPrintSet", oLabelPrint, {
-                success: () => {
-                    ToastHelper.success(oView, "La impresión se ha generado correctamente.");
-                    Utils.closeDialog(this, Constants.FRAGMENTS.LABEL_PRINT);
+                PrintService.create(oODataModel, oLabelPrint);
+                ToastHelper.success(this.getView(), "La impresión se ha generado correctamente.");
 
-                    oODataModel.refresh(true);
-                },
-                error: function (oError) {
-                    const sMessage = Utils.getErrorMessage(oError, "Error al imprimir la etiqueta.");
-                    ToastHelper.error(oView, sMessage);
-                }
-            });
+                oODataModel.refresh(true);
+            } catch (oError) {
+                const sMessage = Utils.getErrorMessage(oError, "Error al imprimir la etiqueta.");
+
+                ToastHelper.error(this.getView(), sMessage);
+            }
         },
 
         _getFormData: function () {
@@ -136,10 +182,9 @@ sap.ui.define([
                 Product: String(this.byId(Constants.PRINTING_COMPONENTS.PRODUCT).getText(), 10) || 0,
                 Productcode: this.byId(Constants.PRINTING_COMPONENTS.PRODUCT_CODE).getSelectedKey(),
                 Boxesnumber: String(this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER).getValue(), 10) || 0,
-                Location: this.byId(Constants.PRINTING_COMPONENTS.LOCATION).getValue(),
+                Location: this.byId(Constants.PRINTING_COMPONENTS.CENTER).getSelectedKey(),
                 Productionline: this.byId(Constants.PRINTING_COMPONENTS.PRODUCTION_LINE).getSelectedKey(),
                 Document: "0",
-                Embilstado: "0",
                 Partnumber: "0",
             };
         },
@@ -150,10 +195,12 @@ sap.ui.define([
             this.byId(Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS).setValue(oLabelPrint.Quantitypallets || Constants.STRING_EMPTY);
             this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER).setValue(oLabelPrint.Boxesnumber || Constants.STRING_EMPTY);
             this.byId(Constants.PRINTING_COMPONENTS.PRODUCTION_LINE).setSelectedKey(oLabelPrint?.Productionline);
-            this.byId(Constants.PRINTING_COMPONENTS.LOCATION).setValue(oLabelPrint.Location || Constants.STRING_EMPTY);
+            this.byId(Constants.PRINTING_COMPONENTS.CENTER).setSelectedKey(oLabelPrint?.Location);
+            this.byId(Constants.PRINTING_COMPONENTS.EMBILSTADO).setValue(oLabelPrint?.Embilstado);
+
         },
 
-        loadToFilter: function (sProduct, dStart, dEnd) {
+        _loadToFilter: function (sProduct, dStart, dEnd) {
             const aFilters = [];
             const oModel = sap.ui.model;
             const oFilter = oModel.Filter;
@@ -163,7 +210,7 @@ sap.ui.define([
                 aFilters.push(new oFilter("Productcode", oOperator.EQ, sProduct));
 
             if (dStart && dEnd)
-                aFilters.push(new oFilter("Docdate", oOperator.BT, Utils.toABAPDate(dStart), Utils.toABAPDate(dEnd)));
+                aFilters.push(new oFilter("Docdate", oOperator.BT, dStart, dEnd));
 
             return aFilters;
         },
@@ -171,39 +218,106 @@ sap.ui.define([
         _setModeUI: function (bIsAdd) {
             const comboProductionLines = this.byId(Constants.PRINTING_COMPONENTS.PRODUCTION_LINE);
             const comboProductCode = this.byId(Constants.PRINTING_COMPONENTS.PRODUCT_CODE);
+            const comboCenter = this.byId(Constants.PRINTING_COMPONENTS.CENTER);
 
             this.byId(Constants.PRINTING_COMPONENTS.CREATE).setVisible(bIsAdd);
-            this.byId(Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS).setEnabled(bIsAdd);
+            this.byId(Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS).setEnabled(false);
+            this.byId(Constants.PRINTING_COMPONENTS.EMBILSTADO).setEnabled(false);
             this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER).setEnabled(bIsAdd);
-            this.byId(Constants.PRINTING_COMPONENTS.LOCATION).setEnabled(bIsAdd);
+
+
+            this.byId(Constants.PRINTING_COMPONENTS.EMBILSTADO_DIV).setVisible(!bIsAdd);
 
             comboProductCode.setEnabled(bIsAdd);
             comboProductionLines.setEnabled(bIsAdd);
+            comboCenter.setEnabled(bIsAdd);
 
             if (bIsAdd) {
                 Utils.setProductPlaceholder(this.getView());
-                Utils.setDefaultValues(comboProductionLines,);
+                Utils.setDefaultValues(comboProductionLines);
                 Utils.setDefaultValues(comboProductCode);
+                Utils.setDefaultValues(comboCenter);
             }
         },
 
-        _loadProducts: async function () {
-            const oData = await PrintService.getProducts(this._getPrintModel());
+        _loadProduct: async function (sKey) {
+            const oProductModel = this._getModel(Constants.PRODUCT_MODEL_NAME);
+            if (!oProductModel) return;
+
+            const oProduct = oProductModel.getData();
+
+            const aProducts = oProduct.results || oProduct;
+            const oItemProduct = aProducts.find(p => p.Matnr === sKey);
+
+            this.byId(Constants.PRINTING_COMPONENTS.PRODUCT).setText(oItemProduct?.Maktx || Constants.STRING_EMPTY);
+        },
+
+        _loadProductDetails: async function (sMatnr, sWerks) {
+            const oView = this.getView();
+
+            try {
+                const oData = await PrintService.getProductDetails(this._getModel(Constants.PRINT_MODEL_NAME), sMatnr, sWerks);
+
+                Utils.setJsonModel(oView, Constants.PRODUCT_DETAILS_MODEL_NAME, oData);
+
+                const oProductDetailsModel = this._getModel(Constants.PRODUCT_DETAILS_MODEL_NAME);
+
+                if (!oProductDetailsModel) return;
+
+                const oProductDetails = oProductDetailsModel.getData();
+
+                this._maxValue = Number(oProductDetails?.Umrez);
+
+                Utils.mapObjectToControls(this, [
+                    { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: oProductDetails?.Umrez },
+                    { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: oProductDetails?.Ean11 }
+                ]);
+            }
+            catch (sErrorMessage) {
+                ToastHelper.error(oView, sErrorMessage);
+
+                Utils.mapObjectToControls(this, [
+                    { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: Constants.STRING_EMPTY },
+                    { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: Constants.STRING_EMPTY }
+                ]);
+            }
+        },
+
+        _getProducts: async function () {
+            const oData = await PrintService.getProducts(this._getModel(Constants.PRINT_MODEL_NAME));
             const aData = Utils.formatProduct(oData);
 
             Utils.setJsonModel(this.getView(), Constants.PRODUCT_MODEL_NAME, aData);
         },
 
-        _loadProductionLines: async function () {
-            const oData = await PrintService.getProductionLines(this._getPrintModel());
-            const aData = Utils.formatProductionLines(oData);
+        _getProductionLines: async function (selectedWerks) {
+            const oView = this.getView();
 
-            Utils.setJsonModel(this.getView(), Constants.PRODUCTION_LINE_MODEL_NAME, aData);
+            // 1. Obtener y transformar datos
+            const oData = await PrintService.getProductionLines(this._getModel(Constants.PRINT_MODEL_NAME));
+            const aFormatted = Utils.formatTableProductionLine(oData, "Arbpl");
+
+            // 2. Filtrar (sin mutar)
+            const aFiltered = selectedWerks
+                ? aFormatted.filter(item => item.Werks === selectedWerks)
+                : aFormatted;
+
+            // 3. Setear modelo
+            Utils.setJsonModel(oView, Constants.PRODUCTION_LINE_MODEL_NAME, aFiltered);
+
+            // 4. Manejo de UI separado
+            PrintUtils._updateProductionLineSelection(aFiltered, selectedWerks, oView);
         },
 
-        _getPrintModel: function () { return this.getView().getModel(Constants.PRINT_MODEL_NAME); },
+        _getCenter: async function () {
+            const oData = await PrintService.getProductionLines(this._getModel(Constants.PRINT_MODEL_NAME));
+            const aData = Utils.formatTableProductionLine(oData, "Werks");
+            const aUnique = PrintUtils._filterUniqueValues(aData);
 
-        _getProductModel: function () { return this.getView().getModel(Constants.PRODUCT_MODEL_NAME); },
+            Utils.setJsonModel(this.getView(), Constants.CENTER_MODEL_NAME, aUnique);
+        },
+
+        _getModel: function (modelName) { return this.getView().getModel(modelName); },
 
         onExit: function () { DialogManager.destroyDialogs(this, "_mDialogs"); },
     });

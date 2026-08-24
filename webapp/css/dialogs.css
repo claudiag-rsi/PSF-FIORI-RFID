@@ -44,7 +44,7 @@
 
 .customText-noDrop {
     padding-left: 12px;
-    color: #566c82 !important;
+    color: #999999 !important;
     line-height: 30px;
     cursor: no-drop;
     height: max-content !important;

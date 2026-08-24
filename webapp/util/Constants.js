@@ -15,7 +15,10 @@ sap.ui.define([], function () {
             PRODUCTION_LINE: "cbxProductionLines",
             QUANTITY_PALLETS: "inpQuantityPallets",
             BOXES_NUMBER:"inpBoxesNumber",
-            LOCATION: "inpLocation",
+            EMBILSTADO: "inpEmbilted",
+            EAN: "inpEan",    
+            EMBILSTADO_DIV:"vBoxEmbilted",        
+            CENTER: "cbxCenters",
             PRODUCT: "txtProduct",
             CREATE: "btnAcceptPrint",
             TABLE: "tblPrint",
@@ -32,11 +35,13 @@ sap.ui.define([], function () {
         READER_MODEL_NAME: "ReaderModel",
         PRINT_MODEL_NAME: "LabelPrintModel",
         PRODUCTION_LINE_MODEL_NAME: "ProductionLineModel",
+        CENTER_MODEL_NAME: "centersModel",
         PRODUCT_MODEL_NAME: "ProductModel",
+        PRODUCT_DETAILS_MODEL_NAME: "ProductDetailsModel",
         FORMAT_ABAP_DATE: "yyyyMMdd",
         FORMAT_DATE: "dd-MM-yyyy",
         EMPTY_ELEMENT: "Seleccione un elemento",
         REQUIRED_FIELDS_MESSAGE: "Los campos marcados con (*) son obligatorios.",
-        INVALID_FIELD_TYPES_MESSAGE: "Hay campos inválidos. Verifica que los valores numéricos sean correctos.",
+        INVALID_FIELD_TYPES_MESSAGE: "Hay campos inválidos. Verifica que los valores numéricos sean correctos."
     };
 });

@@ -6,7 +6,11 @@ sap.ui.define([
   return BaseController.extend("fw.flexwarehouse.controller.App", {
     onInit: function () {
       var oRouter = this.getOwnerComponent().getRouter();
-    
+      const oAppDescriptor = this.getOwnerComponent().getManifest();
+      const sVersion = oAppDescriptor["sap.app"].applicationVersion.version;
+
+      this.byId("footerVersion").setText(`v${sVersion}`);
+
       oRouter.attachRouteMatched(this.onRouteMatched, this);
     },
 
@@ -14,7 +18,7 @@ sap.ui.define([
     onSideNavButtonPress: function () {
       var oToolPage = this.byId("toolPage");
       var bSideExpanded = oToolPage.getSideExpanded();
-      
+
       oToolPage.setSideExpanded(!bSideExpanded);
     },
 

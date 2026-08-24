@@ -38,22 +38,30 @@
         </VBox>
 
         <!-- Tabla con Toolbar para el botón -->
-        <Table id="tblTransactions" items="{TransactionModel>/TransactionSet}">           
+        <Table class="p_2rem" id="tblTransactions" items="{TransactionModel>/TransactionSet}">           
              <columns>
-                <Column id="colTransactionsProduct"><Text id="txtTransactionsProduct" text="{i18n>columnProduct}"/></Column>
-                <Column id="colTransactionsReader"><Text id="txtTransactionsReader" text="{i18n>columnReader}"/></Column>
-                <Column id="colTransactionsAntenna"><Text id="txtTransactionsAntenna" text="{i18n>columnAntenna}"/></Column>
-                <Column id="colTransactionsDate"><Text id="txtTransactionsDate" text="{i18n>columnDate}"/></Column>
-                <Column id="colTransactionsLastReading"><Text id="txtTransactionsLastReading" text="{i18n>columnLastReading}"/></Column>
+              <Column id="colTransactionsRfidIdentifier"><Text id="txtTransactionsRfidIdentifier" text="{i18n>rfidIdentifierColumn}"/></Column>   
+                <Column id="colTransactionsEmbilted"><Text id="txtTransactionsEmbilted" text="{i18n>embiltedColumn}"/></Column>
+                <Column id="colTransactionsProduct"><Text id="txtTransactionsProduct" text="{i18n>productColumn}"/></Column>
+                <Column id="colTransactionsBoxesNumber"><Text id="txtTransactionsBoxesNumber" text="{i18n>boxesNumberColumn}"/></Column>
+                <Column id="colTransactionsReader"><Text id="txtTransactionsReader" text="{i18n>readerColumn}"/></Column>
+                <Column id="colTransactionsAntenna"><Text id="txtTransactionsAntenna" text="{i18n>antennaColumn}"/></Column>
+                <Column id="colTransactionsDate"><Text id="txtTransactionsDate" text="{i18n>dateColumn}"/></Column>    
             </columns>
                <items>
                 <ColumnListItem id="colListItemTransactions">
                     <cells>
+                        <Text id="txtTransactionsValueRfidIdentifier" text="{TransactionModel>Rfididentifier}"/>
+                          <Text id="txtTransactionsValueEmbilted" text="{TransactionModel>Embilstado}"/> 
                         <Text id="txtTransactionsValueID" text="{TransactionModel>Productcode}"/>
+                        <Text id="txtTransactionsValueBoxesNumber" text="{TransactionModel>Boxesnumber}"/>
                         <Text id="txtTransactionsValueName" text="{TransactionModel>Reader}"/>
-                        <Text id="txtTransactionsValueAntenna" text="{TransactionModel>Antenna}"/>
-                         <Text id="txtTransactionsValueDate" text="{ path: 'TransactionModel>Erdat', formatter: '.formatDate.formatDateToString' }"/>
-                          <Text id="txtTransactionsValueLastReading" text="{ path: 'TransactionModel>Aedat', formatter: '.formatDate.formatDateToString' }"/>
+                        <Text id="txtTransactionsValueAntenna" text="{TransactionModel>Antenna}"/>                      
+                        <Text    id="txtTransactionsValueDateTime" text="{ parts: [
+                                                                                    { path: 'TransactionModel>Erdat', formatter: '.formatDate.formatDateToString' },
+                                                                                    { path: 'TransactionModel>Aezet' }
+                                                                                  ],
+                                                                                  formatter: '.formatDate.formatDateTime' }" />       
                     </cells>
                 </ColumnListItem>
                 </items>      

@@ -3,28 +3,45 @@
         id="ReaderDialog" 
         stretchOnPhone="true"
         class="customDialog">
+ 
   <content>
-  <VBox id="vbxMain" class="sapUiSmallMargin customVBoxReader" width="100%">
-      <VBox id="vbxReader" class="itemInput">
-         <Label id="lblReader" text="{i18n>columnName}*" class="customLabel"/>
-         <Input id="inpReader" placeholder="{i18n>columnName}" class="customInput"/>
-      </VBox>
+    <VBox id="vbxMain" class="sapUiSmallMargin customVBoxReader" width="100%">
+
+        <!-- Nombre* -->
+        <VBox id="vbxReader" class="itemInput">
+            <Label id="lblReader" text="{i18n>nameColumn}*" class="customLabel"/>
+            <Input id="inpReader" placeholder="{i18n>nameColumn}" class="customInput"/>
+        </VBox>
       
-      <VBox id="vbxAntenna" class="itemInput">     
-          <Label id="lblAntenna" text="{i18n>columnAnntena}*" class="customLabel"/>
-          <Input id="inpAntenna" placeholder="{i18n>columnAnntena}" class="customInput"/>
-      </VBox>
+        <!-- Antena* -->
+        <VBox id="vbxAntenna" class="itemInput">     
+            <Label id="lblAntenna" text="{i18n>anntenaColumn}*" class="customLabel"/>
+            <Input id="inpAntenna" placeholder="{i18n>anntenaColumn}" class="customInput"/>
+        </VBox>
        
-      <VBox id="vbxIP" class="vboxIp itemInput">
-           <Label id="lblIp" text="{i18n>columnIp}*" class="customLabel"/>
-           <Input id="inpIp" placeholder="{i18n>columnIp}" class="customInput"/>
-       </VBox>
+        <!-- Dirección IP* -->
+        <VBox id="vbxIP" class="vboxIp itemInput">
+            <Label id="lblIp" text="{i18n>ipColumn}*" class="customLabel"/>
+            <Input id="inpIp" placeholder="{i18n>ipColumn}" class="customInput"/>
+        </VBox>
+
     </VBox>
   </content>
+  
   <beginButton>
-    <Button id="btnAcceptReader" text="{i18n>save}" press=".onSave"  type="Accept" class="btnDialogAccept"/>
+      <Button id="btnAcceptReader" 
+              text="{i18n>save}" 
+              press=".onSave"  
+              type="Accept" 
+              class="btnDialogAccept"/>
   </beginButton>
+  
   <endButton>
-    <Button id="btnCloseReader" text="{i18n>close}" press=".onCancel" type="Reject" class="btnDialogCancel"/>
+      <Button id="btnCloseReader" 
+              text="{i18n>close}" 
+              press=".onCancel" 
+              type="Reject" 
+              class="btnDialogCancel"/>
   </endButton>
+  
 </Dialog>

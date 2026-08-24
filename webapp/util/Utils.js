@@ -69,6 +69,49 @@ sap.ui.define([
 
         },
 
+        formatTime: function (oTime) {
+
+            if (!oTime || !oTime.ms) {
+                return "";
+            }
+
+            const totalSeconds = Math.floor(oTime.ms / 1000);
+
+            const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+            const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+            const seconds = String(totalSeconds % 60).padStart(2, '0');
+
+            return `${hours}:${minutes}:${seconds}`;
+        },
+
+        formatDateTime: function (sDate, oTime) {
+
+            let timeFormatted = "";
+
+            // Hora con AM/PM
+            if (oTime && oTime.ms !== undefined) {
+
+                const totalSeconds = Math.floor(oTime.ms / 1000);
+
+                let hours = Math.floor(totalSeconds / 3600);
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                const seconds = totalSeconds % 60;
+
+                const ampm = hours >= 12 ? "PM" : "AM";
+
+                hours = hours % 12;
+                hours = hours ? hours : 12;
+
+                timeFormatted =
+                    String(hours).padStart(2, '0') + ":" +
+                    String(minutes).padStart(2, '0') + ":" +
+                    String(seconds).padStart(2, '0') +
+                    " " + ampm;
+            }
+
+            return `${sDate} ${timeFormatted}`;
+        },
+
         validateDate: function (oView, dStart, dEnd) {
             if (!dStart && !dEnd) { return true; }
 
@@ -130,13 +173,12 @@ sap.ui.define([
             return aData;
         },
 
-        formatProductionLines: function (oData) {
+        formatTableProductionLine: function (oData, field) {
             const aData = oData.results.map(item => ({
                 ...item,
-                Description: item.Arbpl
+                Description: item[field] || Constants.STRING_EMPTY
             }));
 
-            // 👉 placeholder real
             aData.unshift({
                 Mandt: Constants.STRING_EMPTY,
                 Werks: Constants.STRING_EMPTY,
@@ -180,6 +222,12 @@ sap.ui.define([
             }
 
             return sMessage;
+        },
+
+        mapObjectToControls: function (oView, aControls) {
+            aControls.forEach(({ id, value }) => {
+                oView.byId(id).setValue(value);
+            });
         }
     }
 });

@@ -7,121 +7,153 @@
     class="customDialog customFont"
 >
     <content>
-        <VBox id="vBoxMainPrint"
-              class="sapUiSmallMargin customVBoxPrint"
-              width="100%">                
-
-             <VBox id="vBoxProductCode">
-                <Label id="lblProductCode"
-                    text="{i18n>columnProductCode}*"
+        <VBox
+            id="vBoxMainPrint"
+            class="sapUiSmallMargin customVBoxPrint"
+            width="100%"
+        >
+            <!-- Código de Producto* -->
+            <VBox id="vBoxProductCode">
+                <Label
+                    id="lblProductCode"
+                    text="{i18n>productCodeColumn}*"
                     class="customLabel customFont"
                 />
-                <ComboBox id="cbxProductCode"
-                          class="customInput customSelect customFont"
-                          selectedKey="{ProductModel>/Productcode}"
-                          change="onProductChange"
-                          showSecondaryValues="true"
-                          filterSecondaryValues="true"
-                          items="{ path: 'ProductModel>/' }">
-
-                          <core:ListItem id="colProductCode" 
-                                     key="{ProductModel>Matnr}"
-                                     text="{ProductModel>Description}" />
+                <ComboBox
+                    id="cbxProductCode"
+                    class="customInput customSelect customFont"
+                    selectedKey="{ProductModel>/Productcode}"
+                    change="onProductChange"
+                    showSecondaryValues="true"
+                    filterSecondaryValues="true"
+                    items="{ path: 'ProductModel>/' }"
+                >
+                    <core:ListItem
+                        id="colProductCode"
+                        key="{ProductModel>Matnr}"
+                        text="{ProductModel>Description}"
+                    />
                 </ComboBox>
-            </VBox>    
-   
-            <VBox id="vBoxProduct">
-                <Label id="lblProduct"
-                    text="{i18n>columnProduct}*"
+            </VBox>
+
+            <!-- Linea de Producción* -->
+            <VBox id="vBoxProductionLines">
+                <Label
+                    id="lblProductionLine"
+                    text="{i18n>productionLineColumn}*"
                     class="customLabel customFont"
                 />
-                <Text id="txtProduct"
-                     text="ProductModel>/Product" 
+
+                <ComboBox
+                    id="cbxProductionLines"
+                    class="customInput customSelect customFont"
+                    selectedKey="{ProductionLineModel>/selectedKey}"
+                    change="onProductChange"
+                    showSecondaryValues="true"
+                    filterSecondaryValues="true"
+                    items="{ path: 'ProductionLineModel>/' }"
+                >
+                    <core:ListItem
+                        id="colProductionLines"
+                        key="{ProductionLineModel>Arbpl}"
+                        text="{ProductionLineModel>Description}"
+                    />
+                </ComboBox>
+            </VBox>
+
+            <!-- Producto* -->
+            <VBox
+                class="full-width-second-row"
+                id="vBoxProduct"
+            >
+                <Label
+                    id="lblProduct"
+                    text="{i18n>productColumn}*"
+                    class="customLabel customFont"
+                />
+                <Text
+                    id="txtProduct"
+                    text="ProductModel>/Product"
                     class="customInput customText-noDrop customFont"
                 />
-            </VBox>     
+            </VBox>
 
+            <!-- Centro* -->
+            <VBox id="vBoxCenter">
+                <Label
+                    id="lblCenter"
+                    text="{i18n>centerColumn}*"
+                    class="customLabel customFont"
+                />
+                <ComboBox
+                    id="cbxCenters"
+                    class="customInput customSelect customFont"
+                    selectedKey="{centersModel>/selectedKey}"
+                    showSecondaryValues="true"
+                    filterSecondaryValues="true"
+                    change="onProductChange"
+                    items="{ path: 'centersModel>/' }"
+                >
+                    <core:ListItem
+                        id="colCenters"
+                        key="{centersModel>Werks}"
+                        text="{centersModel>Description}"
+                    />
+                </ComboBox>
+            </VBox>
+
+            <!--Cantidad de Pallets* -->
             <VBox id="vBoxQuantityPallets">
                 <Label
                     id="lblQuantityPallets"
-                    text="{i18n>columnQuantityPallets}*"
+                    text="{i18n>quantityPalletsColumn}*"
                     class="customLabel customFont"
                 />
                 <Input
                     id="inpQuantityPallets"
-                    placeholder="{i18n>columnQuantityPallets}"
+                    placeholder="{i18n>quantityPalletsColumn}"
                     class="customInput customFont"
                 />
             </VBox>
 
+            <!--Cantidad de cajas* -->
             <VBox id="vBoxBoxesNumber">
                 <Label
                     id="lblBoxesNumber"
-                    text="{i18n>columnNumberBoxes}*"
+                    text="{i18n>boxesNumberColumn}*"
                     class="customLabel customFont"
                 />
                 <Input
                     id="inpBoxesNumber"
-                    placeholder="{i18n>columnNumberBoxes}"
+                    placeholder="{i18n>boxesNumberColumn}"
+                    type="Number"
+                    change="onValueChange"
                     class="customInput customFont"
                 />
             </VBox>
 
-            <VBox id="vBoxLocation">
-                <Label id="lblLocation"
-                    text="{i18n>columnLocation}*"
+            <!-- Emblistado -->
+            <VBox
+                id="vBoxEmbilted"
+                class="row4"
+            >
+                <Label
+                    id="lblEmbilted"
+                    text="{i18n>embiltedColumn}"
                     class="customLabel customFont"
                 />
-                <Input id="inpLocation"
-                    placeholder="{i18n>columnLocation}"
+                <Input
+                    id="inpEmbilted"
+                    placeholder="{i18n>embiltedColumn}"
                     class="customInput customFont"
                 />
             </VBox>
-
-            <VBox id="vBoxProductionLines">
-                <Label id="lblProductionLine"
-                    text="{i18n>columnProductionLine}*"
-                    class="customLabel customFont"
-                />
-                <ComboBox id="cbxProductionLines"
-                        class="customInput customSelect customFont"
-                        selectedKey="{ProductionLineModel>/selectedKey}"
-                        showSecondaryValues="true"
-                        filterSecondaryValues="true"
-                        items="{ path: 'ProductionLineModel>/' }">
-
-                        <core:ListItem  id="colProductionLines"
-                            key="{ProductionLineModel>Arbpl}"
-                            text="{ProductionLineModel>Description}"/>
-                </ComboBox>
-            </VBox>
-
-            <!-- <VBox id="vBoxDocument">
-                <Label id="lblDocument"
-                    text="{i18n>columnDocument}*"
-                    class="customLabel customFont"
-                />
-                <Input id="inpDocument"
-                    placeholder="{i18n>columnDocument}"
-                    class="customInput customFont"
-                />
-            </VBox>
-
-            <VBox id="vBoxEmbilstado">
-                <Label id="lblEmbilstado"
-                    text="Embilstado*"
-                    class="customLabel customFont"
-                />
-                <Input id="inpEmbilstado"
-                    placeholder="Embilstado"
-                    class="customInput customFont"
-                />
-            </VBox> -->
         </VBox>
     </content>
 
     <beginButton>
-        <Button id="btnAcceptPrint"
+        <Button
+            id="btnAcceptPrint"
             text="{i18n>save}"
             press=".onSave"
             type="Accept"
@@ -130,7 +162,8 @@
     </beginButton>
 
     <endButton>
-        <Button id="btnClosePrint"
+        <Button
+            id="btnClosePrint"
             text="{i18n>close}"
             press=".onCancel"
             type="Reject"

@@ -17,13 +17,22 @@
                 <tnt:NavigationList id="navList">
                     <tnt:NavigationListItem id="navReaders" text="{i18n>viewNameReader}" icon="sap-icon://tags" key="Readers" />
                     <tnt:NavigationListItem id="navPrint" text="{i18n>viewNamePrint}" icon="sap-icon://print" key="Print" />       
-                     <!-- <tnt:NavigationListItem id="navTransactions" text="{i18n>viewNameTransactions}" icon="sap-icon://business-objects-experience" key="Transactions" />   -->
+                    <tnt:NavigationListItem id="navTransactions" text="{i18n>viewNameTransactions}" icon="sap-icon://business-objects-experience" key="Transactions" />
                 </tnt:NavigationList>
             </tnt:SideNavigation>
         </tnt:sideContent>
 
         <tnt:mainContents>
-            <App id="app" /> 
+            <VBox id="mainContainer" fitContainer="true" height="100%">
+                <App id="app" class="sapUiFlexBoxFill" />
+                    <!-- Pie de página -->
+                    <Toolbar id="footerToolbar" class="footerToolbar">
+                        <Text id="footerVersion"/>
+                        <ToolbarSpacer id="footerSpacer" />
+                        <Text id="footerBy" class="boxFooter" text="By" />
+                        <Link id="footerCompany" class="boxFooter" text="RSI México" href="https://www.rsimexico.com/" target="_blank" />
+                    </Toolbar>
+            </VBox>
         </tnt:mainContents>
     </tnt:ToolPage>
 </mvc:View>
