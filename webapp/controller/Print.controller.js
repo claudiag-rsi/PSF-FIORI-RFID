@@ -15,6 +15,8 @@ sap.ui.define([
         onInit() {
             this._catalogsLoaded = false;
             this._maxValue = null;
+            this._canProduce = false;
+            this._canProduceMessage = Constants.STRING_EMPTY;
         },
 
         onOpenDialog: async function (oEvent) {
@@ -40,6 +42,11 @@ sap.ui.define([
 
         onSave: function () {
             const oLabelPrint = this._getFormData();
+
+            if (!this._canProduce && oLabelPrint.Productcode && oLabelPrint.Productionline && oLabelPrint.Location) {
+                ToastHelper.warning(this.getView(), this._canProduceMessage, 3000);
+                return;
+            }
 
             if (!PrintUtils._isValid(oLabelPrint)) {
                 ToastHelper.warning(this.getView(), Constants.REQUIRED_FIELDS_MESSAGE, 1000);
@@ -114,20 +121,22 @@ sap.ui.define([
                 sCenter
             );
 
-            if (!oData.Exists) {
+            this._canProduce = oData?.Exists === true;
+            this._canProduceMessage = oData?.Message || Constants.STRING_EMPTY;
+
+            if (!this._canProduce) {
                 this._maxValue = null;
-                Utils.setDefaultValues(this.byId(Constants.PRINTING_COMPONENTS.CENTER));
 
                 Utils.mapObjectToControls(this, [
                     { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: Constants.STRING_EMPTY },
                     { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: Constants.STRING_EMPTY }
                 ]);
 
-                ToastHelper.warning(this.getView(), oData.Message, 3000);
+                ToastHelper.warning(this.getView(), this._canProduceMessage, 3000);
 
                 return;
             }
-            
+
             await this._loadProductDetails(sProductCode, sCenter);
         },
 
