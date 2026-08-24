@@ -40,13 +40,13 @@
         <!-- Tabla con Toolbar para el botón -->
         <Table class="p_2rem" id="tblTransactions" items="{TransactionModel>/TransactionSet}">           
              <columns>
-              <Column id="colTransactionsRfidIdentifier"><Text id="txtTransactionsRfidIdentifier" text="{i18n>columnRfidIdentifier}"/></Column>   
-                <Column id="colTransactionsEmbilted"><Text id="txtTransactionsEmbilted" text="{i18n>columnEmbilted}"/></Column>
-                <Column id="colTransactionsProduct"><Text id="txtTransactionsProduct" text="{i18n>columnProduct}"/></Column>
-                <Column id="colTransactionsBoxesNumber"><Text id="txtTransactionsBoxesNumber" text="{i18n>columnBoxesNumber}"/></Column>
-                <Column id="colTransactionsReader"><Text id="txtTransactionsReader" text="{i18n>columnReader}"/></Column>
-                <Column id="colTransactionsAntenna"><Text id="txtTransactionsAntenna" text="{i18n>columnAntenna}"/></Column>
-                <Column id="colTransactionsDate"><Text id="txtTransactionsDate" text="{i18n>columnDate}"/></Column>    
+              <Column id="colTransactionsRfidIdentifier"><Text id="txtTransactionsRfidIdentifier" text="{i18n>rfidIdentifierColumn}"/></Column>   
+                <Column id="colTransactionsEmbilted"><Text id="txtTransactionsEmbilted" text="{i18n>embiltedColumn}"/></Column>
+                <Column id="colTransactionsProduct"><Text id="txtTransactionsProduct" text="{i18n>productColumn}"/></Column>
+                <Column id="colTransactionsBoxesNumber"><Text id="txtTransactionsBoxesNumber" text="{i18n>boxesNumberColumn}"/></Column>
+                <Column id="colTransactionsReader"><Text id="txtTransactionsReader" text="{i18n>readerColumn}"/></Column>
+                <Column id="colTransactionsAntenna"><Text id="txtTransactionsAntenna" text="{i18n>antennaColumn}"/></Column>
+                <Column id="colTransactionsDate"><Text id="txtTransactionsDate" text="{i18n>dateColumn}"/></Column>    
             </columns>
                <items>
                 <ColumnListItem id="colListItemTransactions">

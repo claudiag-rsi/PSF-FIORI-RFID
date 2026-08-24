@@ -17,9 +17,9 @@
         <Table class="p_2rem" id="tblReaders" items="{ReaderModel>/ReadersSet}"> 
             <columns>
                 <Column id="colDeleteReader"><Text id="txtReaderDelete" text="{i18n>delete}"/></Column>            
-                <Column id="colReaderReader"><Text id="txtReaderReader" text="{i18n>columnName}"/></Column>
-                <Column id="colReaderIP"><Text id="txtReaderIP" text="{i18n>columnIp}"/></Column>
-                <Column id="colReaderAntenna"><Text id="txtReaderAntenna" text="{i18n>columnAnntena}"/></Column>
+                <Column id="colReaderReader"><Text id="txtReaderReader" text="{i18n>nameColumn}"/></Column>
+                <Column id="colReaderIP"><Text id="txtReaderIP" text="{i18n>ipColumn}"/></Column>
+                <Column id="colReaderAntenna"><Text id="txtReaderAntenna" text="{i18n>anntenaColumn}"/></Column>
                 <Column id="colEditReader"><Text id="txtEditReader" text="{i18n>update}"/></Column>
             </columns>   
            

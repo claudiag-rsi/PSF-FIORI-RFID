@@ -43,12 +43,13 @@
 
         <Table class="p_2rem" id="tblPrint" items="{LabelPrintModel>/LabelPrintSet}">
             <columns>
-                <Column id="colPrintLabelPrintDocDate"><Text id="txtPrintLabelPrintDocDate" text="{i18n>columnDateDocument}"/></Column>
-                <Column id="colPrintProductCode"><Text id="txtPrintProductCode" text="{i18n>columnProductCode}"/></Column>               
-                <Column id="colPrintQuantityPallets"><Text id="txtPrintQuantityPallets" text="{i18n>columnQuantityPallets}"/></Column>
-                <Column id="colPrintCenter"><Text id="txtPrintCenter" text="{i18n>columnCenter}"/></Column>
-                <Column id="colPrintProductionLine"><Text id="txtPrintProductionLine" text="{i18n>columnProductionLine}"/></Column>
-                <Column id="colReaderEmbilted"><Text id="txtReaderEmbilted" text="{i18n>columnEmbilted}"/></Column>
+                <Column id="colPrintLabelPrintDocDate"><Text id="txtPrintLabelPrintDocDate" text="{i18n>dateDocumentColumn}"/></Column>
+                <Column id="colPrintProductCode"><Text id="txtPrintProductCode" text="{i18n>productCodeColumn}"/></Column>               
+                <Column id="colPrintCenter"><Text id="txtPrintCenter" text="{i18n>centerColumn}"/></Column>
+                <Column id="colPrintProductionLine"><Text id="txtPrintProductionLine" text="{i18n>productionLineColumn}"/></Column>
+                <Column id="colPrintQuantityPallets"><Text id="txtPrintQuantityPallets" text="{i18n>quantityPalletsColumn}"/></Column>
+                <Column id="colPrintBoxesNumber"><Text id="txtPrintBoxesNumber" text="{i18n>boxesNumberColumn}"/></Column>              
+                <Column id="colReaderEmbilted"><Text id="txtReaderEmbilted" text="{i18n>embiltedColumn}"/></Column>
                 <Column id="colEditPrint"><Text id="txtPrintEdit" text="Detalle"/></Column>
             </columns> 
 
@@ -57,9 +58,10 @@
                     <cells>                 
                         <Text id="txtPrintValueDocDate" text="{ path: 'LabelPrintModel>Docdate', formatter: '.formatDate.formatDateToString' }"/>
                         <Text id="txtPrintValueProductcode" text="{LabelPrintModel>Productcode}"/>                         
-                        <Text id="txtPrintValueQuantityPallets" text="{LabelPrintModel>Quantitypallets}"/>
                         <Text id="txtPrintValueCenter" text="{LabelPrintModel>Location}"/>
-                        <Text id="txtPrintValueProductionLine" text="{LabelPrintModel>Productionline}"/> 
+                        <Text id="txtPrintValueProductionLine" text="{LabelPrintModel>Productionline}"/>
+                        <Text id="txtPrintValueQuantityPallets" text="{LabelPrintModel>Quantitypallets}"/>
+                        <Text id="txtPrintValueBoxesNumber" text="{LabelPrintModel>Boxesnumber}"/> 
                         <Text id="txtPrintValueEmbilted" text="{LabelPrintModel>Embilstado}"/>                           
                         <Button id="btnEditPrint" icon="sap-icon://show" press="onOpenDialog" type="Accept"/>                    
                     </cells>

@@ -9,20 +9,20 @@
 
         <!-- Nombre* -->
         <VBox id="vbxReader" class="itemInput">
-            <Label id="lblReader" text="{i18n>columnName}*" class="customLabel"/>
-            <Input id="inpReader" placeholder="{i18n>columnName}" class="customInput"/>
+            <Label id="lblReader" text="{i18n>nameColumn}*" class="customLabel"/>
+            <Input id="inpReader" placeholder="{i18n>nameColumn}" class="customInput"/>
         </VBox>
       
         <!-- Antena* -->
         <VBox id="vbxAntenna" class="itemInput">     
-            <Label id="lblAntenna" text="{i18n>columnAnntena}*" class="customLabel"/>
-            <Input id="inpAntenna" placeholder="{i18n>columnAnntena}" class="customInput"/>
+            <Label id="lblAntenna" text="{i18n>anntenaColumn}*" class="customLabel"/>
+            <Input id="inpAntenna" placeholder="{i18n>anntenaColumn}" class="customInput"/>
         </VBox>
        
         <!-- Dirección IP* -->
         <VBox id="vbxIP" class="vboxIp itemInput">
-            <Label id="lblIp" text="{i18n>columnIp}*" class="customLabel"/>
-            <Input id="inpIp" placeholder="{i18n>columnIp}" class="customInput"/>
+            <Label id="lblIp" text="{i18n>ipColumn}*" class="customLabel"/>
+            <Input id="inpIp" placeholder="{i18n>ipColumn}" class="customInput"/>
         </VBox>
 
     </VBox>

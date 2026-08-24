@@ -93,7 +93,8 @@ sap.ui.define([
         onProductChange: async function () {
             const {
                 Productcode: sProductCode,
-                Productionline: sProductionline
+                Productionline: sProductionline,
+                Location: sCenter
             } = this._getFormData();
 
             if (!sProductCode) {
@@ -103,28 +104,31 @@ sap.ui.define([
 
             await this._loadProduct(sProductCode);
 
-            if (!sProductionline) {
+            if (!sProductCode || !sProductionline || !sCenter)
                 return;
-            }
 
             const oData = await PrintService.validateProductForProductionLine(
                 this._getModel(Constants.PRINT_MODEL_NAME),
                 sProductCode,
-                sProductionline
+                sProductionline,
+                sCenter
             );
 
             if (!oData.Exists) {
-                this._handleProductNotAssociated(
-                    sProductCode,
-                    sProductionline
-                );
+                this._maxValue = null;
+                Utils.setDefaultValues(this.byId(Constants.PRINTING_COMPONENTS.CENTER));
+
+                Utils.mapObjectToControls(this, [
+                    { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: Constants.STRING_EMPTY },
+                    { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: Constants.STRING_EMPTY }
+                ]);
+
+                ToastHelper.warning(this.getView(), oData.Message, 3000);
+
                 return;
             }
-
-            this.byId(Constants.PRINTING_COMPONENTS.CENTER)
-                .setSelectedKey(oData.Werks);
-
-            this._loadProductDetails(sProductCode, oData.Werks);
+            
+            await this._loadProductDetails(sProductCode, sCenter);
         },
 
         onValueChange: async function (oEvent) {
@@ -216,6 +220,7 @@ sap.ui.define([
             const comboProductCode = this.byId(Constants.PRINTING_COMPONENTS.PRODUCT_CODE);
             const comboCenter = this.byId(Constants.PRINTING_COMPONENTS.CENTER);
 
+            this.byId(Constants.PRINTING_COMPONENTS.CREATE).setVisible(bIsAdd);
             this.byId(Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS).setEnabled(false);
             this.byId(Constants.PRINTING_COMPONENTS.EMBILSTADO).setEnabled(false);
             this.byId(Constants.PRINTING_COMPONENTS.BOXES_NUMBER).setEnabled(bIsAdd);
@@ -225,7 +230,7 @@ sap.ui.define([
 
             comboProductCode.setEnabled(bIsAdd);
             comboProductionLines.setEnabled(bIsAdd);
-            comboCenter.setEnabled(false);
+            comboCenter.setEnabled(bIsAdd);
 
             if (bIsAdd) {
                 Utils.setProductPlaceholder(this.getView());
@@ -310,21 +315,6 @@ sap.ui.define([
             const aUnique = PrintUtils._filterUniqueValues(aData);
 
             Utils.setJsonModel(this.getView(), Constants.CENTER_MODEL_NAME, aUnique);
-        },
-
-        _handleProductNotAssociated: function (sProductCode, sProductionline) {
-            Utils.mapObjectToControls(this, [
-                { id: Constants.PRINTING_COMPONENTS.BOXES_NUMBER, value: Constants.STRING_EMPTY },
-                { id: Constants.PRINTING_COMPONENTS.QUANTITY_PALLETS, value: Constants.STRING_EMPTY }
-            ]);
-
-            Utils.setDefaultValues(this.byId(Constants.PRINTING_COMPONENTS.CENTER));
-
-            const sMessage = Constants.PRODUCT_NOT_ASSOCIATED_MESSAGE
-                .replace("{0}", sProductCode)
-                .replace("{1}", sProductionline);
-
-            ToastHelper.warning(this.getView(), sMessage, 3000);
         },
 
         _getModel: function (modelName) { return this.getView().getModel(modelName); },

@@ -61,13 +61,14 @@ sap.ui.define([
             });
         },
 
-        validateProductForProductionLine: function (oModel, sProduct, sProductionLine) {
+        validateProductForProductionLine: function (oModel, sProduct, sProductionLine, sCenter) {
             return new Promise(function (resolve, reject) {
                 oModel.callFunction("/ValidateProductLine", {
                     method: "GET",
                     urlParameters: {
                         Product: sProduct,
-                        ProductionLine: sProductionLine
+                        ProductionLine: sProductionLine,
+                        Center: sCenter
                     },
                     success: function (oData) { resolve(oData); },
                     error: function (oError) { reject(oError); }
