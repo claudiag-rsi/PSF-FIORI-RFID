@@ -112,6 +112,18 @@ sap.ui.define([
             return `${sDate} ${timeFormatted}`;
         },
 
+        formatDate(date = new Date()) {
+            return date.toLocaleString('es-MX', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+        },
+
         validateDate: function (oView, dStart, dEnd) {
             if (!dStart && !dEnd) { return true; }
 
@@ -206,9 +218,18 @@ sap.ui.define([
             const sText = oView
                 .getModel("i18n")
                 .getResourceBundle()
-                .getText("columnProduct");
+                .getText("productColumn");
 
             oView.byId(Constants.PRINTING_COMPONENTS.PRODUCT).setText(sText);
+        },
+
+         setPlaceholder: function (oView, sI18nKey, sComponentId) {
+            const sText = oView
+                .getModel("i18n")
+                .getResourceBundle()
+                .getText(sI18nKey);
+
+            oView.byId(sComponentId).setValue(sText);
         },
 
         getErrorMessage: function (oError, sMessageDefault) {

@@ -29,10 +29,10 @@
             </VBox>
             <VBox id="vbxbuttonsFiltersTransactions" class="equalWidth filterButtonsTransactions last">
                 <VBox id="vbxbuttonFilterTransactions" class="btnCenterFilters">
-                    <Button id="btnFilterTransactions" text="{i18n>btnFilter}" class="btnAccept " press="onFilters"/>
+                    <Button id="btnFilterTransactions" text="{i18n>btnFilter}" class="btnAccept " press="onApplyFilters"/>
                 </VBox>    
                  <VBox id="vbxbuttonCleanTransactions" class="btnCenterFilters">
-                <Button id="btnCleanTransactions" icon="sap-icon://clear-filter" text="{i18n>btnCleanFilters}" class="btnAccept "  press="onCleanFilters"/>
+                <Button id="btnCleanTransactions" icon="sap-icon://clear-filter" text="{i18n>btnCleanFilters}" class="btnAccept "  press="onClearFilters"/>
             </VBox>         
             </VBox>
         </VBox>

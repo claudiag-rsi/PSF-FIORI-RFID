@@ -32,11 +32,11 @@
             
             <VBox id="vbxbuttonsFiltersPrint" class="equalWidth buttonsfilterPrint">
                 <VBox id="vbxbuttonFilterPrint" class="btnCenterFilters">
-                    <Button id="btnFilterPrint" icon="sap-icon://filter" text="{i18n>btnFilter}" class="btnAccept " press="onFilters"/>
+                    <Button id="btnFilterPrint" icon="sap-icon://filter" text="{i18n>btnFilter}" class="btnAccept " press="onApplyFilters"/>
                 </VBox>
               
                 <VBox id="vbxbuttonCleanPrint" class="btnCenterFilters">
-                    <Button id="btnCleanPrint" icon="sap-icon://clear-filter" text="{i18n>btnCleanFilters}" class="btnAccept "  press="onCleanFilters"/>
+                    <Button id="btnCleanPrint" icon="sap-icon://clear-filter" text="{i18n>btnCleanFilters}" class="btnAccept "  press="onClearFilters"/>
                 </VBox>
             </VBox>
         </VBox>

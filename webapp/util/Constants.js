@@ -8,26 +8,28 @@ sap.ui.define([], function () {
             LABEL_PRINT: "PrintDialog"
         },
         PRINTING_COMPONENTS: {
-            PRODUCT_FILTER  : "inpProductFilterPrint",
+            PRODUCT_FILTER: "inpProductFilterPrint",
             START_DATE_FILTER: "inpStartDateFilterPrint",
             FINAL_DATE_FILTER: "inpfinalDateFilterPrint",
+            QUANTITY_PALLETS: "inpQuantityPallets",
+            BOXES_NUMBER: "inpBoxesNumber",
+            EAN: "inpEan",
+            EMBILSTADO: "inpEmbilted",
+            PRINT_DATE: "inpPrintDate",
             PRODUCT_CODE: "cbxProductCode",
             PRODUCTION_LINE: "cbxProductionLines",
-            QUANTITY_PALLETS: "inpQuantityPallets",
-            BOXES_NUMBER:"inpBoxesNumber",
-            EMBILSTADO: "inpEmbilted",
-            EAN: "inpEan",    
-            EMBILSTADO_DIV:"vBoxEmbilted",        
             CENTER: "cbxCenters",
+            EMBILSTADO_CONTAINER: "vBoxEmbilted",
+            PRINT_DATE_CONTAINER: "vBoxPrintDate",
             PRODUCT: "txtProduct",
             CREATE: "btnAcceptPrint",
             TABLE: "tblPrint",
             TABLE_ITEMS: "items"
         },
         READER_COMPONENTS: {
-            READER:"inpReader",
+            READER: "inpReader",
             ANTENNA: "inpAntenna",
-            IP_ADDRESS:"inpIp"
+            IP_ADDRESS: "inpIp"
         },
         STRING_EMPTY: "",
         DATE_SEPARATOR: "-",

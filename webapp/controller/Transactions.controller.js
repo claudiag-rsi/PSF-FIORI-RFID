@@ -11,7 +11,7 @@ sap.ui.define([
         formatDate: Utils,
         onInit() { },
 
-        onFilters: function () {
+        onApplyFilters: function () {
             const oView = this.getView();
             const oTable = oView.byId("tblTransactions");
             const oBinding = oTable.getBinding("items");
@@ -31,7 +31,7 @@ sap.ui.define([
             oBinding.filter(this.loadToFilter(sProduct, sReader, dStart, dEnd));
         },
 
-        onCleanFilters: function () {
+        onClearFilters: function () {
             const oView = this.getView();
             const oTable = oView.byId("tblTransactions");
             const oBinding = oTable.getBinding("items");

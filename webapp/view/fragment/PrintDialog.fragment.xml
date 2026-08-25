@@ -148,6 +148,20 @@
                     class="customInput customFont"
                 />
             </VBox>
+
+            <!--Fecha Impresión -->
+            <VBox id="vBoxPrintDate" visible="false">
+                <Label
+                    id="lblPrintDate"
+                    text="{i18n>PrintDateColumn}"
+                    class="customLabel customFont"
+                />
+                <Input
+                    id="inpPrintDate"
+                    placeholder="{i18n>PrintDateColumn}"
+                    class="customInput customFont"
+                />
+            </VBox>
         </VBox>
     </content>
 
